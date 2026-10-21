@@ -1,39 +1,37 @@
 using System.Threading;
 using Microsoft.UI.Dispatching;
-using Prism.Common;
 using Prism.Events;
 using Prism.Modularity;
-using Prism.Mvvm;
 using Prism.Navigation.Regions;
+using Prism.Windows;
 using Application = Microsoft.UI.Xaml.Application;
 
-#nullable enable
 namespace Prism;
 
-/// <summary>Initializes a native WinUI application without an external hosting framework.</summary>
+/// <summary>Initializes a native WinUI application with shared services and independently scoped windows.</summary>
+/// <remarks>
+/// All managed windows use the original WinUI UI thread. The application container,
+/// module catalog, module initialization and event aggregator are shared. Resolve views,
+/// dialog services and region managers through a window context, never the root container.
+/// </remarks>
 public abstract class PrismApplicationBase : Application
 {
     private readonly IContainerExtension _containerExtension;
-    private Window? _mainWindow;
     private bool _initializationStarted;
-    private bool _initializationCompleted;
+    private bool _modulesInitialized;
 
-    /// <summary>Creates the application container and publishes it through the container locator.</summary>
+    /// <summary>Creates the shared application container.</summary>
     protected PrismApplicationBase()
     {
         _containerExtension = CreateContainerExtension();
         ContainerLocator.SetContainerExtension(_containerExtension);
     }
 
-    /// <summary>Gets the application container.</summary>
+    /// <summary>Gets the application container for shared services, not window-owned services.</summary>
     public IContainerProvider Container => _containerExtension;
 
-    /// <summary>Gets the primary window after native startup has created it.</summary>
-    public Window MainWindow => _mainWindow ??
-        throw new InvalidOperationException("The main window is not available before application initialization.");
-
-    /// <summary>Gets the region manager used for shell navigation.</summary>
-    protected IRegionManager RegionManager => Container.Resolve<IRegionManager>();
+    /// <summary>Gets the manager used to open or explicitly target independently scoped windows.</summary>
+    public IWindowManager Windows => Container.Resolve<IWindowManager>();
 
     /// <inheritdoc/>
     protected sealed override void OnLaunched(LaunchActivatedEventArgs args)
@@ -41,97 +39,59 @@ public abstract class PrismApplicationBase : Application
         base.OnLaunched(args);
         if (_initializationStarted)
             return;
-
         _initializationStarted = true;
         ConfigureViewModelLocator();
         Initialize();
     }
 
-    /// <summary>Configures view-model creation using the application or view's container.</summary>
+    /// <summary>Configures view-model creation using each view's window-owned container.</summary>
     protected virtual void ConfigureViewModelLocator() => PrismInitializationExtensions.ConfigureViewModelLocator();
 
-    /// <summary>Creates the primary native window.</summary>
-    /// <returns>The window that owns the shell and default dialog service.</returns>
+    /// <summary>Creates the initial native window on the application's UI thread.</summary>
+    /// <returns>An unused window whose content has not been assigned.</returns>
     protected virtual Window CreateWindow() => new Window();
 
-    /// <summary>Configures the primary window before its shell is created.</summary>
-    /// <param name="window">The primary window.</param>
+    /// <summary>Configures the initial window before its shell is created.</summary>
+    /// <param name="window">The initial window.</param>
     protected virtual void ConfigureWindow(Window window) { }
 
-    /// <summary>Registers services, prepares the shell, and schedules initialization after it loads.</summary>
+    /// <summary>Registers shared services and opens the initial, independently scoped window.</summary>
     protected virtual void Initialize()
     {
         var dispatcher = DispatcherQueue.GetForCurrentThread() ??
             throw new InvalidOperationException("Prism must be initialized on the WinUI dispatcher thread.");
-        // EventAggregator captures this context at construction. Resolve it here, before
-        // modules or background work can create the application's singleton first.
         if (SynchronizationContext.Current is null)
             SynchronizationContext.SetSynchronizationContext(new DispatcherQueueSynchronizationContext(dispatcher));
 
-        _mainWindow = CreateWindow() ?? throw new InvalidOperationException("CreateWindow must return a window.");
-        _containerExtension.RegisterInstance(_mainWindow);
-        ConfigureWindow(_mainWindow);
         RegisterRequiredTypes(_containerExtension);
         RegisterTypes(_containerExtension);
+        // Construct these on the startup UI thread, before modules or background work.
         _ = Container.Resolve<IEventAggregator>();
-
+        var windows = Windows;
         ConfigureModuleCatalog(Container.Resolve<IModuleCatalog>());
         ConfigureRegionAdapterMappings(Container.Resolve<RegionAdapterMappings>());
         ConfigureDefaultRegionBehaviors(Container.Resolve<IRegionBehaviorFactory>());
         RegisterFrameworkExceptionTypes();
 
-        var shell = CreateShell() ?? throw new InvalidOperationException("CreateShell must return a shell.");
-        MvvmHelpers.AutowireViewModel(shell);
-        Navigation.Regions.RegionManager.SetRegionManager(shell, RegionManager);
-
-        void CompleteInitialization()
+        var window = CreateWindow() ?? throw new InvalidOperationException("CreateWindow must return a window.");
+        ConfigureWindow(window);
+        windows.OpenWindow(window, CreateShell, context =>
         {
-            if (_initializationCompleted)
-                return;
-
-            _initializationCompleted = true;
-            Navigation.Regions.RegionManager.UpdateRegions();
-            InitializeModules();
-            OnInitialized();
-            if (shell is ILoadableShell loadableShell)
-                loadableShell.FinishLoading();
-            MvvmHelpers.ViewAndViewModelAction<IActiveAware>(shell, x => x.IsActive = true);
-        }
-
-        void QueueInitialization()
-        {
-            // Let WinUI finish the Loaded dispatch before modules navigate the visual tree.
-            if (!dispatcher.TryEnqueue(CompleteInitialization))
-                throw new InvalidOperationException("Unable to queue initialization on the WinUI dispatcher.");
-        }
-
-        if (shell is FrameworkElement element)
-        {
-            void OnLoaded(object sender, RoutedEventArgs args)
+            if (!_modulesInitialized)
             {
-                element.Loaded -= OnLoaded;
-                QueueInitialization();
+                // ModuleInfo state is application-wide: never initialize it once per window.
+                _modulesInitialized = true;
+                InitializeModules();
             }
-
-            if (element.IsLoaded)
-                QueueInitialization();
-            else
-                element.Loaded += OnLoaded;
-        }
-        else
-        {
-            QueueInitialization();
-        }
-
-        _mainWindow.Content = shell;
-        _mainWindow.Activate();
+            OnInitialized(context);
+        });
     }
 
-    /// <summary>Creates the container used by this application.</summary>
+    /// <summary>Creates the shared container used by this application.</summary>
     /// <returns>The container extension.</returns>
     protected abstract IContainerExtension CreateContainerExtension();
 
-    /// <summary>Registers the services required by Prism.</summary>
+    /// <summary>Registers shared services and window-scoped Prism services.</summary>
     /// <param name="containerRegistry">The application container registry.</param>
     protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry) => containerRegistry.RegisterRequiredTypes();
 
@@ -150,17 +110,19 @@ public abstract class PrismApplicationBase : Application
     /// <summary>Registers container-specific exception types for exception unwrapping.</summary>
     protected virtual void RegisterFrameworkExceptionTypes() { }
 
-    /// <summary>Creates the visual content of the primary window.</summary>
-    /// <returns>The shell to attach to the primary window.</returns>
-    protected abstract UIElement CreateShell();
+    /// <summary>Creates the initial shell using its window-owned container.</summary>
+    /// <param name="container">The initial window's scoped provider. Resolve the shell from this provider.</param>
+    /// <returns>The shell to attach to the initial window.</returns>
+    protected abstract UIElement CreateShell(IContainerProvider container);
 
-    /// <summary>Runs after the shell loads and modules initialize, before loading completes.</summary>
-    protected virtual void OnInitialized() { }
+    /// <summary>Runs after the initial shell loads and shared modules initialize, before loading completes.</summary>
+    /// <param name="window">The initial window's context for navigation and dialogs.</param>
+    protected virtual void OnInitialized(IWindowContext window) { }
 
-    /// <summary>Configures the application's module catalog.</summary>
+    /// <summary>Configures the application's shared module catalog.</summary>
     /// <param name="moduleCatalog">The module catalog.</param>
     protected virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { }
 
-    /// <summary>Initializes the application's modules.</summary>
+    /// <summary>Initializes the application's modules once using the application container.</summary>
     protected virtual void InitializeModules() => PrismInitializationExtensions.RunModuleManager(Container);
 }

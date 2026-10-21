@@ -10,6 +10,9 @@ namespace Prism.Navigation.Regions
     public class RegionAdapterMappings
     {
         private readonly Dictionary<Type, IRegionAdapter> mappings = new Dictionary<Type, IRegionAdapter>();
+#if WINUI && !UNO_WINUI
+        private readonly Dictionary<Type, Type> adapterTypes = new Dictionary<Type, Type>();
+#endif
 
         /// <summary>
         /// Registers the mapping between a type and an adapter.
@@ -26,7 +29,11 @@ namespace Prism.Navigation.Regions
             if (adapter == null)
                 throw new ArgumentNullException(nameof(adapter));
 
-            if (mappings.ContainsKey(controlType))
+            if (mappings.ContainsKey(controlType)
+#if WINUI && !UNO_WINUI
+                || adapterTypes.ContainsKey(controlType)
+#endif
+                )
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                                                                   Resources.MappingExistsException, controlType.Name));
 
@@ -49,7 +56,16 @@ namespace Prism.Navigation.Regions
         /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
         public void RegisterMapping<TControl, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TAdapter>() where TAdapter : IRegionAdapter
         {
+#if WINUI && !UNO_WINUI
+            var controlType = typeof(TControl);
+            if (mappings.ContainsKey(controlType) || adapterTypes.ContainsKey(controlType))
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
+                    Resources.MappingExistsException, controlType.Name));
+
+            adapterTypes.Add(controlType, typeof(TAdapter));
+#else
             RegisterMapping(typeof(TControl), ContainerLocator.Container.Resolve<TAdapter>());
+#endif
         }
 
         /// <summary>
@@ -65,6 +81,9 @@ namespace Prism.Navigation.Regions
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "controlType")]
         public IRegionAdapter GetMapping(Type controlType)
         {
+#if WINUI && !UNO_WINUI
+            return GetMapping(controlType, null);
+#else
             Type currentType = controlType;
 
             while (currentType != null)
@@ -78,7 +97,29 @@ namespace Prism.Navigation.Regions
             }
 
             throw new KeyNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.NoRegionAdapterException, controlType));
+#endif
         }
+
+#if WINUI && !UNO_WINUI
+        internal IRegionAdapter GetMapping(Type controlType, IContainerProvider provider)
+        {
+            for (var currentType = controlType; currentType is not null; currentType = currentType.BaseType)
+            {
+                if (mappings.TryGetValue(currentType, out var adapter))
+                    return adapter;
+
+                if (adapterTypes.TryGetValue(currentType, out var adapterType))
+                {
+                    if (provider is null)
+                        throw new InvalidOperationException("Native WinUI region adapters require an originating window container provider.");
+
+                    return (IRegionAdapter)provider.Resolve(adapterType, (typeof(IContainerProvider), provider));
+                }
+            }
+
+            throw new KeyNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.NoRegionAdapterException, controlType));
+        }
+#endif
 
         /// <summary>
         /// Returns the adapter associated with the type provided.

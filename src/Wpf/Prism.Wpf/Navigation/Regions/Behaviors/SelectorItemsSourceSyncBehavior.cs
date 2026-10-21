@@ -60,6 +60,15 @@ namespace Prism.Navigation.Regions.Behaviors
             _hostControl.SelectionChanged += HostControlSelectionChanged;
             Region.ActiveViews.CollectionChanged += ActiveViews_CollectionChanged;
             Region.Views.CollectionChanged += Views_CollectionChanged;
+#if WINUI && !UNO_WINUI
+            NativeRegionScope.RegisterCleanup(Region, () =>
+            {
+                _hostControl.SelectionChanged -= HostControlSelectionChanged;
+                Region.ActiveViews.CollectionChanged -= ActiveViews_CollectionChanged;
+                Region.Views.CollectionChanged -= Views_CollectionChanged;
+                _hostControl.Items.Clear();
+            });
+#endif
         }
 
         private void Views_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -188,7 +188,11 @@ namespace Prism.Navigation.Regions
             {
                 if (_regionNavigationService == null)
                 {
+#if WINUI && !UNO_WINUI
+                    _regionNavigationService = NativeRegionScope.RequireProvider(this).Resolve<IRegionNavigationService>();
+#else
                     _regionNavigationService = ContainerLocator.Container.Resolve<IRegionNavigationService>();
+#endif
                     _regionNavigationService.Region = this;
                 }
 
@@ -197,6 +201,13 @@ namespace Prism.Navigation.Regions
 
             set => _regionNavigationService = value;
         }
+
+#if WINUI && !UNO_WINUI
+        internal void ClearNavigationJournal()
+        {
+            _regionNavigationService?.Journal.Clear();
+        }
+#endif
 
         /// <summary>
         /// Gets the collection with all the views along with their metadata.
@@ -220,7 +231,12 @@ namespace Prism.Navigation.Regions
         /// <returns>The region manager assigned to the added view. A new manager is created when a separate scope is requested; otherwise the current manager is returned.</returns>
         public IRegionManager Add(string viewName)
         {
+#if WINUI && !UNO_WINUI
+            var provider = NativeRegionScope.RequireProvider(this);
+            var view = provider.Resolve<IRegionNavigationRegistry>().CreateView(provider, viewName);
+#else
             var view = ContainerLocator.Container.Resolve<object>(viewName);
+#endif
             return Add(view, viewName, false);
         }
 
@@ -394,6 +410,15 @@ namespace Prism.Navigation.Regions
 #if !AVALONIA
             if (view is DependencyObject dependencyObject)
             {
+#if WINUI && !UNO_WINUI
+                NativeRegionScope.ConfigureView(view, NativeRegionScope.RequireProvider(this));
+                // An inactive discovered view may never load. Complete constructor-XAML
+                // autowiring now that its owning provider is known, without rewiring views
+                // already initialized by the navigation registry or application code.
+                if (view is FrameworkElement element && element.DataContext is null &&
+                    Mvvm.ViewModelLocator.GetAutowireViewModel(element) == true)
+                    Mvvm.ViewModelLocator.Autowire(element);
+#endif
                 Regions.RegionManager.SetRegionManager(dependencyObject, scopedRegionManager);
             }
 #else

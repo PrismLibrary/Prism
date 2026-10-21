@@ -38,12 +38,20 @@ namespace Prism.Navigation.Regions
             if (contentIsSet)
                 throw new InvalidOperationException(Resources.ContentControlHasContentException);
 
+#if WINUI && !UNO_WINUI
+            NotifyCollectionChangedEventHandler activeViewsChanged = delegate
+#else
             region.ActiveViews.CollectionChanged += delegate
+#endif
             {
                 regionTarget.Content = region.ActiveViews.FirstOrDefault();
             };
 
+#if WINUI && !UNO_WINUI
+            NotifyCollectionChangedEventHandler viewsChanged =
+#else
             region.Views.CollectionChanged +=
+#endif
                 (sender, e) =>
                 {
                     if (e.Action == NotifyCollectionChangedAction.Add && region.ActiveViews.Count() == 0)
@@ -51,6 +59,16 @@ namespace Prism.Navigation.Regions
                         region.Activate(e.NewItems[0]);
                     }
                 };
+#if WINUI && !UNO_WINUI
+            region.ActiveViews.CollectionChanged += activeViewsChanged;
+            region.Views.CollectionChanged += viewsChanged;
+            NativeRegionScope.RegisterCleanup(region, () =>
+            {
+                region.ActiveViews.CollectionChanged -= activeViewsChanged;
+                region.Views.CollectionChanged -= viewsChanged;
+                regionTarget.Content = null;
+            });
+#endif
         }
 
         /// <summary>

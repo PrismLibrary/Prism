@@ -12,7 +12,9 @@ No Uno SDK, toolkit, hosting, or runtime packages are used.
 `HelloWorld` contains the application bootstrap and shell. `Playground.Module`
 provides the views, view models, and dialogs, and is registered through
 `App.ConfigureModuleCatalog`. Startup resolves the shell, loads the module,
-and navigates to Home. A native `ProgressRing` overlay implements
+and navigates to Home through its window context. Each additional window gets
+its own shell, region manager, navigation journal, and scoped services; module
+initialization remains application-wide. A native `ProgressRing` overlay implements
 `ILoadableShell`; it disappears after Prism initialization.
 
 ## Build and run on Windows
@@ -52,6 +54,17 @@ the solution because the core projects target their own frameworks.
   display the corresponding `ButtonResult` each time.
 - Module: inspect the module-provided page and its explanation of module
   registration. All lab views and dialogs are registered in `PlaygroundModule`.
+- Window lab: use **Open another playground window** in the navigation pane footer.
+  Navigate both windows through Region lab, opening different details. Both use
+  the same region names but must retain independent content and journals.
+- In Window lab, refresh the target list and select the other window.
+  **Activate target, then show dialog in this window** must keep the dialog in
+  the originating window, despite activation. **Show dialog in selected window**
+  must deliberately show it in the selected target instead.
+- Close the selected target and try it again without refreshing. An error should
+  be reported instead of routing to another window. Refresh to remove closed
+  targets. Closing one window must leave the other usable. All windows in this
+  exercise use the original WinUI UI thread.
 - Resize the window and expand/collapse the navigation pane. Lab content should
   remain reachable through the pages' horizontal and vertical scroll viewers.
 

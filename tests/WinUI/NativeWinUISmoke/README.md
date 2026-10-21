@@ -27,21 +27,55 @@ output paths, use the executable in the build's reported output directory.
 
 The app automatically checks:
 
-- A native window owns a loaded shell before `OnInitialized`.
-- The module initializes and the `ContentControl` region registers before that hook.
-- `ILoadableShell.FinishLoading` runs exactly once, after `OnInitialized` returns.
-- Navigation activates both the application-registered and module-registered views.
+- Every native window owns a loaded shell and registered `ContentControl` region
+  before its initialization callback. `ILoadableShell.FinishLoading` runs once,
+  after that callback returns.
+- Two simultaneous windows have different providers, region managers, and scoped
+  disposable dependencies, but share the root singleton and registration catalogs.
+  Off-thread manager/context access and reusing another window's shell are rejected
+  without disturbing that original window.
+- Identical `SmokeContent` and `NestedSmokeContent` region names remain independent.
+  Navigation in one window leaves the other's current view unchanged.
+- Application-registered and module-registered views navigate successfully.
+  Navigation view constructors, their view models, and injected container providers
+  all use the target window's scope, never the application root.
 - Consumer XAML resolves `ViewModelLocator.AutowireViewModel` and
-  `RegionManager.RegionName` metadata: `HomeView` receives its explicitly registered
-  `HomeViewModel`, and its named nested `ContentControl` registers `NestedSmokeContent`.
-- The first application-level event aggregator resolution can happen on a worker
-  thread, and a background publication still reaches a `ThreadOption.UIThread`
-  subscriber on the UI dispatcher.
-- Prism's default `ContentDialog` opens with the correct native `XamlRoot`, closes
-  via `IDialogAware.RequestClose`, and invokes lifecycle hooks and the result callback.
+  `RegionManager.RegionName` metadata. The nested region discovers default views
+  and view models using its owning window's provider.
+- A late named discovery registration populates both existing windows. A factory
+  registration after one window closes visits only the surviving scope.
+- Module type registration and initialization happen exactly once across secondary
+  window creation, navigation, and closure.
+- The first application-level event-aggregator resolution can happen on a worker
+  thread, and a background publication reaches the captured UI dispatcher.
+- A dialog service injected before the second window exists retains the original
+  window after `Activate()` is called on the second. Explicit targeting through
+  `target.Container.Resolve<IDialogService>()` uses the selected window instead.
+- Each successful dialog is inspected inside the actual default Prism
+  `ContentDialog`. Both host and content `XamlRoot` match the target window's live
+  content; dialog view and view-model dependencies belong to that window's scope.
+- Concurrent dialogs serialize within one window. A dialog in another window can
+  complete independently while the first window's dialog is still open.
+- Missing/unloaded window content produces an error callback before opening a
+  dialog. Replacing it with loaded content lets the original service work again,
+  without creating or disposing a window scope.
+- Closing a window cancels its active and queued dialogs, calls the opened dialog's
+  close hook once, disposes scoped dependencies exactly once, and removes the
+  window from the manager. Retained services and closed-context access fail.
+- Cleanup cannot follow another window's region manager, even if application code
+  accidentally attaches it to a descendant of the closing shell. The surviving
+  window retains its original regions, navigates, and discovers views afterward.
+  Its scoped dependencies and the shared root singleton remain undisposed.
 
-The dialog appears briefly and closes automatically. The window should end with
-`RESULT: PASS` and no `FAIL` lines. Use **Open Prism dialog** to verify an interactive
+The cross-window dialog check is intentional: the pinned native WinUI implementation
+checks existing dialogs through [per-XamlRoot dialog metadata](https://github.com/microsoft/microsoft-ui-xaml/blob/de1b1d8fb7981fc67d984620fe70dd491fc0f32d/src/dxaml/xcp/dxaml/lib/ContentDialog_Partial.cpp#L700-L731),
+which [belongs to each individual XamlRoot](https://github.com/microsoft/microsoft-ui-xaml/blob/de1b1d8fb7981fc67d984620fe70dd491fc0f32d/src/dxaml/xcp/dxaml/lib/XamlRoot_Partial.cpp#L306-L319).
+Thus requests sharing one window must serialize, while different window roots can
+show dialogs independently. The desktop run verifies that behavior end to end.
+
+The harness opens secondary windows and briefly displays several dialogs without
+requiring input. It closes the extra windows and leaves the primary window showing
+`RESULT: PASS` with no `FAIL` lines. Use **Open Prism dialog** for an optional manual
 open/close afterward. Results also appear in the debugger and in
 `%LOCALAPPDATA%\PrismNativeWinUISmoke\smoke.log`, replaced on each launch.
 
@@ -49,15 +83,27 @@ For a Windows desktop smoke run that closes itself and returns an exit code:
 
 ```powershell
 $env:PRISM_WINUI_SMOKE_AUTOCLOSE = '1'
-$process = Start-Process $app -PassThru -Wait
-Remove-Item Env:PRISM_WINUI_SMOKE_AUTOCLOSE
-if ($process.ExitCode -ne 0) { throw "Native WinUI smoke failed: $($process.ExitCode)" }
-Get-Content "$env:LOCALAPPDATA\PrismNativeWinUISmoke\smoke.log"
+try {
+    $process = Start-Process $app -PassThru
+    if (-not $process.WaitForExit(120000)) {
+        Stop-Process -Id $process.Id -Force
+        throw 'Native WinUI smoke exceeded the two-minute desktop-run limit.'
+    }
+    if ($process.ExitCode -ne 0) { throw "Native WinUI smoke failed: $($process.ExitCode)" }
+    $log = Get-Content "$env:LOCALAPPDATA\PrismNativeWinUISmoke\smoke.log"
+    $log
+    if ($log -notcontains 'RESULT: PASS' -or ($log -match '^FAIL:')) {
+        throw 'Native WinUI smoke did not report a clean pass.'
+    }
+} finally {
+    Remove-Item Env:PRISM_WINUI_SMOKE_AUTOCLOSE
+}
 ```
 
 Treat a missing `RESULT: PASS`, crash, or launch failure as a failure even if no
-log is produced. Navigation, event delivery, and dialog completion each have a
-10-second timeout; the operating system must still supply a responsive UI thread.
+log is produced. Window loading/activation, navigation, event delivery, and dialog
+completion each have a 10-second timeout; the operating system must still supply a
+responsive UI thread.
 
 ## Check dependency isolation
 

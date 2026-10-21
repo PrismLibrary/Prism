@@ -1,0 +1,19 @@
+<Page
+    x:Class="Playground.Module.Views.WindowLabView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <ScrollViewer Padding="24">
+    <StackPanel Spacing="16" MaxWidth="720">
+      <TextBlock Text="Window lab" FontSize="28" FontWeight="SemiBold" />
+      <TextBlock TextWrapping="Wrap" Text="Each playground window has its own service scope and region names. Open another window from the pane footer, navigate each independently, then exercise dialog ownership here." />
+      <Button Content="Refresh open windows" Command="{Binding RefreshCommand}" />
+      <ComboBox Header="Explicit target window" ItemsSource="{Binding Targets}"
+                SelectedItem="{Binding SelectedWindow, Mode=TwoWay}" DisplayMemberPath="Window.Title" />
+      <Button Content="Show dialog in this window" Command="{Binding ShowOriginCommand}" />
+      <Button Content="Activate target, then show dialog in this window" Command="{Binding ActivateThenShowOriginCommand}" />
+      <Button Content="Show dialog in selected window" Command="{Binding ShowTargetCommand}" />
+      <TextBlock Text="{Binding Status}" TextWrapping="Wrap" />
+    </StackPanel>
+  </ScrollViewer>
+</Page>

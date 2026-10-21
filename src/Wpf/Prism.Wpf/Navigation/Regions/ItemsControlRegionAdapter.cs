@@ -52,6 +52,9 @@ namespace Prism.Navigation.Regions
             }
 
             regionTarget.ItemsSource = region.Views;
+#if WINUI && !UNO_WINUI
+            NativeRegionScope.RegisterCleanup(region, () => regionTarget.ItemsSource = null);
+#endif
 #else
             // If control has child items, move them to the region and then bind control to region. Can't set ItemsSource if child items exist.
             if (regionTarget.ItemCount > 0)

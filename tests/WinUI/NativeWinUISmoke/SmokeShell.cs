@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Prism;
 using Prism.Dialogs;
+using Prism.Ioc;
 using Prism.Navigation.Regions;
 
 namespace NativeWinUISmoke;
@@ -9,12 +10,17 @@ namespace NativeWinUISmoke;
 public sealed class SmokeShell : Grid, ILoadableShell
 {
     public const string RegionName = "SmokeContent";
+    public const string NestedRegionName = "NestedSmokeContent";
     private readonly SmokeState _state;
     private readonly Button _dialogButton;
 
-    public SmokeShell(SmokeState state, IDialogService dialogService)
+    public SmokeShell(SmokeState state, IDialogService dialogService,
+        WindowLifetime lifetime, IContainerProvider container)
     {
         _state = state;
+        DialogService = dialogService;
+        Lifetime = lifetime;
+        Container = container;
         Padding = new Thickness(24);
         RowSpacing = 16;
         RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -54,11 +60,16 @@ public sealed class SmokeShell : Grid, ILoadableShell
     }
 
     public ContentControl RegionHost { get; }
+    public IDialogService DialogService { get; }
+    public WindowLifetime Lifetime { get; }
+    public IContainerProvider Container { get; }
+    public bool OnInitializedCompleted { get; set; }
+    public int FinishLoadingCalls { get; private set; }
 
     public void FinishLoading()
     {
-        _state.FinishLoadingCalls++;
-        _state.Check(_state.OnInitializedCompleted, "FinishLoading runs after App.OnInitialized returns.");
+        FinishLoadingCalls++;
+        _state.Check(OnInitializedCompleted, "FinishLoading runs after the owning window initialization callback returns.");
     }
 
     public void EnableManualChecks() => _dialogButton.IsEnabled = true;

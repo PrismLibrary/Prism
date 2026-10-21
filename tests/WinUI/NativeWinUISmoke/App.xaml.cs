@@ -1,17 +1,14 @@
 using Microsoft.UI.Xaml;
 using Prism.Dialogs;
-using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Navigation;
-using Prism.Navigation.Regions;
+using Prism.Windows;
 
 namespace NativeWinUISmoke;
 
 public partial class App : Prism.DryIoc.PrismApplication
 {
     private readonly SmokeState _state = new();
-    private SmokeShell? _shell;
 
     public App()
     {
@@ -19,143 +16,38 @@ public partial class App : Prism.DryIoc.PrismApplication
         UnhandledException += (_, args) => _state.Check(false, args.Exception.ToString());
     }
 
-    protected override Window CreateWindow() => new() { Title = "Prism native WinUI smoke" };
+    protected override Window CreateWindow() => new() { Title = "Prism native WinUI smoke: primary" };
 
-    protected override UIElement CreateShell() => _shell = Container.Resolve<SmokeShell>();
+    protected override UIElement CreateShell(IContainerProvider container) => container.Resolve<SmokeShell>();
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry.RegisterInstance(_state);
+        containerRegistry.RegisterScoped<WindowLifetime>();
+        containerRegistry.RegisterSingleton<RootLifetime>();
         containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
+        containerRegistry.RegisterForNavigation<DefaultView, DefaultViewModel>();
+        containerRegistry.RegisterForNavigation<DefaultView, DefaultViewModel>("LateDefault");
         containerRegistry.RegisterDialog<SmokeDialog, SmokeDialogViewModel>();
     }
 
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) =>
         moduleCatalog.AddModule<SmokeModule>();
 
-    protected override void OnInitialized()
+    protected override void OnInitialized(IWindowContext window)
     {
-        base.OnInitialized();
-        _state.Check(_state.ModuleInitialized, "Module initialized before App.OnInitialized.");
-        _state.Check(_shell is { IsLoaded: true }, "Native shell is loaded before App.OnInitialized.");
-        _state.Check(MainWindow.Content == _shell, "MainWindow owns the native shell.");
-        _state.Check(RegionManager.Regions.ContainsRegionWithName(SmokeShell.RegionName),
-            "ContentControl region registered before App.OnInitialized.");
-        _state.OnInitializedCompleted = true;
+        base.OnInitialized(window);
+        var shell = (SmokeShell)window.Window.Content;
+        _state.Check(_state.ModuleInitializedCount == 1,
+            "Module initialized exactly once before App.OnInitialized.");
+        SmokeChecks.CheckInitialized(_state, window, shell);
 
-        // Let the synchronous OnInitialized/FinishLoading sequence finish first.
-        if (!_shell!.DispatcherQueue.TryEnqueue(async () => await RunChecksAsync()))
+        // Let OnInitialized return and FinishLoading finish before starting checks.
+        if (!shell.DispatcherQueue.TryEnqueue(async () =>
+            await new SmokeChecks(Container, Windows, window, _state).RunAsync()))
         {
             _state.Check(false, "Unable to queue smoke checks.");
             Environment.ExitCode = 1;
         }
-    }
-
-    private async Task RunChecksAsync()
-    {
-        try
-        {
-            _state.Check(_state.FinishLoadingCalls == 1,
-                "ILoadableShell.FinishLoading called exactly once after OnInitialized.");
-            await NavigateAsync<HomeView>();
-            await CheckHomeViewAsync();
-            await NavigateAsync<ModuleView>();
-            await CheckUiThreadEventAsync();
-            await CheckDialogAsync();
-        }
-        catch (Exception exception)
-        {
-            _state.Check(false, exception.ToString());
-        }
-        finally
-        {
-            _state.Write(_state.Failures == 0 ? "RESULT: PASS" : $"RESULT: FAIL ({_state.Failures} checks)");
-            Environment.ExitCode = _state.Failures == 0 ? 0 : 1;
-            _shell!.EnableManualChecks();
-            if (Environment.GetEnvironmentVariable("PRISM_WINUI_SMOKE_AUTOCLOSE") == "1")
-                MainWindow.Close();
-        }
-    }
-
-    private async Task NavigateAsync<TView>()
-    {
-        var completion = new TaskCompletionSource<NavigationResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-        RegionManager.RequestNavigate(SmokeShell.RegionName, typeof(TView).Name,
-            result => completion.TrySetResult(result));
-        var result = await completion.Task.WaitAsync(TimeSpan.FromSeconds(10));
-        _state.Check(result.Success && _shell!.RegionHost.Content is TView,
-            $"Region navigation to {typeof(TView).Name}: {result.Exception?.Message ?? "view activated"}.");
-    }
-
-    private async Task CheckHomeViewAsync()
-    {
-        if (_shell!.RegionHost.Content is not HomeView home)
-        {
-            _state.Check(false, "Home view is unavailable for XAML metadata checks.");
-            return;
-        }
-
-        _state.Check(Prism.Mvvm.ViewModelLocator.GetAutowireViewModel(home) == true &&
-            home.DataContext is HomeViewModel,
-            "XAML ViewModelLocator.AutowireViewModel resolved the registered HomeViewModel.");
-        _state.Check(Prism.Navigation.Regions.RegionManager.GetRegionName(home.NestedRegionHost) == "NestedSmokeContent",
-            "XAML RegionManager.RegionName attached property was applied to the named control.");
-
-        // Navigation may finish before WinUI loads the new view's visual subtree.
-        var loaded = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-        void OnLoaded(object sender, RoutedEventArgs args) => loaded.TrySetResult(true);
-        home.NestedRegionHost.Loaded += OnLoaded;
-        try
-        {
-            if (!home.NestedRegionHost.IsLoaded)
-                await loaded.Task.WaitAsync(TimeSpan.FromSeconds(10));
-        }
-        finally
-        {
-            home.NestedRegionHost.Loaded -= OnLoaded;
-        }
-
-        // Also yield a dispatcher turn if the host was already marked loaded.
-        await Task.Yield();
-        _state.Check(RegionManager.Regions.ContainsRegionWithName("NestedSmokeContent"),
-            "XAML RegionManager.RegionName registered the nested ContentControl region.");
-    }
-
-    private async Task CheckUiThreadEventAsync()
-    {
-        var uiThreadId = Environment.CurrentManagedThreadId;
-        // The first application-level resolution intentionally happens off the UI thread.
-        // Prism must have captured the UI synchronization context during bootstrap.
-        var smokeEvent = await Task.Run(() => Container.Resolve<IEventAggregator>().GetEvent<SmokeEvent>());
-        var completion = new TaskCompletionSource<(bool HasThreadAccess, int PublisherThread)>(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-        var subscription = smokeEvent.Subscribe(publisherThread =>
-            completion.TrySetResult((_shell!.DispatcherQueue.HasThreadAccess, publisherThread)),
-            ThreadOption.UIThread, keepSubscriberReferenceAlive: true);
-        try
-        {
-            await Task.Run(() => smokeEvent.Publish(Environment.CurrentManagedThreadId));
-            var result = await completion.Task.WaitAsync(TimeSpan.FromSeconds(10));
-            _state.Check(result.HasThreadAccess && result.PublisherThread != uiThreadId,
-                "Background publication delivered to a ThreadOption.UIThread subscriber on the UI dispatcher.");
-        }
-        finally
-        {
-            smokeEvent.Unsubscribe(subscription);
-        }
-    }
-
-    private async Task CheckDialogAsync()
-    {
-        var completion = new TaskCompletionSource<IDialogResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var callback = new DialogCallback()
-            .OnClose(result => completion.TrySetResult(result))
-            .OnError((Exception exception) => completion.TrySetException(exception));
-        Container.Resolve<IDialogService>().ShowDialog(nameof(SmokeDialog),
-            new DialogParameters { { "autoClose", true } }, callback);
-        var result = await completion.Task.WaitAsync(TimeSpan.FromSeconds(10));
-        _state.Check(result.Exception is null && result.Result == ButtonResult.OK &&
-            _state.DialogOpenedCount == 1 && _state.DialogClosedCount == 1,
-            "Prism ContentDialog opened, closed through RequestClose, and completed its callback.");
     }
 }

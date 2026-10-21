@@ -5,6 +5,9 @@ namespace NativeWinUISmoke;
 
 public sealed class SmokeState
 {
+    private readonly Dictionary<string, SmokeDialogObservation> _dialogs = new();
+    private int _sequence;
+
     public SmokeState()
     {
         Directory.CreateDirectory(Path.GetDirectoryName(LogPath)!);
@@ -15,12 +18,18 @@ public sealed class SmokeState
     public ObservableCollection<string> Messages { get; } = new();
     public string LogPath { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "PrismNativeWinUISmoke", "smoke.log");
-    public bool ModuleInitialized { get; set; }
-    public bool OnInitializedCompleted { get; set; }
-    public int FinishLoadingCalls { get; set; }
-    public int DialogOpenedCount { get; set; }
-    public int DialogClosedCount { get; set; }
+    public int ModuleRegisterTypesCount { get; set; }
+    public int ModuleInitializedCount { get; set; }
     public int Failures { get; private set; }
+
+    public int NextSequence() => ++_sequence;
+
+    public SmokeDialogObservation GetDialog(string id)
+    {
+        if (!_dialogs.TryGetValue(id, out var observation))
+            _dialogs.Add(id, observation = new SmokeDialogObservation());
+        return observation;
+    }
 
     public void Check(bool passed, string description)
     {

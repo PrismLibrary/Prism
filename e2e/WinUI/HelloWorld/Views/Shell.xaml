@@ -14,8 +14,12 @@
         <NavigationViewItem Content="Home" Tag="HomeView" />
         <NavigationViewItem Content="Region lab" Tag="RegionLabView" />
         <NavigationViewItem Content="Dialog lab" Tag="DialogLabView" />
+        <NavigationViewItem Content="Window lab" Tag="WindowLabView" />
         <NavigationViewItem Content="Module" Tag="ModuleAboutView" />
       </NavigationView.MenuItems>
+      <NavigationView.PaneFooter>
+        <Button Content="Open another playground window" Click="OpenWindow" Margin="12" />
+      </NavigationView.PaneFooter>
     </NavigationView>
     <Grid x:Name="LoadingOverlay"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

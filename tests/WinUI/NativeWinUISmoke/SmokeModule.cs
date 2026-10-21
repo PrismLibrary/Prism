@@ -1,13 +1,25 @@
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Navigation.Regions;
 
 namespace NativeWinUISmoke;
 
 public sealed class SmokeModule : IModule
 {
-    public void RegisterTypes(IContainerRegistry containerRegistry) =>
-        containerRegistry.RegisterForNavigation<ModuleView>();
+    private readonly SmokeState _state;
 
-    public void OnInitialized(IContainerProvider containerProvider) =>
-        containerProvider.Resolve<SmokeState>().ModuleInitialized = true;
+    public SmokeModule(SmokeState state) => _state = state;
+
+    public void RegisterTypes(IContainerRegistry containerRegistry)
+    {
+        _state.ModuleRegisterTypesCount++;
+        containerRegistry.RegisterForNavigation<ModuleView>();
+    }
+
+    public void OnInitialized(IContainerProvider containerProvider)
+    {
+        _state.ModuleInitializedCount++;
+        containerProvider.Resolve<IRegionViewRegistry>()
+            .RegisterViewWithRegion(SmokeShell.NestedRegionName, typeof(DefaultView));
+    }
 }

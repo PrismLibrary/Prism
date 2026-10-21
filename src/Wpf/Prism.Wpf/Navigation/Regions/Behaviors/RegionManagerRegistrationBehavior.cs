@@ -65,6 +65,14 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         protected override void OnAttach()
         {
+#if WINUI && !UNO_WINUI
+            NativeRegionScope.RegisterCleanup(Region, () =>
+            {
+                Region.PropertyChanged -= Region_PropertyChanged;
+                RegionManagerAccessor.UpdatingRegions -= OnUpdatingRegions;
+                attachedRegionManagerWeakReference = null;
+            });
+#endif
             if (string.IsNullOrEmpty(Region.Name))
             {
                 Region.PropertyChanged += Region_PropertyChanged;

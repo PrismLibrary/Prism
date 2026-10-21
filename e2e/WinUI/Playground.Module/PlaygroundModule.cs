@@ -9,6 +9,7 @@ public class PlaygroundModule : IModule
     public void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
+        containerRegistry.RegisterForNavigation<WindowLabView, WindowLabViewModel>();
         containerRegistry.RegisterForNavigation<RegionLabView, RegionLabViewModel>();
         containerRegistry.RegisterForNavigation<DialogLabView, DialogLabViewModel>();
         containerRegistry.RegisterForNavigation<ModuleAboutView, ModuleAboutViewModel>();
@@ -21,7 +22,6 @@ public class PlaygroundModule : IModule
 
     public void OnInitialized(IContainerProvider containerProvider)
     {
-        var regionManager = containerProvider.Resolve<IRegionManager>();
-        regionManager.RequestNavigate("ContentRegion", "HomeView");
+        // Registrations are shared; each window chooses its own initial navigation.
     }
 }

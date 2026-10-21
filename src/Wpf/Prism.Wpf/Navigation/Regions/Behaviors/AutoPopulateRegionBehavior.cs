@@ -51,6 +51,13 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
 
             _attachStarted = true;
+#if WINUI && !UNO_WINUI
+            NativeRegionScope.RegisterCleanup(Region, () =>
+            {
+                Region.PropertyChanged -= Region_PropertyChanged;
+                _regionViewRegistry.ContentRegistered -= OnViewRegistered;
+            });
+#endif
             if (string.IsNullOrEmpty(Region.Name))
             {
                 Region.PropertyChanged += Region_PropertyChanged;
@@ -83,13 +90,22 @@ namespace Prism.Navigation.Regions.Behaviors
             {
                 // Reuse discovery's resolution/autowiring rules without registering a host's
                 // default in the application-wide, append-only registry.
+#if WINUI && !UNO_WINUI
+                var provider = NativeRegionScope.RequireProvider(Region);
+                var defaults = new RegionViewRegistry(provider);
+#else
                 var defaults = new RegionViewRegistry(ContainerLocator.Current);
+#endif
                 if (defaultView is string name)
                     defaults.RegisterViewWithRegion(Region.Name, name);
                 else
                     defaults.RegisterViewWithRegion(Region.Name, (Type)defaultView);
 
+#if WINUI && !UNO_WINUI
+                view = defaults.GetContents(Region.Name, provider).Single();
+#else
                 view = defaults.GetContents(Region.Name).Single();
+#endif
             }
 
             // A supplied instance may already have been populated by view discovery.
@@ -109,7 +125,11 @@ namespace Prism.Navigation.Regions.Behaviors
         /// <returns></returns>
         protected virtual IEnumerable<object> CreateViewsToAutoPopulate()
         {
+#if WINUI && !UNO_WINUI
+            return _regionViewRegistry.GetContents(Region.Name, NativeRegionScope.RequireProvider(Region));
+#else
             return _regionViewRegistry.GetContents(Region.Name);
+#endif
         }
 
         /// <summary>
@@ -144,7 +164,11 @@ namespace Prism.Navigation.Regions.Behaviors
 
             if (e.RegionName == Region.Name)
             {
+#if WINUI && !UNO_WINUI
+                AddViewIntoRegion(e.GetView(NativeRegionScope.RequireProvider(Region)));
+#else
                 AddViewIntoRegion(e.GetView(ContainerLocator.Container));
+#endif
             }
         }
     }

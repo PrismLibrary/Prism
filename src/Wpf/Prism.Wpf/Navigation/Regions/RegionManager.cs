@@ -158,8 +158,14 @@ namespace Prism.Navigation.Regions
 
         private static void CreateRegion(DependencyObject element)
         {
+#if WINUI && !UNO_WINUI
+            // RegionName is commonly assigned during InitializeComponent, before its
+            // window provider exists. Resolve adapters and behaviors only when attached.
+            var regionCreationBehavior = new DelayedRegionCreationBehavior();
+#else
             var container = ContainerLocator.Container;
             DelayedRegionCreationBehavior regionCreationBehavior = container.Resolve<DelayedRegionCreationBehavior>();
+#endif
             regionCreationBehavior.TargetElement = element;
             regionCreationBehavior.Attach();
         }
@@ -299,6 +305,25 @@ namespace Prism.Navigation.Regions
         #endregion
 
         private readonly RegionCollection regionCollection;
+#if WINUI && !UNO_WINUI
+        private readonly IContainerProvider _container;
+
+        internal IContainerProvider ContainerProvider
+        {
+            get
+            {
+                var provider = _container ?? throw new InvalidOperationException(
+                    "This native WinUI region manager has no originating window container provider.");
+                NativeRegionScope.VerifyProvider(provider);
+                return provider;
+            }
+        }
+
+        internal RegionManager(IContainerProvider container) : this()
+        {
+            _container = container ?? throw new ArgumentNullException(nameof(container));
+        }
+#endif
 
         /// <summary>
         /// Initializes a new instance of <see cref="RegionManager"/>.
@@ -332,7 +357,11 @@ namespace Prism.Navigation.Regions
         /// <returns>A new region manager that can be used as a different scope from the current region manager.</returns>
         public IRegionManager CreateRegionManager()
         {
+#if WINUI && !UNO_WINUI
+            return new RegionManager(ContainerProvider);
+#else
             return new RegionManager();
+#endif
         }
 
         /// <summary>
@@ -375,7 +404,11 @@ namespace Prism.Navigation.Regions
         /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Type viewType)
         {
+#if WINUI && !UNO_WINUI
+            var regionViewRegistry = ContainerProvider.Resolve<IRegionViewRegistry>();
+#else
             var regionViewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
+#endif
 
             regionViewRegistry.RegisterViewWithRegion(regionName, viewType);
 
@@ -392,9 +425,14 @@ namespace Prism.Navigation.Regions
         /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, string targetName)
         {
+#if WINUI && !UNO_WINUI
+            ContainerProvider.Resolve<IRegionViewRegistry>().RegisterViewWithRegion(regionName, targetName);
+            return this;
+#else
             var viewType = ContainerLocator.Current.GetRegistrationType(targetName);
 
             return RegisterViewWithRegion(regionName, viewType);
+#endif
         }
 
         /// <summary>
@@ -407,7 +445,11 @@ namespace Prism.Navigation.Regions
         /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
         {
+#if WINUI && !UNO_WINUI
+            var regionViewRegistry = ContainerProvider.Resolve<IRegionViewRegistry>();
+#else
             var regionViewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
+#endif
 
             regionViewRegistry.RegisterViewWithRegion(regionName, getContentDelegate);
 
@@ -466,11 +508,15 @@ namespace Prism.Navigation.Regions
         {
             try
             {
+#if WINUI && !UNO_WINUI
+                return ContainerProvider.Resolve<IRegionNavigationRegistry>().CreateView(ContainerProvider, candidateTargetContract);
+#else
                 var view = ContainerLocator.Container.Resolve<object>(candidateTargetContract);
 
                 MvvmHelpers.AutowireViewModel(view);
 
                 return view;
+#endif
             }
             catch (ContainerResolutionException)
             {
@@ -484,6 +530,102 @@ namespace Prism.Navigation.Regions
             }
         }
 
+#if WINUI && !UNO_WINUI
+        internal static void CleanupWindow(UIElement shell, IRegionManager manager)
+        {
+            // Use stored identity only. The context is already closed, and cleanup must
+            // neither resolve services nor follow an accidentally attached foreign manager.
+            var owner = (manager as RegionManager)?._container ??
+                shell.GetValue(Mvvm.ViewModelLocator.ContainerProviderProperty) as IContainerProvider;
+            var errors = new List<Exception>();
+            var regions = new HashSet<IRegion>(ReferenceEqualityComparer.Instance);
+            var managers = new HashSet<IRegionManager>(ReferenceEqualityComparer.Instance);
+            var elements = new HashSet<DependencyObject>(ReferenceEqualityComparer.Instance);
+
+            void Attempt(Action action)
+            {
+                try { action(); }
+                catch (Exception ex) { errors.Add(ex); }
+            }
+
+            void CollectRegion(IRegion region)
+            {
+                if (region is null || !NativeRegionScope.BelongsTo(region, owner) || !regions.Add(region))
+                    return;
+
+                foreach (var view in region.Views.ToArray())
+                    if (view is DependencyObject element)
+                        CollectElement(element);
+            }
+
+            void CollectManager(IRegionManager regionManager)
+            {
+                if (regionManager is null ||
+                    regionManager is RegionManager ownedManager && !ReferenceEquals(ownedManager._container, owner) ||
+                    !managers.Add(regionManager))
+                    return;
+
+                var ownedRegions = regionManager is RegionManager nativeManager
+                    ? nativeManager.regionCollection.Snapshot()
+                    : regionManager.Regions.ToArray();
+                foreach (var region in ownedRegions)
+                    CollectRegion(region);
+            }
+
+            void CollectElement(DependencyObject element)
+            {
+                if (element is null || !NativeRegionScope.CanCleanUp(element, owner) || !elements.Add(element))
+                    return;
+
+                CollectManager(GetRegionManager(element));
+                if (element.GetValue(ObservableRegionProperty) is ObservableObject<IRegion> observable)
+                    CollectRegion(observable.Value);
+
+                for (var index = 0; index < VisualTreeHelper.GetChildrenCount(element); index++)
+                    CollectElement(VisualTreeHelper.GetChild(element, index));
+            }
+
+            Attempt(() => CollectManager(manager));
+            Attempt(() => CollectElement(shell));
+
+            // Stop external callbacks before removing views, which can raise notifications
+            // and otherwise re-register regions or populate the closing window again.
+            foreach (var region in regions)
+                NativeRegionScope.Cleanup(region, errors);
+
+            foreach (var element in elements)
+            {
+                Attempt(() => DelayedRegionCreationBehavior.DetachFrom(element));
+                Attempt(() => Mvvm.ViewModelLocator.CancelDeferredAutowire(element));
+                Attempt(() => element.ClearValue(RegionManagerProperty));
+                Attempt(() => element.ClearValue(ObservableRegionProperty));
+                Attempt(() => element.ClearValue(Mvvm.ViewModelLocator.ContainerProviderProperty));
+            }
+
+            foreach (var region in regions)
+            {
+                // Snapshot: RemoveAll's live enumeration is not safe for all region types.
+                foreach (var view in region.Views.ToArray())
+                    Attempt(() => region.Remove(view));
+
+                if (region is Region nativeRegion)
+                    Attempt(nativeRegion.ClearNavigationJournal);
+            }
+
+            foreach (var regionManager in managers)
+            {
+                if (regionManager is RegionManager nativeManager)
+                    Attempt(nativeManager.regionCollection.ClearForWindowClose);
+                else
+                    foreach (var region in regionManager.Regions.ToArray())
+                        Attempt(() => regionManager.Regions.Remove(region.Name));
+            }
+
+            if (errors.Count != 0)
+                throw new AggregateException("One or more native WinUI regions failed to clean up after their window closed.", errors);
+        }
+#endif
+
         private class RegionCollection : IRegionCollection
         {
             private readonly IRegionManager _regionManager;
@@ -494,6 +636,24 @@ namespace Prism.Navigation.Regions
                 _regionManager = regionManager;
                 _regions = new List<IRegion>();
             }
+
+#if WINUI && !UNO_WINUI
+            internal IRegion[] Snapshot() => _regions.ToArray();
+
+            internal void ClearForWindowClose()
+            {
+                var regions = _regions.ToArray();
+                _regions.Clear();
+                var errors = new List<Exception>();
+                foreach (var region in regions)
+                {
+                    try { region.RegionManager = null; }
+                    catch (Exception ex) { errors.Add(ex); }
+                }
+                if (errors.Count != 0)
+                    throw new AggregateException(errors);
+            }
+#endif
 
             public event NotifyCollectionChangedEventHandler CollectionChanged;
 
@@ -543,6 +703,10 @@ namespace Prism.Navigation.Regions
                                                               Resources.RegionNameExistsException, region.Name));
                 }
 
+#if WINUI && !UNO_WINUI
+                if (_regionManager is RegionManager nativeManager)
+                    NativeRegionScope.SetProvider(region, nativeManager.ContainerProvider);
+#endif
                 _regions.Add(region);
                 region.RegionManager = _regionManager;
 

@@ -19,7 +19,11 @@ namespace Prism.Navigation.Regions
         /// <param name="container">The <see cref="IContainerExtension" />.</param>
         /// <param name="regionNavigationContentLoader">The navigation target handler.</param>
         /// <param name="journal">The journal.</param>
+#if WINUI && !UNO_WINUI
+        public RegionNavigationService(IContainerProvider container, IRegionNavigationContentLoader regionNavigationContentLoader, IRegionNavigationJournal journal)
+#else
         public RegionNavigationService(IContainerExtension container, IRegionNavigationContentLoader regionNavigationContentLoader, IRegionNavigationJournal journal)
+#endif
         {
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _regionNavigationContentLoader = regionNavigationContentLoader ?? throw new ArgumentNullException(nameof(regionNavigationContentLoader));
@@ -109,6 +113,10 @@ namespace Prism.Navigation.Regions
             if (Region == null)
                 throw new InvalidOperationException(Resources.NavigationServiceHasNoRegion);
 
+#if WINUI && !UNO_WINUI
+            if (!ReferenceEquals(_container, NativeRegionScope.RequireProvider(Region)))
+                throw new InvalidOperationException("The navigation service must use its region's originating window container provider.");
+#endif
             _currentNavigationContext = new NavigationContext(this, source, navigationParameters);
 
             // starts querying the active views

@@ -18,6 +18,19 @@ namespace Prism.Navigation.Regions.Behaviors
         private readonly RegionAdapterMappings _regionAdapterMappings;
         private WeakReference elementWeakReference;
         private bool regionCreated;
+#if WINUI && !UNO_WINUI
+        private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<DependencyObject, DelayedRegionCreationBehavior> Pending = new();
+
+        internal DelayedRegionCreationBehavior() : this(null)
+        {
+        }
+
+        internal static void DetachFrom(DependencyObject element)
+        {
+            if (Pending.TryGetValue(element, out var behavior))
+                behavior.Detach();
+        }
+#endif
 
         private static ICollection<DelayedRegionCreationBehavior> _instanceTracker = new Collection<DelayedRegionCreationBehavior>();
         private static readonly object _trackerLock = new object();
@@ -58,6 +71,10 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         public void Attach()
         {
+#if WINUI && !UNO_WINUI
+            DetachFrom(TargetElement);
+            Pending.Add(TargetElement, this);
+#endif
             RegionManagerAccessor.UpdatingRegions += OnUpdatingRegions;
             WireUpTargetElement();
         }
@@ -67,6 +84,10 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         public void Detach()
         {
+#if WINUI && !UNO_WINUI
+            if (TargetElement is DependencyObject element)
+                Pending.Remove(element);
+#endif
             RegionManagerAccessor.UpdatingRegions -= OnUpdatingRegions;
             UnWireTargetElement();
         }
@@ -96,6 +117,12 @@ namespace Prism.Navigation.Regions.Behaviors
 
             if (targetElement.CheckAccess())
             {
+#if WINUI && !UNO_WINUI
+                // XAML sets RegionName before the control is connected to its window shell.
+                // Keep listening instead of resolving from the application's root container.
+                if (NativeRegionScope.FindProvider(targetElement) is null)
+                    return;
+#endif
                 Detach();
 
                 if (!regionCreated)
@@ -121,8 +148,17 @@ namespace Prism.Navigation.Regions.Behaviors
             try
             {
                 // Build the region
+#if WINUI && !UNO_WINUI
+                var provider = NativeRegionScope.RequireProvider(targetElement);
+                var mappings = _regionAdapterMappings ?? provider.Resolve<RegionAdapterMappings>();
+                IRegionAdapter regionAdapter = mappings.GetMapping(targetElement.GetType(), provider);
+#else
                 IRegionAdapter regionAdapter = _regionAdapterMappings.GetMapping(targetElement.GetType());
+#endif
                 IRegion region = regionAdapter.Initialize(targetElement, regionName);
+#if WINUI && !UNO_WINUI
+                NativeRegionScope.SetProvider(region, provider);
+#endif
 
                 return region;
             }
@@ -138,6 +174,9 @@ namespace Prism.Navigation.Regions.Behaviors
         private void ElementLoaded(object sender, VisualTreeAttachmentEventArgs e)
 #endif
         {
+#if WINUI && !UNO_WINUI
+            NativeRegionScope.RequireProvider(TargetElement);
+#endif
             UnWireTargetElement();
             TryCreateRegion();
         }
