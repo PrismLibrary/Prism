@@ -38,6 +38,12 @@
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
   </ItemGroup>
+  <!-- Native WinUI uses the Windows App SDK directly, never Uno.Sdk. -->
+  <ItemGroup Condition=" $(IsNativeWinUIProject) == 'true' ">
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
+    <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
+  </ItemGroup>
   <!-- Avalonia -->
   <ItemGroup Condition=" $(IsAvaloniaProject) == 'true' ">
     <PackageVersion Include="Avalonia" Version="12.1.1" />

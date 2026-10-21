@@ -13,7 +13,14 @@ namespace Prism.Dialogs
         /// <summary>Initializes the default Prism content dialog host.</summary>
         public DialogWindow()
         {
+#if WINUI
+            SetBinding(TitleProperty, new Microsoft.UI.Xaml.Data.Binding
+            {
+                Path = new PropertyPath("Title")
+            });
+#else
             this.InitializeComponent();
+#endif
         }
         /// <inheritdoc/>
         public IDialogResult? Result { get; set; }

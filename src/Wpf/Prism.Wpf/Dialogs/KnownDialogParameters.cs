@@ -17,7 +17,7 @@ public static class KnownDialogParameters
     public const string ParentWindow = "parentWindow";
 #endif
 
-#if UNO_WINUI
+#if UNO_WINUI || WINUI
     /// <summary>
     /// The <see cref="Microsoft.UI.Xaml.Controls.ContentDialogPlacement"/> to use when showing the dialog
     /// </summary>

@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Prism.WinUI</AssemblyName>
+    <PackageId>Prism.WinUI</PackageId>
+    <Description>Prism user interface composition, navigation, dialogs and modularity for native Windows App SDK / WinUI 3 applications.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
+    <ProjectReference Include="../../Prism.Core/Prism.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.Wpf\**\*.cs" Exclude="..\..\Wpf\Prism.Wpf\bin\**\*.cs;..\..\Wpf\Prism.Wpf\obj\**\*.cs" />
+    <Compile Include="..\..\Maui\Prism.Maui\Modularity\*.cs" LinkBase="Modularity" />
+    <Compile Remove="**\*.net45.cs" />
+    <Compile Remove="**\*.netcore.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Bootstrapper.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Interactivity\InvokeCommandAction.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Ioc\ContainerProviderExtension.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Mvvm\ViewModelLocator.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\PrismApplicationBase.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\PrismBootstrapperBase.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\AssemblyInfo.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\Resources.Designer.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\Settings.Designer.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\DialogService.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\DialogWindow.xaml.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\IDialogWindow.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\IDialogWindowExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Source sharing only: no reference to an Uno project or package. -->
+    <Compile Include="../../Uno/Prism.Uno/Common/*.cs" LinkBase="Common" />
+    <Compile Include="../../Uno/Prism.Uno/Dialogs/*.cs" LinkBase="Dialogs" />
+    <Compile Include="../../Uno/Prism.Uno/Extensions/*.cs" LinkBase="Extensions" />
+    <Compile Include="../../Uno/Prism.Uno/Interactivity/*.cs" LinkBase="Interactivity" />
+    <Compile Include="../../Uno/Prism.Uno/Mvvm/*.cs" LinkBase="Mvvm" />
+    <Compile Include="../../Uno/Prism.Uno/Navigation/**/*.cs" LinkBase="Navigation" />
+    <Compile Include="../../Uno/Prism.Uno/ILoadableShell.cs" Link="ILoadableShell.cs" />
+    <Compile Include="../../Uno/Prism.Uno/Properties/Resources.Designer.cs" Link="Properties/Resources.Designer.cs" />
+    <EmbeddedResource Include="../../Uno/Prism.Uno/Properties/Resources.resx" Link="Properties/Resources.resx" LogicalName="Prism.Properties.Resources.resources" />
+  </ItemGroup>
+</Project>
