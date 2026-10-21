@@ -7,9 +7,6 @@ internal class WindowLabViewModel : BindableBase
     private readonly IWindowManager _windows;
     private readonly IWindowContext _origin;
     private readonly IDialogService _dialogs;
-    private IReadOnlyList<IWindowContext> _targets = Array.Empty<IWindowContext>();
-    private IWindowContext? _selectedWindow;
-    private string _status = string.Empty;
 
     public WindowLabViewModel(IWindowManager windows, IWindowContext origin, IDialogService dialogs)
     {
@@ -25,16 +22,16 @@ internal class WindowLabViewModel : BindableBase
 
     public IReadOnlyList<IWindowContext> Targets
     {
-        get => _targets;
-        private set => SetProperty(ref _targets, value);
-    }
+        get;
+        private set => SetProperty(ref field, value);
+    } = Array.Empty<IWindowContext>();
 
     public IWindowContext? SelectedWindow
     {
-        get => _selectedWindow;
+        get;
         set
         {
-            if (SetProperty(ref _selectedWindow, value))
+            if (SetProperty(ref field, value))
             {
                 ActivateThenShowOriginCommand.RaiseCanExecuteChanged();
                 ShowTargetCommand.RaiseCanExecuteChanged();
@@ -44,9 +41,9 @@ internal class WindowLabViewModel : BindableBase
 
     public string Status
     {
-        get => _status;
-        private set => SetProperty(ref _status, value);
-    }
+        get;
+        private set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public DelegateCommand RefreshCommand { get; }
     public DelegateCommand ShowOriginCommand { get; }

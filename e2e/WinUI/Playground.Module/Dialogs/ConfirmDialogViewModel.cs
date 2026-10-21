@@ -8,12 +8,11 @@ internal class ConfirmDialogViewModel : BindableBase, IDialogAware
         CancelCommand = new DelegateCommand(() => RequestClose.Invoke(new DialogResult(ButtonResult.Cancel)));
     }
 
-    private string _message = string.Empty;
     public string Message
     {
-        get => _message;
-        set => SetProperty(ref _message, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public DelegateCommand AcceptCommand { get; }
 

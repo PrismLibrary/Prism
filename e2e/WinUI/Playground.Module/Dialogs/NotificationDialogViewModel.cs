@@ -7,19 +7,17 @@ internal class NotificationDialogViewModel : BindableBase, IDialogAware
         CloseCommand = new DelegateCommand(() => RequestClose.Invoke(new DialogResult(ButtonResult.OK)));
     }
 
-    private string _title = string.Empty;
     public string Title
     {
-        get => _title;
-        set => SetProperty(ref _title, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
-    private string _message = string.Empty;
     public string Message
     {
-        get => _message;
-        set => SetProperty(ref _message, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public DelegateCommand CloseCommand { get; }
 

@@ -5,7 +5,6 @@ namespace Playground.Module.ViewModels;
 internal class DialogLabViewModel : BindableBase
 {
     private readonly IDialogService _dialogService;
-    private string _lastResult = string.Empty;
 
     public DialogLabViewModel(IDialogService dialogService)
     {
@@ -16,9 +15,9 @@ internal class DialogLabViewModel : BindableBase
 
     public string LastResult
     {
-        get => _lastResult;
-        set => SetProperty(ref _lastResult, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public DelegateCommand ShowNotificationCommand { get; }
 
