@@ -1,3 +1,4 @@
+using Prism.Properties;
 using Microsoft.UI.Dispatching;
 using Prism.Common;
 using Prism.Mvvm;
@@ -16,7 +17,7 @@ internal sealed class WindowManager : IWindowManager
     {
         _container = container;
         _dispatcher = DispatcherQueue.GetForCurrentThread() ??
-            throw new InvalidOperationException("The window manager must be created on the application's WinUI thread.");
+            throw new InvalidOperationException(NativeResources.WindowManagerCreationRequiresApplicationThread);
     }
 
     public IReadOnlyList<IWindowContext> Windows
@@ -33,7 +34,7 @@ internal sealed class WindowManager : IWindowManager
         ArgumentNullException.ThrowIfNull(window);
         VerifyAccess();
         return _windows.TryGetValue(window, out var context) ? context :
-            throw new InvalidOperationException("The target window is not open in this window manager.");
+            throw new InvalidOperationException(NativeResources.TargetWindowNotOpen);
     }
 
     public IWindowContext OpenWindow(Window window, Func<IContainerProvider, UIElement> createShell,
@@ -43,9 +44,9 @@ internal sealed class WindowManager : IWindowManager
         ArgumentNullException.ThrowIfNull(createShell);
         VerifyAccess();
         if (!window.DispatcherQueue.HasThreadAccess)
-            throw new InvalidOperationException("All native Prism windows must be created on the application's original WinUI thread.");
+            throw new InvalidOperationException(NativeResources.WindowCreationRequiresOriginalThread);
         if (_windows.ContainsKey(window) || window.Content is not null)
-            throw new InvalidOperationException("OpenWindow requires an unused window with no existing content.");
+            throw new InvalidOperationException(NativeResources.OpenWindowRequiresUnusedWindow);
 
         var scope = _container.CreateScope();
         WindowContext? context = null;
@@ -137,7 +138,7 @@ internal sealed class WindowManager : IWindowManager
                 return;
             queued = true;
             if (!_dispatcher.TryEnqueue(CompleteInitialization))
-                throw new InvalidOperationException("Unable to queue window initialization on the WinUI dispatcher.");
+                throw new InvalidOperationException(NativeResources.CannotQueueWindowInitialization);
         }
 
         void OnLoaded(object sender, RoutedEventArgs args)
@@ -154,12 +155,12 @@ internal sealed class WindowManager : IWindowManager
         try
         {
             context = scope.Resolve<IWindowContext>() as WindowContext ??
-                throw new InvalidOperationException("The native window context registration must be scoped and managed by Prism.");
+                throw new InvalidOperationException(NativeResources.WindowContextRegistrationMustBeScoped);
             context.Attach(window, scope, _dispatcher);
             _windows.Add(window, context);
             window.Closed += OnClosed;
             regionManager = context.RegionManager;
-            var candidate = createShell(scope) ?? throw new InvalidOperationException("The window's shell factory must return a shell.");
+            var candidate = createShell(scope) ?? throw new InvalidOperationException(NativeResources.ShellFactoryMustReturnShell);
             context.VerifyAccess();
             // Do not retain a foreign shell for cleanup if ownership validation fails.
             NativeRegionScope.ConfigureView(candidate, scope);
@@ -185,6 +186,6 @@ internal sealed class WindowManager : IWindowManager
     private void VerifyAccess()
     {
         if (!_dispatcher.HasThreadAccess)
-            throw new InvalidOperationException("The native window manager supports only the application's original WinUI thread.");
+            throw new InvalidOperationException(NativeResources.WindowManagerRequiresOriginalThread);
     }
 }

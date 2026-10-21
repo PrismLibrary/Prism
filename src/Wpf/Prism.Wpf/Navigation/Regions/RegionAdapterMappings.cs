@@ -111,7 +111,7 @@ namespace Prism.Navigation.Regions
                 if (adapterTypes.TryGetValue(currentType, out var adapterType))
                 {
                     if (provider is null)
-                        throw new InvalidOperationException("Native WinUI region adapters require an originating window container provider.");
+                        throw new InvalidOperationException(NativeResources.RegionAdapterRequiresWindowContainerProvider);
 
                     return (IRegionAdapter)provider.Resolve(adapterType, (typeof(IContainerProvider), provider));
                 }

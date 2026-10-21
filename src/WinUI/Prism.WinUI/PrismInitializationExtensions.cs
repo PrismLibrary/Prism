@@ -1,3 +1,4 @@
+using Prism.Properties;
 using Prism.Dialogs;
 using Prism.Events;
 using Prism.Modularity;
@@ -18,7 +19,7 @@ internal static class PrismInitializationExtensions
         ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
         {
             var provider = (view as DependencyObject)?.GetValue(ViewModelLocator.ContainerProviderProperty) as IContainerProvider ??
-                throw new InvalidOperationException("Native views must be attached to a window's container before view-model creation.");
+                throw new InvalidOperationException(NativeResources.ViewModelCreationRequiresWindowContainer);
             _ = provider.Resolve<IWindowContext>().Container;
             return provider.Resolve(type);
         });
@@ -34,7 +35,7 @@ internal static class PrismInitializationExtensions
             registry.RegisterSingleton<IWindowManager>(container => new WindowManager(container));
         if (!registry.IsRegistered<IWindowContext>())
             registry.RegisterScoped<IWindowContext>(container => container is IScopedProvider ? new WindowContext() :
-                throw new InvalidOperationException("Window services cannot be resolved from the application's root container."));
+                throw new InvalidOperationException(NativeResources.WindowServicesCannotResolveFromRootContainer));
         registry.TryRegisterScoped<IDialogService, DialogService>();
         if (!registry.IsRegistered<IRegionManager>())
             registry.RegisterScoped<IRegionManager>(container =>

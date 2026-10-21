@@ -1,3 +1,4 @@
+using Prism.Properties;
 using System.Runtime.CompilerServices;
 using Prism.Mvvm;
 using Prism.Windows;
@@ -35,7 +36,7 @@ internal sealed class NativeRegionScope
     internal static IContainerProvider RequireProvider(DependencyObject element)
     {
         var provider = FindProvider(element) ?? throw new InvalidOperationException(
-            "A native WinUI region must belong to a Prism window before it can create views or navigate.");
+            NativeResources.RegionRequiresPrismWindow);
         VerifyProvider(provider);
         return provider;
     }
@@ -44,7 +45,7 @@ internal sealed class NativeRegionScope
     {
         ArgumentNullException.ThrowIfNull(provider);
         if (!ReferenceEquals(provider.Resolve<IWindowContext>().Container, provider))
-            throw new InvalidOperationException("The container provider does not belong to its native WinUI window context.");
+            throw new InvalidOperationException(NativeResources.ContainerProviderDoesNotBelongToWindowContext);
     }
 
     internal static IContainerProvider RequireProvider(IRegion region)
@@ -52,7 +53,7 @@ internal sealed class NativeRegionScope
         if (Providers.TryGetValue(region, out var scope))
         {
             if (scope._closed)
-                throw new ObjectDisposedException(nameof(IRegion), "The originating native WinUI window has closed.");
+                throw new ObjectDisposedException(nameof(IRegion), NativeResources.RegionOwningWindowClosed);
 
             VerifyProvider(scope._provider);
             return scope._provider;
@@ -61,7 +62,7 @@ internal sealed class NativeRegionScope
         if (region.RegionManager is RegionManager manager)
             return manager.ContainerProvider;
 
-        throw new InvalidOperationException("The native WinUI region has no originating window container provider.");
+        throw new InvalidOperationException(NativeResources.RegionHasNoWindowContainerProvider);
     }
 
     internal static void SetProvider(IRegion region, IContainerProvider provider)
@@ -70,7 +71,7 @@ internal sealed class NativeRegionScope
         if (Providers.TryGetValue(region, out var existing))
         {
             if (!ReferenceEquals(existing._provider, provider))
-                throw new InvalidOperationException("A native WinUI region cannot move between window container scopes.");
+                throw new InvalidOperationException(NativeResources.RegionCannotChangeWindowScope);
 
             return;
         }
@@ -123,7 +124,7 @@ internal sealed class NativeRegionScope
             if (ViewProviders.TryGetValue(element, out var owner) && !ReferenceEquals(owner, provider) ||
                 element.GetValue(ViewModelLocator.ContainerProviderProperty) is IContainerProvider existing &&
                 !ReferenceEquals(existing, provider))
-                throw new InvalidOperationException("A native WinUI view cannot be shared between window container scopes.");
+                throw new InvalidOperationException(NativeResources.ViewCannotShareWindowScopes);
 
             // Retain the ownership identity even after attached properties are cleared
             // on close: reusing a singleton view would retain disposed constructor services.

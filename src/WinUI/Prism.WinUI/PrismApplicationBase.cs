@@ -1,3 +1,4 @@
+using Prism.Properties;
 using System.Threading;
 using Microsoft.UI.Dispatching;
 using Prism.Events;
@@ -59,7 +60,7 @@ public abstract class PrismApplicationBase : Application
     protected virtual void Initialize()
     {
         var dispatcher = DispatcherQueue.GetForCurrentThread() ??
-            throw new InvalidOperationException("Prism must be initialized on the WinUI dispatcher thread.");
+            throw new InvalidOperationException(NativeResources.InitializationRequiresDispatcherThread);
         if (SynchronizationContext.Current is null)
             SynchronizationContext.SetSynchronizationContext(new DispatcherQueueSynchronizationContext(dispatcher));
 
@@ -73,7 +74,7 @@ public abstract class PrismApplicationBase : Application
         ConfigureDefaultRegionBehaviors(Container.Resolve<IRegionBehaviorFactory>());
         RegisterFrameworkExceptionTypes();
 
-        var window = CreateWindow() ?? throw new InvalidOperationException("CreateWindow must return a window.");
+        var window = CreateWindow() ?? throw new InvalidOperationException(NativeResources.CreateWindowMustReturnWindow);
         ConfigureWindow(window);
         windows.OpenWindow(window, CreateShell, context =>
         {

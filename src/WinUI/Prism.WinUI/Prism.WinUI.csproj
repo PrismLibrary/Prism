@@ -46,4 +46,15 @@
     <Compile Include="../../Uno/Prism.Uno/Properties/Resources.Designer.cs" Link="Properties/Resources.Designer.cs" />
     <EmbeddedResource Include="../../Uno/Prism.Uno/Properties/Resources.resx" Link="Properties/Resources.resx" LogicalName="Prism.Properties.Resources.resources" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties/NativeResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NativeResources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Properties/NativeResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NativeResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

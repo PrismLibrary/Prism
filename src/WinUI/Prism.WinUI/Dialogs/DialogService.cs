@@ -1,3 +1,4 @@
+using Prism.Properties;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
 using Prism.Windows;
@@ -25,7 +26,7 @@ public class DialogService : IDialogService
     {
         ArgumentNullException.ThrowIfNull(windowContext);
         _context = windowContext as WindowContext ??
-            throw new ArgumentException("The dialog service requires a Prism-managed native window context.", nameof(windowContext));
+            throw new ArgumentException(NativeResources.DialogServiceRequiresManagedWindowContext, nameof(windowContext));
         _registry = dialogViewRegistry ?? throw new ArgumentNullException(nameof(dialogViewRegistry));
         _context.VerifyAccess();
     }
@@ -70,7 +71,7 @@ public class DialogService : IDialogService
         var hostName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var value) ? value : null;
         var host = string.IsNullOrWhiteSpace(hostName) ? provider.Resolve<IDialogWindow>() : provider.Resolve<IDialogWindow>(hostName);
         if (host is not ContentDialog contentDialog)
-            throw new InvalidOperationException("A native dialog host must derive from ContentDialog so its owning XamlRoot can be assigned.");
+            throw new InvalidOperationException(NativeResources.DialogHostMustDeriveFromContentDialog);
         // Validate before adding handlers, so a mistakenly shared host cannot damage another window.
         NativeRegionScope.ConfigureView(contentDialog, provider);
 
@@ -146,7 +147,7 @@ public class DialogService : IDialogService
             Attempt(() => host.DataContext = null);
             Attempt(() => contentDialog.ClearValue(ViewModelLocator.ContainerProviderProperty));
             if (errors.Count != 0)
-                throw new AggregateException("One or more dialog cleanup operations failed.", errors);
+                throw new AggregateException(NativeResources.DialogCleanupFailed, errors);
         }
 
         void OnWindowClosing()
@@ -175,9 +176,9 @@ public class DialogService : IDialogService
         try
         {
             if (_registry.CreateView(provider, name) is not FrameworkElement content)
-                throw new InvalidOperationException("A dialog's content must be a FrameworkElement.");
+                throw new InvalidOperationException(NativeResources.DialogContentMustBeFrameworkElement);
             viewModel = content.DataContext as IDialogAware ??
-                throw new InvalidOperationException("A dialog's view model must implement IDialogAware.");
+                throw new InvalidOperationException(NativeResources.DialogViewModelMustImplementIDialogAware);
             var style = Dialog.GetWindowStyle(content);
             if (style is not null)
                 host.Style = style;
@@ -199,7 +200,7 @@ public class DialogService : IDialogService
             {
                 // Observe the WinRT operation even when destruction wins the race.
                 _ = ObserveCompletionAsync(operation);
-                throw new OperationCanceledException("The dialog's owning window closed.", cleanupError, _context.ClosedToken);
+                throw new OperationCanceledException(NativeResources.DialogOwningWindowClosed, cleanupError, _context.ClosedToken);
             }
             await operation;
             if (lifecycleError is not null)

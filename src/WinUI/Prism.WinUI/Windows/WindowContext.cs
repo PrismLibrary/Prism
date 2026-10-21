@@ -1,3 +1,4 @@
+using Prism.Properties;
 using System.Threading;
 using Microsoft.UI.Dispatching;
 using Prism.Navigation.Regions;
@@ -18,7 +19,7 @@ internal sealed class WindowContext : IWindowContext
     internal Task ClosedTask => _closedCompletion.Task;
     internal event Action? Closing;
 
-    public Window Window => _window ?? throw new InvalidOperationException("The window context has not been attached to a window.");
+    public Window Window => _window ?? throw new InvalidOperationException(NativeResources.WindowContextNotAttached);
     public bool IsClosed { get; private set; }
     public IContainerProvider Container
     {
@@ -33,7 +34,7 @@ internal sealed class WindowContext : IWindowContext
     internal void Attach(Window window, IScopedProvider scope, DispatcherQueue dispatcher)
     {
         if (_window is not null || IsClosed)
-            throw new InvalidOperationException("A window scope cannot be reused.");
+            throw new InvalidOperationException(NativeResources.WindowScopeCannotBeReused);
         _window = window;
         _scope = scope;
         _dispatcher = dispatcher;
@@ -44,9 +45,9 @@ internal sealed class WindowContext : IWindowContext
     {
         ObjectDisposedException.ThrowIf(IsClosed, this);
         if (_window is null || _scope is null || _dispatcher is null)
-            throw new InvalidOperationException("A window-owned service must be resolved through an open window context.");
+            throw new InvalidOperationException(NativeResources.WindowServiceRequiresOpenContext);
         if (!_dispatcher.HasThreadAccess)
-            throw new InvalidOperationException("Native Prism windows and their scoped services must use the application's WinUI thread.");
+            throw new InvalidOperationException(NativeResources.WindowServicesRequireApplicationThread);
     }
 
     internal XamlRoot GetDialogRoot()
@@ -55,7 +56,7 @@ internal sealed class WindowContext : IWindowContext
         // Never cache XamlRoot: replacing window content can replace the live root.
         var content = Window.Content;
         if (content is null || content.XamlRoot is null || content is FrameworkElement { IsLoaded: false })
-            throw new InvalidOperationException("Dialogs require an open window with loaded content and a live XamlRoot.");
+            throw new InvalidOperationException(NativeResources.DialogRequiresLoadedWindow);
         return content.XamlRoot;
     }
 
@@ -89,6 +90,6 @@ internal sealed class WindowContext : IWindowContext
 
         // Do not dispose the gate/CTS while canceled dialog continuations still use them.
         if (errors.Count != 0)
-            throw new AggregateException("One or more window cleanup operations failed.", errors);
+            throw new AggregateException(NativeResources.WindowCleanupFailed, errors);
     }
 }

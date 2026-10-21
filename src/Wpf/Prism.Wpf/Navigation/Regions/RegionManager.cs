@@ -313,7 +313,7 @@ namespace Prism.Navigation.Regions
             get
             {
                 var provider = _container ?? throw new InvalidOperationException(
-                    "This native WinUI region manager has no originating window container provider.");
+                    NativeResources.RegionManagerHasNoWindowContainerProvider);
                 NativeRegionScope.VerifyProvider(provider);
                 return provider;
             }
@@ -622,7 +622,7 @@ namespace Prism.Navigation.Regions
             }
 
             if (errors.Count != 0)
-                throw new AggregateException("One or more native WinUI regions failed to clean up after their window closed.", errors);
+                throw new AggregateException(NativeResources.RegionCleanupFailed, errors);
         }
 #endif
 

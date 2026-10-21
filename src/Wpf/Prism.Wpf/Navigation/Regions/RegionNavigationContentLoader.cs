@@ -57,7 +57,7 @@ namespace Prism.Navigation.Regions
 
 #if WINUI && !UNO_WINUI
             if (!ReferenceEquals(_container, NativeRegionScope.RequireProvider(region)))
-                throw new InvalidOperationException("The navigation content loader must use its region's originating window container provider.");
+                throw new InvalidOperationException(NativeResources.NavigationContentLoaderRequiresRegionProvider);
 #endif
             string candidateTargetContract = GetContractFromNavigationContext(navigationContext);
 
