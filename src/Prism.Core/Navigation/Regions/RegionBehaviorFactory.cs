@@ -92,6 +92,25 @@ namespace Prism.Navigation.Regions
 
 
         /// <summary>
+        /// Creates a registered behavior using the region's owning container rather than the application container.
+        /// </summary>
+        /// <param name="key">The registered behavior key.</param>
+        /// <param name="containerProvider">The provider that owns the region and its behaviors.</param>
+        /// <returns>A new behavior resolved from the supplied provider.</returns>
+        public IRegionBehavior CreateFromKey(string key, IContainerProvider containerProvider)
+        {
+            if (containerProvider == null)
+                throw new ArgumentNullException(nameof(containerProvider));
+            if (!ContainsKey(key))
+                throw new ArgumentException(
+                    string.Format(Thread.CurrentThread.CurrentCulture, Resources.TypeWithKeyNotRegistered, key), nameof(key));
+
+            return (IRegionBehavior)containerProvider.Resolve(_registeredBehaviors[key],
+                (typeof(IContainerProvider), containerProvider));
+        }
+
+
+        /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>

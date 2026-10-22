@@ -1,3 +1,7 @@
+#if WINUI && !UNO_WINUI
+using Prism.Navigation.Regions;
+#endif
+
 namespace Prism.Mvvm;
 
 public static partial class ViewModelLocator
@@ -46,6 +50,11 @@ public static partial class ViewModelLocator
     public static void SetNavigationName(DependencyObject obj, string value) =>
         obj.SetValue(NavigationNameProperty, value);
 
+#if WINUI && !UNO_WINUI
+    private static readonly DependencyProperty DeferredAutowireProperty = DependencyProperty.RegisterAttached(
+        "DeferredAutowire", typeof(bool), typeof(ViewModelLocator), new PropertyMetadata(false));
+#endif
+
     internal static void Autowire(object view, bool force = false)
     {
         if (view is not FrameworkElement element)
@@ -57,6 +66,24 @@ public static partial class ViewModelLocator
         if (GetAutoWireViewModel(element) == false)
 #endif
             return;
+
+#if WINUI && !UNO_WINUI
+        // XAML can request autowiring in the constructor, before its window or view
+        // registry has attached the originating scope. Never use the application root.
+        var provider = NativeRegionScope.FindProvider(element);
+        if (provider is null)
+        {
+            if (!(bool)element.GetValue(DeferredAutowireProperty))
+            {
+                element.SetValue(DeferredAutowireProperty, true);
+                element.Loaded += OnDeferredAutowire;
+            }
+            return;
+        }
+
+        CancelDeferredAutowire(element);
+        NativeRegionScope.ConfigureView(element, provider);
+#endif
 
         // Construction can wire a context before the registry supplies the requested alias.
         // Preserve application-assigned contexts, but allow the locator's context to be corrected.
@@ -78,6 +105,26 @@ public static partial class ViewModelLocator
             throw new ViewModelCreationException(view, ex);
         }
     }
+
+#if WINUI && !UNO_WINUI
+    internal static void CancelDeferredAutowire(DependencyObject view)
+    {
+        if (view is FrameworkElement element)
+        {
+            element.Loaded -= OnDeferredAutowire;
+            element.ClearValue(DeferredAutowireProperty);
+        }
+    }
+
+    private static void OnDeferredAutowire(object sender, RoutedEventArgs args)
+    {
+        var element = (FrameworkElement)sender;
+        CancelDeferredAutowire(element);
+        NativeRegionScope.RequireProvider(element);
+        Autowire(element);
+    }
+
+#endif
 
     private static void Bind(object view, object viewModel)
     {

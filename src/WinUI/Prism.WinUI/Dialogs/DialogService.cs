@@ -14,7 +14,7 @@ namespace Prism.Dialogs;
 /// per window and canceled when that window closes. All calls must use the original
 /// WinUI UI thread, and the target must have loaded content with a live XamlRoot.
 /// </remarks>
-public class DialogService : IDialogService
+public partial class DialogService : IDialogService
 {
     private readonly WindowContext _context;
     private readonly IDialogViewRegistry _registry;
@@ -69,7 +69,7 @@ public class DialogService : IDialogService
     {
         var provider = _context.Container;
         var hostName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var value) ? value : null;
-        var host = string.IsNullOrWhiteSpace(hostName) ? provider.Resolve<IDialogWindow>() : provider.Resolve<IDialogWindow>(hostName);
+        var host = CreateDialogWindow(provider, hostName);
         if (host is not ContentDialog contentDialog)
             throw new InvalidOperationException(NativeResources.DialogHostMustDeriveFromContentDialog);
         // Validate before adding handlers, so a mistakenly shared host cannot damage another window.
@@ -179,19 +179,11 @@ public class DialogService : IDialogService
                 throw new InvalidOperationException(NativeResources.DialogContentMustBeFrameworkElement);
             viewModel = content.DataContext as IDialogAware ??
                 throw new InvalidOperationException(NativeResources.DialogViewModelMustImplementIDialogAware);
-            var style = Dialog.GetWindowStyle(content);
-            if (style is not null)
-                host.Style = style;
-            host.Result = null;
-            host.Content = content;
-            host.DataContext = viewModel;
+            ConfigureDialogWindowProperties(host, content, viewModel, resetResult: true);
             opened = true;
             viewModel.OnDialogOpened(parameters);
 
-            var placement = parameters.ContainsKey(KnownDialogParameters.DialogPlacement) ?
-                parameters[KnownDialogParameters.DialogPlacement] is ContentDialogPlacement specified ? specified :
-                    Enum.Parse<ContentDialogPlacement>(parameters[KnownDialogParameters.DialogPlacement]?.ToString() ?? string.Empty) :
-                ContentDialogPlacement.Popup;
+            var placement = GetDialogPlacement(parameters);
             contentDialog.XamlRoot = _context.GetDialogRoot();
             displayed = true;
             var operation = AwaitDialogAsync(host.ShowAsync(placement));

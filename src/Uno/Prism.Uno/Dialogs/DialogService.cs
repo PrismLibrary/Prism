@@ -8,7 +8,7 @@ using Windows.Foundation;
 namespace Prism.Dialogs
 {
     /// <summary>Displays registered dialog views in a content dialog host.</summary>
-    public class DialogService : IDialogService
+    public partial class DialogService : IDialogService
     {
         private readonly IDialogViewRegistry _dialogViewRegistry;
         private readonly IContainerProvider _containerProvider;
@@ -31,7 +31,7 @@ namespace Prism.Dialogs
                 parameters ??= new DialogParameters();
                 var windowName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var wName) ? wName : null;
 
-                var dialogWindow = CreateDialogWindow(windowName);
+                var dialogWindow = CreateDialogWindow(_containerProvider, windowName);
                 if (dialogWindow is ContentDialog contentDialog)
                 {
                     var windowContent = _containerProvider.Resolve<Window>().Content;
@@ -43,8 +43,7 @@ namespace Prism.Dialogs
                 ConfigureDialogWindowEvents(dialogWindow, callback);
                 ConfigureDialogWindowContent(name, dialogWindow, parameters);
 
-                var placement = parameters.ContainsKey(KnownDialogParameters.DialogPlacement) ?
-                    (parameters[KnownDialogParameters.DialogPlacement] is ContentDialogPlacement placementValue ? placementValue : Enum.Parse<ContentDialogPlacement>(parameters[KnownDialogParameters.DialogPlacement]?.ToString() ?? string.Empty)) : ContentDialogPlacement.Popup;
+                var placement = GetDialogPlacement(parameters);
 
                 await dialogWindow.ShowAsync(placement);
             }
@@ -53,14 +52,6 @@ namespace Prism.Dialogs
                 var str = ex.ToString();
                 await callback.Invoke(ex);
             }
-        }
-
-        IDialogWindow CreateDialogWindow(string? name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return _containerProvider.Resolve<IDialogWindow>();
-            else
-                return _containerProvider.Resolve<IDialogWindow>(name);
         }
 
         void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
@@ -134,16 +125,6 @@ namespace Prism.Dialogs
                 contentDialog.Content = null;
             };
             contentDialog.Closed += closedHandler;
-        }
-
-        private static void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
-        {
-            var windowStyle = Dialog.GetWindowStyle(dialogContent);
-            if (windowStyle != null)
-                window.Style = windowStyle;
-
-            window.Content = dialogContent;
-            window.DataContext = viewModel;
         }
     }
 }

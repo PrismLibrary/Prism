@@ -1,3 +1,5 @@
+using System.Collections.Specialized;
+
 namespace Prism.Navigation.Regions;
 
 /// <summary>Connects a navigation view's selection, back button, and content to a single active region.</summary>
@@ -14,27 +16,37 @@ public sealed class NavigationViewRegionAdapter : RegionAdapterBase<NavigationVi
     /// <inheritdoc/>
     protected override void Adapt(IRegion region, NavigationView regionTarget)
     {
-        regionTarget.BackRequested += delegate
+        void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
             if (region.NavigationService.Journal.CanGoBack)
                 region.NavigationService.Journal.GoBack();
-        };
+        }
 
-        regionTarget.SelectionChanged += delegate
+        void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            if (regionTarget.SelectedItem is FrameworkElement item && item.Tag is string navigationTarget && !string.IsNullOrEmpty(navigationTarget))
-                region.RequestNavigate(navigationTarget);
-        };
+            if (regionTarget.SelectedItem is FrameworkElement item && item.Tag is string target && !string.IsNullOrEmpty(target))
+                region.RequestNavigate(target);
+        }
 
-        region.ActiveViews.CollectionChanged += delegate
+        void OnActiveViewsChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
             regionTarget.Content = region.ActiveViews.FirstOrDefault();
-        };
+        }
+
+        regionTarget.BackRequested += OnBackRequested;
+        regionTarget.SelectionChanged += OnSelectionChanged;
+        region.ActiveViews.CollectionChanged += OnActiveViewsChanged;
+#if WINUI && !UNO_WINUI
+        NativeRegionScope.RegisterCleanup(region, () =>
+        {
+            regionTarget.BackRequested -= OnBackRequested;
+            regionTarget.SelectionChanged -= OnSelectionChanged;
+            region.ActiveViews.CollectionChanged -= OnActiveViewsChanged;
+            regionTarget.Content = null;
+        });
+#endif
     }
 
     /// <inheritdoc/>
-    protected override IRegion CreateRegion()
-    {
-        return new SingleActiveRegion();
-    }
+    protected override IRegion CreateRegion() => new SingleActiveRegion();
 }

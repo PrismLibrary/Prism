@@ -88,8 +88,8 @@ namespace Prism.Navigation.Regions
                     {
 #if WINUI && !UNO_WINUI
                         var provider = NativeRegionScope.RequireProvider(region);
-                        IRegionBehavior behavior = behaviorFactory is NativeRegionBehaviorFactory nativeFactory
-                            ? nativeFactory.CreateFromKey(behaviorKey, provider)
+                        IRegionBehavior behavior = behaviorFactory is RegionBehaviorFactory scopedFactory
+                            ? scopedFactory.CreateFromKey(behaviorKey, provider)
                             : provider.Resolve<IRegionBehaviorFactory>().CreateFromKey(behaviorKey);
 #else
                         IRegionBehavior behavior = behaviorFactory.CreateFromKey(behaviorKey);

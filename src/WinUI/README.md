@@ -12,6 +12,41 @@ and [WinUI managed behaviors 3.0.1](https://www.nuget.org/packages/Microsoft.Xam
 These versions are centrally managed only for native WinUI projects; existing Uno
 targets retain their own package settings.
 
+## Shared implementation and remaining adapters
+
+The native package links the same WPF/Uno view registry, view-model metadata,
+default service/region registration, design-mode helper and navigation-view adapter.
+ContentDialog host selection, placement parsing and presentation properties are also
+shared with Uno; owner-specific selection and cancellation stay in the lifecycle adapters.
+`Prism.DryIoc.WinUI` has no independent C# implementation: its application class is
+linked from the same WPF source used by Uno. `RegionBehaviorFactory` in Prism.Core
+owns behavior registrations for all platforms; its explicit-provider overload lets
+the native region adapter resolve behaviors through the owning window without
+copying the factory or putting any XAML/window types in Core.
+
+The remaining native files are **not yet** a PrismApplicationBase-only layout:
+
+- `PrismApplicationBase` owns Windows App SDK startup rather than Uno Hosting.
+- `Windows/IWindowContext`, `IWindowManager`, `WindowContext` and `WindowManager`
+  expose native WinUI windows and implement dispatcher access, loaded-shell startup,
+  `Window.Closed` disposal and dialog cancellation. WPF's window/event types differ;
+  existing Uno startup registers a singleton window and has no equivalent scoped
+  window-manager contract. Moving these files alone would not add Uno support.
+- `Navigation/Regions/NativeRegionScope` enforces native window-provider ownership,
+  retained-view rejection and per-window region cleanup. Uno/WPF currently retain
+  their existing region-provider defaults; enabling this policy there is behavioral
+  work, not just source linking.
+- `Dialogs/DialogService` is bound to that explicit context and serializes/cancels
+  dialogs with its owner. Uno's existing service resolves its singleton window;
+  WPF uses modal/nonmodal Window APIs rather than ContentDialog/XamlRoot. Their
+  constructors and lifecycle defaults must not be changed by a source-only refactor.
+- `Properties/NativeResources.*` localizes those native lifetime diagnostics.
+
+Shared source uses narrowly guarded native ownership hooks (`WINUI && !UNO_WINUI`)
+so the existing Uno/WPF defaults and public signatures remain intact. Cross-platform
+multi-window activation and Windows runtime acceptance remain tracked in
+[issue #3451](https://github.com/PrismLibrary/Prism/issues/3451).
+
 ## Application startup
 
 Derive your App from `Prism.DryIoc.PrismApplication`, using
