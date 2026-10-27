@@ -6,8 +6,9 @@ internal sealed class PageNavigationSnapshot
     private Page _root;
     private readonly List<Page> _modals;
     private readonly Dictionary<NavigationPage, List<Page>> _navigation = new(ReferenceEqualityComparer.Instance);
-    private readonly Dictionary<FlyoutPage, (Page Detail, bool Presented)> _flyouts = new(ReferenceEqualityComparer.Instance);
+    private readonly Dictionary<FlyoutPage, (Page Detail, Page Flyout, bool Presented)> _flyouts = new(ReferenceEqualityComparer.Instance);
     private readonly Dictionary<TabbedPage, Page> _tabs = new(ReferenceEqualityComparer.Instance);
+    private readonly Dictionary<TabbedPage, List<Page>> _tabChildren = new(ReferenceEqualityComparer.Instance);
 
     internal PageNavigationSnapshot(Window window)
     {
@@ -30,13 +31,20 @@ internal sealed class PageNavigationSnapshot
                         Capture(child);
                 break;
             case FlyoutPage flyout:
-                if (_flyouts.TryAdd(flyout, (flyout.Detail, flyout.IsPresented)))
+                if (_flyouts.TryAdd(flyout, (flyout.Detail, flyout.Flyout, flyout.IsPresented)))
+                {
                     Capture(flyout.Detail);
+                    Capture(flyout.Flyout);
+                }
                 break;
             case TabbedPage tabbed:
                 if (_tabs.TryAdd(tabbed, tabbed.CurrentPage))
-                    foreach (var child in tabbed.Children)
+                {
+                    var children = tabbed.Children.ToList();
+                    _tabChildren.Add(tabbed, children);
+                    foreach (var child in children)
                         Capture(child);
+                }
                 break;
         }
     }
@@ -44,15 +52,28 @@ internal sealed class PageNavigationSnapshot
     internal bool IsCurrent => _window.Page == _root
         && _window.Navigation.ModalStack.SequenceEqual(_modals)
         && _navigation.All(pair => pair.Key.Navigation.NavigationStack.SequenceEqual(pair.Value))
-        && _flyouts.All(pair => pair.Key.Detail == pair.Value.Detail)
-        && _tabs.All(pair => pair.Key.CurrentPage == pair.Value);
+        && _flyouts.All(pair => pair.Key.Detail == pair.Value.Detail && pair.Key.Flyout == pair.Value.Flyout)
+        && _tabs.All(pair => pair.Key.CurrentPage == pair.Value)
+        && _tabChildren.All(pair => pair.Key.Children.SequenceEqual(pair.Value));
+
+    internal void ExpectModalPop(Page modal)
+    {
+        if (_modals.LastOrDefault() != modal)
+            throw new InvalidOperationException("The expected modal is not at the top of the stack.");
+
+        _modals.RemoveAt(_modals.Count - 1);
+    }
 
     internal bool CanRestore(IReadOnlyCollection<Page> createdPages) =>
         (_window.Page == _root || createdPages.Contains(_window.Page))
         && _window.Navigation.ModalStack.All(page => _modals.Contains(page) || createdPages.Contains(page))
         && _navigation.All(pair => pair.Key.Navigation.NavigationStack.All(page =>
             pair.Value.Contains(page) || createdPages.Contains(page)))
-        && _flyouts.All(pair => pair.Key.Detail == pair.Value.Detail || createdPages.Contains(pair.Key.Detail));
+        && _flyouts.All(pair => (pair.Key.Detail == pair.Value.Detail || createdPages.Contains(pair.Key.Detail))
+            && (pair.Key.Flyout == pair.Value.Flyout || createdPages.Contains(pair.Key.Flyout)))
+        // Tab membership changes are not owned mutations of Prism's page navigation APIs.
+        // Refuse restoration rather than overwrite an external add, removal, or reorder.
+        && _tabChildren.All(pair => pair.Key.Children.SequenceEqual(pair.Value));
 
     internal async Task RestoreAsync(Func<INavigation, bool, bool, Task<Page>> pop, IReadOnlyCollection<Page> createdPages)
     {
@@ -98,8 +119,11 @@ internal sealed class PageNavigationSnapshot
             EnsureOwnership();
             expected._flyouts[flyout] = state;
             expected.Capture(state.Detail);
+            expected.Capture(state.Flyout);
             if (flyout.Detail != state.Detail)
                 flyout.Detail = state.Detail;
+            if (flyout.Flyout != state.Flyout)
+                flyout.Flyout = state.Flyout;
             flyout.IsPresented = state.Presented;
             EnsureOwnership();
         }
