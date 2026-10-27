@@ -37,12 +37,17 @@ Please include, to the extent possible:
 - **Acknowledgement:** we aim to acknowledge your report within **5 business days**.
 - **Assessment:** we will investigate, validate, and assess severity (using CVSS)
   and keep you informed of progress.
-- **Remediation:** confirmed vulnerabilities are addressed on a risk-based
-  schedule — higher-severity issues are prioritized — and fixes are delivered in
-  a patch release.
+- **Remediation:** confirmed vulnerabilities are prioritized by severity. Target
+  timeframes, measured from confirmation of the vulnerability:
+  - Critical and High (CVSS 7.0 or higher): patch release within 30 days
+  - Medium (CVSS 4.0 to 6.9): patch release within 90 days
+  - Low (below 4.0): next scheduled release
 - **Disclosure:** we follow **coordinated disclosure**. We will work with you on
   timing and, unless you prefer otherwise, credit you in the published advisory
   once a fix is available.
+
+  Commercial Plus subscribers receive fixes in the nightly build feed as soon as
+  they are merged. These are targets, not contractual commitments.
 
 ## Scope
 
