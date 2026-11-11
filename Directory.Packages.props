@@ -20,7 +20,7 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.10" Condition="$(TargetFramework.StartsWith('net10.0'))" />
     <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.10" Condition="$(TargetFramework.StartsWith('net10.0'))" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="11.0.0-rc.1.26451.6" Condition="$(TargetFramework.StartsWith('net11.0'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="11.0.0" Condition="$(TargetFramework.StartsWith('net11.0'))" />
   </ItemGroup>
   <!-- Uno
     Uno.Sdk supplies compatible versions for Uno and its companion packages.
@@ -31,9 +31,9 @@
   <ItemGroup Condition=" $(IsUnoProject) == 'true' ">
     <!-- Explicit project references still need central versions. Match Uno.Sdk's package manifest. -->
     <PackageVersion Include="Uno.WinUI" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="8.0.0-dev.101" />
-    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="7.0.0-dev.33" />
-    <PackageVersion Include="Uno.WinUI.Markup" Version="7.0.0-dev.33" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="8.0.1" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="7.0.1" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="7.0.1" />
     <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" Version="4.0.0-dev.8" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
