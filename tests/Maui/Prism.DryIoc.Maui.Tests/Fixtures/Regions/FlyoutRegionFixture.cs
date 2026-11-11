@@ -141,6 +141,9 @@ public class FlyoutRegionFixture : TestBase
         Assert.Equal(1, viewModel.DestroyCount);
     }
 
+    // Keep compatibility hosting for the LegacyRegionFlyoutPage cases. The compiler
+    // reports the obsolete chained invocation at CreateBuilder, not at the extension call.
+#pragma warning disable CS0618
     private MauiApp CreateFlyoutApp(string detailPage, string flyoutPage = nameof(RegionFlyoutPage)) =>
         CreateBuilder(prism => prism
             .RegisterTypes(container => container
@@ -157,11 +160,10 @@ public class FlyoutRegionFixture : TestBase
                 .RegisterViewWithRegion<TrackingView>("RegionA"))
             .CreateWindow($"{flyoutPage}/NavigationPage/{detailPage}"))
 #if NET10_0
-#pragma warning disable CS0618 // Required to exercise the legacy adapter regression on .NET 10.
             .UseMauiCompatibility()
-#pragma warning restore CS0618
 #endif
             .Build();
+#pragma warning restore CS0618
 
     private static TrackingView[] AssertMenuPopulated(RegionFlyoutPage flyout)
     {
