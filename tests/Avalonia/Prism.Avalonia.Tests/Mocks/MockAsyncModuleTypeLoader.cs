@@ -15,7 +15,7 @@ namespace Prism.Avalonia.Tests.Mocks
 
         public int SleepTimeOut { get; set; }
 
-        public Exception CallbackArgumentError { get; set; }
+        public Exception? CallbackArgumentError { get; set; }
 
         public bool CanLoadModuleType(IModuleInfo moduleInfo)
         {
@@ -34,14 +34,14 @@ namespace Prism.Avalonia.Tests.Mocks
             retrieverThread.Start();
         }
 
-        public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
+        public event EventHandler<ModuleDownloadProgressChangedEventArgs>? ModuleDownloadProgressChanged;
 
         private void RaiseLoadModuleProgressChanged(ModuleDownloadProgressChangedEventArgs e)
         {
             ModuleDownloadProgressChanged?.Invoke(this, e);
         }
 
-        public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
+        public event EventHandler<LoadModuleCompletedEventArgs>? LoadModuleCompleted;
 
         private void RaiseLoadModuleCompleted(LoadModuleCompletedEventArgs e)
         {

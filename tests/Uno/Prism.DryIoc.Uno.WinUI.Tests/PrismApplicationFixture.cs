@@ -1,5 +1,5 @@
 using System.Reflection;
-using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 using DryIoc;
 using Prism.Container.DryIoc;
 using Prism.Ioc;
@@ -14,7 +14,7 @@ public class PrismApplicationFixture
     [Fact]
     public void CreateContainerExtensionReturnsDryIocContainerExtension()
     {
-        var app = (PrismApplication)FormatterServices.GetUninitializedObject(typeof(PrismApplicationProxy));
+        var app = (PrismApplication)RuntimeHelpers.GetUninitializedObject(typeof(PrismApplicationProxy));
         var method = typeof(PrismApplication).GetMethod("CreateContainerExtension", BindingFlags.NonPublic | BindingFlags.Instance);
 
         var container = method!.Invoke(app, null);
@@ -25,7 +25,7 @@ public class PrismApplicationFixture
     [Fact]
     public void RegisterFrameworkExceptionTypesRegistersContainerException()
     {
-        var app = (PrismApplication)FormatterServices.GetUninitializedObject(typeof(PrismApplicationProxy));
+        var app = (PrismApplication)RuntimeHelpers.GetUninitializedObject(typeof(PrismApplicationProxy));
         var method = typeof(PrismApplication).GetMethod("RegisterFrameworkExceptionTypes", BindingFlags.NonPublic | BindingFlags.Instance);
 
         method!.Invoke(app, null);
@@ -36,7 +36,7 @@ public class PrismApplicationFixture
     [Fact]
     public void CreateContainerRulesReturnsDryIocRules()
     {
-        var app = (PrismApplication)FormatterServices.GetUninitializedObject(typeof(PrismApplicationProxy));
+        var app = (PrismApplication)RuntimeHelpers.GetUninitializedObject(typeof(PrismApplicationProxy));
         var method = typeof(PrismApplication).GetMethod("CreateContainerRules", BindingFlags.NonPublic | BindingFlags.Instance);
 
         var rules = method!.Invoke(app, null);

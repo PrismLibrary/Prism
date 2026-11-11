@@ -364,7 +364,7 @@ namespace Prism.Avalonia.Tests.Interactivity
 
     internal class TestEventArgs : EventArgs
     {
-        public TestEventArgs(string name)
+        public TestEventArgs(string? name)
         {
             Thing1 = new Thing1 { Thing2 = new Thing2 { Name = name } };
         }
@@ -374,11 +374,11 @@ namespace Prism.Avalonia.Tests.Interactivity
 
     internal class Thing1
     {
-        public Thing2 Thing2 { get; set; }
+        public Thing2? Thing2 { get; set; }
     }
 
     internal class Thing2
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

@@ -209,7 +209,7 @@ namespace Prism.Avalonia.Tests.Regions
             }
         }
 
-        private void RegionManager_UpdatingRegions(object sender, EventArgs e)
+        private void RegionManager_UpdatingRegions(object? sender, EventArgs e)
         {
             try
             {
@@ -225,7 +225,7 @@ namespace Prism.Avalonia.Tests.Regions
         {
             public bool OnUpdatingRegionsCalled;
 
-            public void OnUpdatingRegions(object sender, EventArgs e)
+            public void OnUpdatingRegions(object? sender, EventArgs e)
             {
                 OnUpdatingRegionsCalled = true;
             }
@@ -240,11 +240,12 @@ namespace Prism.Avalonia.Tests.Regions
             var region1 = new Region { Name = "region1" };
             var region2 = new Region { Name = "region2" };
 
-            NotifyCollectionChangedEventArgs args = null;
+            NotifyCollectionChangedEventArgs? args = null;
             regionManager.Regions.CollectionChanged += (s, e) => args = e;
 
             regionManager.Regions.Add(region1);
 
+            Assert.NotNull(args);
             Assert.Equal(NotifyCollectionChangedAction.Add, args.Action);
             Assert.Equal(new object[] { region1 }, args.NewItems);
             Assert.Equal(0, args.NewStartingIndex);
@@ -253,6 +254,7 @@ namespace Prism.Avalonia.Tests.Regions
 
             regionManager.Regions.Add(region2);
 
+            Assert.NotNull(args);
             Assert.Equal(NotifyCollectionChangedAction.Add, args.Action);
             Assert.Equal(new object[] { region2 }, args.NewItems);
             Assert.Equal(0, args.NewStartingIndex);
@@ -272,11 +274,12 @@ namespace Prism.Avalonia.Tests.Regions
             regionManager.Regions.Add(region1);
             regionManager.Regions.Add(region2);
 
-            NotifyCollectionChangedEventArgs args = null;
+            NotifyCollectionChangedEventArgs? args = null;
             regionManager.Regions.CollectionChanged += (s, e) => args = e;
 
             regionManager.Regions.Remove("region2");
 
+            Assert.NotNull(args);
             Assert.Equal(NotifyCollectionChangedAction.Remove, args.Action);
             Assert.Equal(new object[] { region2 }, args.OldItems);
             Assert.Equal(0, args.OldStartingIndex);
@@ -285,6 +288,7 @@ namespace Prism.Avalonia.Tests.Regions
 
             regionManager.Regions.Remove("region1");
 
+            Assert.NotNull(args);
             Assert.Equal(NotifyCollectionChangedAction.Remove, args.Action);
             Assert.Equal(new object[] { region1 }, args.OldItems);
             Assert.Equal(0, args.OldStartingIndex);
@@ -302,7 +306,7 @@ namespace Prism.Avalonia.Tests.Regions
 
             regionManager.Regions.Add(region1);
 
-            NotifyCollectionChangedEventArgs args = null;
+            NotifyCollectionChangedEventArgs? args = null;
             regionManager.Regions.CollectionChanged += (s, e) => args = e;
 
             regionManager.Regions.Remove("region2");
@@ -338,8 +342,8 @@ namespace Prism.Avalonia.Tests.Regions
             {
                 var mockRegionContentRegistry = new MockRegionContentRegistry();
 
-                string regionName = null;
-                Type viewType = null;
+                string? regionName = null;
+                Type? viewType = null;
 
                 mockRegionContentRegistry.RegisterContentWithViewType = (name, type) =>
                 {
@@ -372,8 +376,8 @@ namespace Prism.Avalonia.Tests.Regions
             {
                 var mockRegionContentRegistry = new MockRegionContentRegistry();
 
-                string regionName = null;
-                Type viewType = null;
+                string? regionName = null;
+                Type? viewType = null;
 
                 mockRegionContentRegistry.RegisterContentWithViewType = (name, type) =>
                 {
@@ -408,8 +412,8 @@ namespace Prism.Avalonia.Tests.Regions
                 ContainerLocator.ResetContainer();
                 var mockRegionContentRegistry = new MockRegionContentRegistry();
 
-                string regionName = null;
-                Func<IContainerProvider, object> contentDelegate = null;
+                string? regionName = null;
+                Func<IContainerProvider, object>? contentDelegate = null;
                 Func<IContainerProvider, object> expectedDelegate = _ => true;
 
                 mockRegionContentRegistry.RegisterContentWithDelegate = (name, usedDelegate) =>
@@ -474,10 +478,10 @@ namespace Prism.Avalonia.Tests.Regions
 
     internal class MockRegionContentRegistry : IRegionViewRegistry
     {
-        public Func<string, Type, object> RegisterContentWithViewType;
-        public Func<string, Func<IContainerProvider, object>, object> RegisterContentWithDelegate;
-        public event EventHandler<ViewRegisteredEventArgs> ContentRegistered;
-        public IEnumerable<object> GetContents(string regionName, IContainerProvider container)
+        public Func<string, Type, object?>? RegisterContentWithViewType;
+        public Func<string, Func<IContainerProvider, object>, object?>? RegisterContentWithDelegate;
+        public event EventHandler<ViewRegisteredEventArgs>? ContentRegistered;
+        public IEnumerable<object>? GetContents(string regionName, IContainerProvider container)
         {
             return null;
         }

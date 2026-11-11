@@ -74,10 +74,10 @@ namespace Prism.Avalonia.Tests.Regions
         class TestableRegionAdapterBase : RegionAdapterBase<MockRegionTarget>
         {
             public IRegion CreateRegionReturnValue = new MockPresentationRegion();
-            public IRegion AdaptArgumentRegion;
-            public MockRegionTarget adaptArgumentRegionTarget;
-            public IRegion AttachBehaviorsArgumentRegion;
-            public MockRegionTarget attachBehaviorsArgumentTargetToAdapt;
+            public IRegion? AdaptArgumentRegion;
+            public MockRegionTarget? adaptArgumentRegionTarget;
+            public IRegion? AttachBehaviorsArgumentRegion;
+            public MockRegionTarget? attachBehaviorsArgumentTargetToAdapt;
 
             public TestableRegionAdapterBase() : base(null)
             {

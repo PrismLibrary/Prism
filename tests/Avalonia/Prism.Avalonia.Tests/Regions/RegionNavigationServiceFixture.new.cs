@@ -110,7 +110,7 @@ namespace Prism.Avalonia.Tests.Regions
             };
 
             // Act
-            Exception error = null;
+            Exception? error = null;
             target.RequestNavigate(
                 new Uri(otherType.GetType().Name, UriKind.Relative),
                 nr =>
@@ -143,10 +143,11 @@ namespace Prism.Avalonia.Tests.Regions
             };
 
             // Act
-            NavigationResult navigationResult = null;
-            target.RequestNavigate((Uri)null, nr => navigationResult = nr);
+            NavigationResult? navigationResult = null;
+            target.RequestNavigate((Uri?)null, nr => navigationResult = nr);
 
             // Verify
+            Assert.NotNull(navigationResult);
             Assert.False(navigationResult.Success);
             Assert.NotNull(navigationResult.Exception);
             Assert.IsType<ArgumentNullException>(navigationResult.Exception);
@@ -756,7 +757,7 @@ namespace Prism.Avalonia.Tests.Regions
             };
 
             bool isNavigatingRaised = false;
-            target.Navigating += delegate (object sender, RegionNavigationEventArgs e)
+            target.Navigating += delegate (object? sender, RegionNavigationEventArgs e)
             {
                 if (sender == target)
                 {
@@ -800,7 +801,7 @@ namespace Prism.Avalonia.Tests.Regions
             };
 
             bool isNavigatedRaised = false;
-            target.Navigated += delegate (object sender, RegionNavigationEventArgs e)
+            target.Navigated += delegate (object? sender, RegionNavigationEventArgs e)
             {
                 if (sender == target)
                 {
@@ -830,7 +831,7 @@ namespace Prism.Avalonia.Tests.Regions
 
             var journalMock = new Mock<IRegionNavigationJournal>();
 
-            Action<bool> navigationCallback = null;
+            Action<bool>? navigationCallback = null;
             var viewMock = new Mock<IConfirmNavigationRequest>();
             viewMock
                 .Setup(v => v.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
@@ -845,8 +846,9 @@ namespace Prism.Avalonia.Tests.Regions
                 Region = region
             };
 
-            NavigationResult result = null;
+            NavigationResult? result = null;
             target.RequestNavigate(new Uri("", UriKind.Relative), nr => result = nr);
+            Assert.NotNull(navigationCallback);
             navigationCallback(true);
 
             Assert.NotNull(result);
@@ -1001,7 +1003,7 @@ namespace Prism.Avalonia.Tests.Regions
 
             RegionNavigationService target = new RegionNavigationService(container, contentLoader, journal);
 
-            Exception error = null;
+            Exception? error = null;
             target.RequestNavigate(navigationUri, nr => error = nr.Exception);
 
             Assert.NotNull(error);
@@ -1020,7 +1022,7 @@ namespace Prism.Avalonia.Tests.Regions
                 Region = new Region()
             };
 
-            Exception error = null;
+            Exception? error = null;
             target.RequestNavigate(null, nr => error = nr.Exception);
 
             Assert.NotNull(error);
@@ -1050,8 +1052,8 @@ namespace Prism.Avalonia.Tests.Regions
                 Region = region
             };
 
-            RegionNavigationFailedEventArgs eventArgs = null;
-            target.NavigationFailed += delegate (object sender, RegionNavigationFailedEventArgs e)
+            RegionNavigationFailedEventArgs? eventArgs = null;
+            target.NavigationFailed += delegate (object? sender, RegionNavigationFailedEventArgs e)
             {
                 if (sender == target)
                 {
@@ -1064,7 +1066,7 @@ namespace Prism.Avalonia.Tests.Regions
             target.RequestNavigate(new Uri("invalid", UriKind.Relative), nr => isNavigationSuccessful = nr.Success);
 
             // Verify
-            Assert.False(isNavigationSuccessful.Value);
+            Assert.False(isNavigationSuccessful);
             Assert.NotNull(eventArgs);
             Assert.NotNull(eventArgs.Error);
         }
@@ -1109,8 +1111,8 @@ namespace Prism.Avalonia.Tests.Regions
                 Region = region
             };
 
-            RegionNavigationFailedEventArgs eventArgs = null;
-            target.NavigationFailed += delegate (object sender, RegionNavigationFailedEventArgs e)
+            RegionNavigationFailedEventArgs? eventArgs = null;
+            target.NavigationFailed += delegate (object? sender, RegionNavigationFailedEventArgs e)
             {
                 if (sender == target)
                 {
@@ -1124,7 +1126,7 @@ namespace Prism.Avalonia.Tests.Regions
 
             // Verify
             view1Mock.VerifyAll();
-            Assert.False(isNavigationSuccessful.Value);
+            Assert.False(isNavigationSuccessful);
             Assert.NotNull(eventArgs);
             Assert.Null(eventArgs.Error);
         }
@@ -1171,8 +1173,8 @@ namespace Prism.Avalonia.Tests.Regions
                 Region = region
             };
 
-            RegionNavigationFailedEventArgs eventArgs = null;
-            target.NavigationFailed += delegate (object sender, RegionNavigationFailedEventArgs e)
+            RegionNavigationFailedEventArgs? eventArgs = null;
+            target.NavigationFailed += delegate (object? sender, RegionNavigationFailedEventArgs e)
             {
                 if (sender == target)
                 {
@@ -1186,7 +1188,7 @@ namespace Prism.Avalonia.Tests.Regions
 
             // Verify
             viewModel1Mock.VerifyAll();
-            Assert.False(isNavigationSuccessful.Value);
+            Assert.False(isNavigationSuccessful);
             Assert.NotNull(eventArgs);
             Assert.Null(eventArgs.Error);
         }

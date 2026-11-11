@@ -50,9 +50,9 @@ namespace Prism.Avalonia.Tests
 
             referencedAssemblies.AddRange(references);
             referencedAssemblies.Add("System.dll");
-            referencedAssemblies.Add(typeof(IContainerRegistry).Assembly.CodeBase.Replace(@"file:///", ""));
-            referencedAssemblies.Add(typeof(IModule).Assembly.CodeBase.Replace(@"file:///", ""));
-            referencedAssemblies.Add(typeof(ModuleAttribute).Assembly.CodeBase.Replace(@"file:///", ""));
+            referencedAssemblies.Add(typeof(IContainerRegistry).Assembly.Location);
+            referencedAssemblies.Add(typeof(IModule).Assembly.Location);
+            referencedAssemblies.Add(typeof(ModuleAttribute).Assembly.Location);
 
             CSharpCodeProvider codeProvider = new CSharpCodeProvider();
             CompilerParameters cp = new CompilerParameters(referencedAssemblies.ToArray(), output);
@@ -73,7 +73,8 @@ namespace Prism.Avalonia.Tests
 
         public static void CreateOutput(string output)
         {
-            string dir = Path.GetDirectoryName(output);
+            string dir = Path.GetDirectoryName(Path.GetFullPath(output))
+                ?? throw new ArgumentException("Output must name a file within a directory.", nameof(output));
             if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
@@ -103,9 +104,9 @@ namespace Prism.Avalonia.Tests
             CreateOutput(output);
             List<string> referencedAssemblies = new List<string>();
             referencedAssemblies.Add("System.dll");
-            referencedAssemblies.Add(typeof(IContainerExtension).Assembly.CodeBase.Replace(@"file:///", ""));
-            referencedAssemblies.Add(typeof(IModule).Assembly.CodeBase.Replace(@"file:///", ""));
-            referencedAssemblies.Add(typeof(ModuleAttribute).Assembly.CodeBase.Replace(@"file:///", ""));
+            referencedAssemblies.Add(typeof(IContainerExtension).Assembly.Location);
+            referencedAssemblies.Add(typeof(IModule).Assembly.Location);
+            referencedAssemblies.Add(typeof(ModuleAttribute).Assembly.Location);
 
             CompilerResults results = new CSharpCodeProvider().CompileAssemblyFromSource(
                 new CompilerParameters(referencedAssemblies.ToArray(), output), code);
@@ -115,7 +116,7 @@ namespace Prism.Avalonia.Tests
             return results;
         }
 
-        public static string GenerateDynamicModule(string assemblyName, string moduleName, string outpath, params string[] dependencies)
+        public static string GenerateDynamicModule(string assemblyName, string? moduleName, string outpath, params string[] dependencies)
         {
             CreateOutput(outpath);
 
@@ -144,7 +145,7 @@ namespace Prism.Avalonia.Tests
             return outpath;
         }
 
-        public static string GenerateDynamicModule(string assemblyName, string moduleName, params string[] dependencies)
+        public static string GenerateDynamicModule(string assemblyName, string? moduleName, params string[] dependencies)
         {
             string assemblyFile = assemblyName + ".dll";
             string outpath = Path.Combine(assemblyName, assemblyFile);

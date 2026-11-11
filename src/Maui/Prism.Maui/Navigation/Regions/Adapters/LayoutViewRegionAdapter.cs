@@ -7,7 +7,10 @@ namespace Prism.Navigation.Regions.Adapters;
 /// Adapter that creates a new <see cref="Region"/> and monitors its
 /// active view to set it on the adapted <see cref="Layout{View}"/>.
 /// </summary>
+// Preserve support for existing compatibility layouts alongside LayoutRegionAdapter.
+#pragma warning disable CS0618 // Layout<View> is the supported legacy adapter target.
 public class LayoutViewRegionAdapter : RegionAdapterBase<Layout<View>>
+#pragma warning restore CS0618
 {
     /// <summary>
     /// Initializes a new instance of <see cref="LayoutViewRegionAdapter"/>.
@@ -23,7 +26,9 @@ public class LayoutViewRegionAdapter : RegionAdapterBase<Layout<View>>
     /// </summary>
     /// <param name="region">The new region being used.</param>
     /// <param name="regionTarget">The object to adapt.</param>
+#pragma warning disable CS0618 // Required override for the legacy adapter target.
     protected override void Adapt(IRegion region, Layout<View> regionTarget)
+#pragma warning restore CS0618
     {
         ArgumentNullException.ThrowIfNull(region);
         ArgumentNullException.ThrowIfNull(regionTarget);

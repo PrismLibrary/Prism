@@ -15,9 +15,9 @@ namespace Prism.Avalonia.Tests.Mocks
             Behaviors = new MockRegionBehaviorCollection();
         }
 
-        public IRegionManager Add(string viewName) => throw new NotImplementedException();
+        public IRegionManager? Add(string viewName) => throw new NotImplementedException();
 
-        public IRegionManager Add(object view)
+        public IRegionManager? Add(object view)
         {
             MockViews.Items.Add(view);
 
@@ -35,12 +35,12 @@ namespace Prism.Avalonia.Tests.Mocks
             MockActiveViews.Items.Add(view);
         }
 
-        public IRegionManager Add(object view, string viewName)
+        public IRegionManager? Add(object view, string viewName)
         {
             throw new NotImplementedException();
         }
 
-        public IRegionManager Add(object view, string viewName, bool createRegionManagerScope)
+        public IRegionManager? Add(object view, string viewName, bool createRegionManagerScope)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +50,7 @@ namespace Prism.Avalonia.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public IRegionManager RegionManager { get; set; }
+        public IRegionManager? RegionManager { get; set; }
 
         public IRegionBehaviorCollection Behaviors { get; set; }
 
@@ -69,8 +69,8 @@ namespace Prism.Avalonia.Tests.Mocks
             MockActiveViews.Items.Remove(view);
         }
 
-        private object context;
-        public object Context
+        private object? context;
+        public object? Context
         {
             get { return context; }
             set
@@ -86,8 +86,8 @@ namespace Prism.Avalonia.Tests.Mocks
             set { throw new System.NotImplementedException(); }
         }
 
-        private string name;
-        public string Name
+        private string? name;
+        public string? Name
         {
             get { return name; }
             set
@@ -97,7 +97,7 @@ namespace Prism.Avalonia.Tests.Mocks
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChange(string propertyName)
         {

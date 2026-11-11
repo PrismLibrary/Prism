@@ -3,8 +3,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="clr-namespace:Prism.IoC;assembly=Prism.Maui"
+    xmlns:viewModels="clr-namespace:Prism.DryIoc.Maui.Tests.Mocks.ViewModels"
     xmlns:converters="clr-namespace:Prism.DryIoc.Maui.Tests.Mocks.Converters"
     x:Class="Prism.DryIoc.Maui.Tests.Mocks.Views.MockXamlView"
+    x:DataType="viewModels:MockXamlViewViewModel"
     Title="MockXamlView">
   
     <ContentPage.Resources>

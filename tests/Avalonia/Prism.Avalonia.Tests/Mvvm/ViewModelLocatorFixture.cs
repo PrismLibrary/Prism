@@ -86,7 +86,8 @@ namespace Prism.Avalonia.Tests.Mvvm
         internal static void ResetViewModelLocationProvider()
         {
             Type staticType = typeof(ViewModelLocationProvider);
-            ConstructorInfo ci = staticType.TypeInitializer;
+            ConstructorInfo? ci = staticType.TypeInitializer;
+            Assert.NotNull(ci);
             object[] parameters = new object[0];
             ci.Invoke(null, parameters);
         }

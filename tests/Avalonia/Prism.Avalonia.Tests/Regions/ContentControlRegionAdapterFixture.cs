@@ -144,7 +144,7 @@ namespace Prism.Avalonia.Tests.Regions
 
         class SimpleModel
         {
-            public Object ObjectContents { get; set; }
+            public Object? ObjectContents { get; set; }
         }
 
         private class TestableContentControlRegionAdapter : ContentControlRegionAdapter

@@ -174,7 +174,9 @@ public static class RegionNavigationRegistrationExtensions
             // TODO: CollectionView is buggy with only last View showing despite multiple Active Views
             // BUG: iOS Crash with CollectionView https://github.com/xamarin/Xamarin.Forms/issues/9970
             //regionAdapterMappings.RegisterDefaultMapping<CollectionView, CollectionViewRegionAdapter>();
+#pragma warning disable CS0618 // Keep legacy layouts registered while they remain supported.
             regionAdapterMappings.RegisterDefaultMapping<Microsoft.Maui.Controls.Compatibility.Layout<View>, LayoutViewRegionAdapter>();
+#pragma warning restore CS0618
             regionAdapterMappings.RegisterDefaultMapping<Layout, LayoutRegionAdapter>();
             regionAdapterMappings.RegisterDefaultMapping<ScrollView, ScrollViewRegionAdapter>();
             regionAdapterMappings.RegisterDefaultMapping<ContentView, ContentViewRegionAdapter>();

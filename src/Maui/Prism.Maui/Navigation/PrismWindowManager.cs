@@ -14,8 +14,7 @@ internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
 
     private Window _initialWindow;
 
-    private Window _current;
-    public Window Current => _current ?? _initialWindow;
+    public Window Current => _initialWindow;
 
     public IReadOnlyList<Window> Windows => _application.Windows.OfType<Window>().ToList();
 

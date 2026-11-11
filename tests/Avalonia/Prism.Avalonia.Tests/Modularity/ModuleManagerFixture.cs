@@ -439,10 +439,10 @@ namespace Prism.Avalonia.Tests.Modularity
     internal class MockModuleCatalog : IModuleCatalog
     {
         public List<IModuleInfo> Modules = new List<IModuleInfo>();
-        public Func<IModuleInfo, IEnumerable<IModuleInfo>> GetDependentModules;
+        public Func<IModuleInfo, IEnumerable<IModuleInfo>?>? GetDependentModules;
 
-        public Func<IEnumerable<IModuleInfo>, IEnumerable<IModuleInfo>> CompleteListWithDependencies;
-        public Action ValidateCatalog;
+        public Func<IEnumerable<IModuleInfo>, IEnumerable<IModuleInfo>?>? CompleteListWithDependencies;
+        public Action? ValidateCatalog;
 
         public void Initialize()
         {
@@ -451,7 +451,7 @@ namespace Prism.Avalonia.Tests.Modularity
 
         IEnumerable<IModuleInfo> IModuleCatalog.Modules => Modules;
 
-        IEnumerable<IModuleInfo> IModuleCatalog.GetDependentModules(IModuleInfo moduleInfo)
+        IEnumerable<IModuleInfo>? IModuleCatalog.GetDependentModules(IModuleInfo moduleInfo)
         {
             if (GetDependentModules == null)
                 return new List<IModuleInfo>();
@@ -459,7 +459,7 @@ namespace Prism.Avalonia.Tests.Modularity
             return GetDependentModules(moduleInfo);
         }
 
-        IEnumerable<IModuleInfo> IModuleCatalog.CompleteListWithDependencies(IEnumerable<IModuleInfo> modules)
+        IEnumerable<IModuleInfo>? IModuleCatalog.CompleteListWithDependencies(IEnumerable<IModuleInfo> modules)
         {
             if (CompleteListWithDependencies != null)
                 return CompleteListWithDependencies(modules);
@@ -487,7 +487,7 @@ namespace Prism.Avalonia.Tests.Modularity
 
     internal class StubModuleInitializer : IModuleInitializer
     {
-        public Action<ModuleInfo> Initialize;
+        public Action<ModuleInfo> Initialize = _ => throw new InvalidOperationException("Configure Initialize before initializing a module.");
 
         void IModuleInitializer.Initialize(IModuleInfo moduleInfo)
         {
@@ -497,7 +497,7 @@ namespace Prism.Avalonia.Tests.Modularity
 
     internal class MockDelegateModuleInitializer : IModuleInitializer
     {
-        public Action<ModuleInfo> LoadBody;
+        public Action<ModuleInfo> LoadBody { get; set; } = _ => throw new InvalidOperationException("Configure LoadBody before initializing a module.");
 
         public void Initialize(IModuleInfo moduleInfo)
         {

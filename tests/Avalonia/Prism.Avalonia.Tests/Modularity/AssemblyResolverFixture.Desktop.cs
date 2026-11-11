@@ -76,7 +76,7 @@ namespace Prism.Avalonia.Tests.Modularity
 
             using var resolver = new AssemblyResolver();
 
-            Type resolvedType =
+            Type? resolvedType =
                 Type.GetType(
                     "TestModules.ModuleInLoadedFromContext1Class, ModuleInLoadedFromContext1, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
             Assert.Null(resolvedType);
@@ -105,7 +105,7 @@ namespace Prism.Avalonia.Tests.Modularity
 
             resolver.LoadAssemblyFrom(assemblyUri.ToString());
 
-            Type resolvedType =
+            Type? resolvedType =
                 Type.GetType("TestModules.ModuleInLoadedFromContext2Class, ModuleInLoadedFromContext2");
 
             Assert.NotNull(resolvedType);

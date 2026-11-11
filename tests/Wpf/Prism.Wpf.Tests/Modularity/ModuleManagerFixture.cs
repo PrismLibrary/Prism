@@ -504,14 +504,4 @@ namespace Prism.Wpf.Tests.Modularity
             this.Initialize((ModuleInfo)moduleInfo);
         }
     }
-
-    internal class MockDelegateModuleInitializer : IModuleInitializer
-    {
-        public Action<ModuleInfo> LoadBody;
-
-        public void Initialize(IModuleInfo moduleInfo)
-        {
-            LoadBody((ModuleInfo)moduleInfo);
-        }
-    }
 }

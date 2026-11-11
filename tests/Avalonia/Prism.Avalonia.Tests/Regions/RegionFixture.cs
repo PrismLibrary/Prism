@@ -320,13 +320,14 @@ namespace Prism.Avalonia.Tests.Regions
         public void ViewAddedEventPassesTheViewAddedInTheEventArgs()
         {
             ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
-            object viewAdded = null;
+            object? viewAdded = null;
 
             IRegion region = new Region();
             region.Views.CollectionChanged += (sender, e) =>
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)
                 {
+                    Assert.NotNull(e.NewItems);
                     viewAdded = e.NewItems[0];
                 }
             };
@@ -364,13 +365,16 @@ namespace Prism.Avalonia.Tests.Regions
         public void ViewRemovedEventPassesTheViewRemovedInTheEventArgs()
         {
             ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
-            object removedView = null;
+            object? removedView = null;
 
             IRegion region = new Region();
             region.Views.CollectionChanged += (sender, e) =>
             {
                 if (e.Action == NotifyCollectionChangedAction.Remove)
+                {
+                    Assert.NotNull(e.OldItems);
                     removedView = e.OldItems[0];
+                }
             };
             object model = new object();
             region.Add(model);
@@ -390,7 +394,7 @@ namespace Prism.Avalonia.Tests.Regions
             object model = new object();
             region.ActiveViews.CollectionChanged += (o, e) =>
             {
-                if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems.Contains(model))
+                if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Contains(model) == true)
                     viewActivated = true;
             };
             region.Add(model);

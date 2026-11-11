@@ -1,4 +1,4 @@
-using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 using Prism.Ioc;
 using Xunit;
 
@@ -9,7 +9,7 @@ public class PrismApplicationBaseFixture
     [Fact]
     public void HostThrowsUntilShellFinalizationRuns()
     {
-        var app = (PrismApplicationBase)FormatterServices.GetUninitializedObject(typeof(TestPrismApplication));
+        var app = (PrismApplicationBase)RuntimeHelpers.GetUninitializedObject(typeof(TestPrismApplication));
 
         var ex = Assert.Throws<InvalidOperationException>(() => _ = app.Host);
         Assert.Contains("host has not yet been created", ex.Message, StringComparison.OrdinalIgnoreCase);
@@ -33,7 +33,7 @@ public class PrismApplicationBaseFixture
     [Fact]
     public void ContainerPropertyReturnsContainerProvider()
     {
-        var app = (PrismApplicationBase)FormatterServices.GetUninitializedObject(typeof(TestPrismApplication));
+        var app = (PrismApplicationBase)RuntimeHelpers.GetUninitializedObject(typeof(TestPrismApplication));
         Assert.Null(app.Container);
     }
 

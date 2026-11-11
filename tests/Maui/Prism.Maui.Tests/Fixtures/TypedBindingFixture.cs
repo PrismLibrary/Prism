@@ -44,7 +44,7 @@ public class TypedBindingFixture
         DialogLayout.SetRelativeWidthRequest(dialog, 0.5);
         DialogLayout.SetRelativeHeightRequest(dialog, 0.75);
         var container = new TestDialogContainer();
-        container.Layout(new Rect(0, 0, 400, 800));
+        container.ArrangeOverride(new Rect(0, 0, 400, 800));
 
         var overlay = Assert.IsType<Grid>(container.CreateLayout(dialog));
         var popupArea = Assert.IsType<AbsoluteLayout>(overlay.Children.Single());
@@ -52,7 +52,7 @@ public class TypedBindingFixture
         Assert.Equal(200, popup.WidthRequest);
         Assert.Equal(600, popup.HeightRequest);
 
-        container.Layout(new Rect(0, 0, 600, 400));
+        container.ArrangeOverride(new Rect(0, 0, 600, 400));
         Assert.Equal(300, popup.WidthRequest);
         Assert.Equal(300, popup.HeightRequest);
     }

@@ -8,7 +8,7 @@ namespace Prism.Avalonia.Tests.Mocks
     {
         public List<IModuleInfo> LoadedModules = new List<IModuleInfo>();
         public bool canLoadModuleTypeReturnValue = true;
-        public Exception LoadCompletedError;
+        public Exception? LoadCompletedError;
 
         public bool CanLoadModuleType(IModuleInfo moduleInfo)
         {
@@ -21,14 +21,14 @@ namespace Prism.Avalonia.Tests.Mocks
             RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, LoadCompletedError));
         }
 
-        public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
+        public event EventHandler<ModuleDownloadProgressChangedEventArgs>? ModuleDownloadProgressChanged;
 
         public void RaiseLoadModuleProgressChanged(ModuleDownloadProgressChangedEventArgs e)
         {
             ModuleDownloadProgressChanged?.Invoke(this, e);
         }
 
-        public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
+        public event EventHandler<LoadModuleCompletedEventArgs>? LoadModuleCompleted;
 
         public void RaiseLoadModuleCompleted(ModuleInfo moduleInfo, Exception error)
         {

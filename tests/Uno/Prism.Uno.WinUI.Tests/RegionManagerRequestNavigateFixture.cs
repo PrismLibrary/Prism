@@ -1,3 +1,5 @@
+#nullable enable
+
 using Moq;
 using Prism.Navigation;
 using Prism.Navigation.Regions;

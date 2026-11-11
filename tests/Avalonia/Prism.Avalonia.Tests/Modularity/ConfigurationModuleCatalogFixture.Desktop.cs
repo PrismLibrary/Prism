@@ -153,7 +153,7 @@ namespace Prism.Avalonia.Tests.Modularity
 
         internal class MockNullConfigurationStore : IConfigurationStore
         {
-            public ModulesConfigurationSection RetrieveModuleConfigurationSection()
+            public ModulesConfigurationSection? RetrieveModuleConfigurationSection()
             {
                 return null;
             }

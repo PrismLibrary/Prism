@@ -113,7 +113,7 @@ namespace Prism.Avalonia.Tests.Regions
             originalCollection.Add(filteredInObject);
 
             IViewsCollection viewsCollection = new ViewsCollection(originalCollection, x => true);
-            IList oldItemsPassed = null;
+            IList? oldItemsPassed = null;
             viewsCollection.CollectionChanged += (s, e) => { oldItemsPassed = e.OldItems; };
             originalCollection.Remove(filteredInObject);
 
@@ -127,7 +127,7 @@ namespace Prism.Avalonia.Tests.Regions
         {
             var originalCollection = new ObservableCollection<ItemMetadata>();
             IViewsCollection viewsCollection = new ViewsCollection(originalCollection, x => true);
-            IList newItemsPassed = null;
+            IList? newItemsPassed = null;
             viewsCollection.CollectionChanged += (s, e) => { newItemsPassed = e.NewItems; };
             var filteredInObject = new ItemMetadata(new object());
 

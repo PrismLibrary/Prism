@@ -5,7 +5,7 @@ public sealed class MockPendingPage : ContentPage, IConfirmNavigationAsync, INav
     public TaskCompletionSource<bool> Decision { get; private set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
     public TaskCompletionSource<bool> Started { get; private set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
     public int Confirmations { get; private set; }
-    public int NavigatedFrom { get; private set; }
+    public int NavigatedFromCount { get; private set; }
     public int Destroyed { get; private set; }
 
     public async Task<bool> CanNavigateAsync(INavigationParameters parameters)
@@ -25,6 +25,6 @@ public sealed class MockPendingPage : ContentPage, IConfirmNavigationAsync, INav
     {
     }
 
-    public void OnNavigatedFrom(INavigationParameters parameters) => NavigatedFrom++;
+    public void OnNavigatedFrom(INavigationParameters parameters) => NavigatedFromCount++;
     public void Destroy() => Destroyed++;
 }

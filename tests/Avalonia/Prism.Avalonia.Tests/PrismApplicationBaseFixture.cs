@@ -41,7 +41,7 @@ namespace Prism.Avalonia.Tests
 
     public class PrismApplicationBaseFixture : IClassFixture<PrismApplicationSetup>
     {
-        PrismApplication application = null;
+        readonly PrismApplication application;
 
         public PrismApplicationBaseFixture(PrismApplicationSetup setup)
         {
@@ -220,7 +220,7 @@ namespace Prism.Avalonia.Tests
 
     public class PrismApplication : PrismApplicationBase
     {
-        public Mock<IContainerExtension> MockContainer { get; private set; }
+        public Mock<IContainerExtension> MockContainer { get; private set; } = new();
 
         public IModuleCatalog DefaultModuleCatalog => Container.Resolve<IModuleCatalog>();
 
@@ -276,7 +276,7 @@ namespace Prism.Avalonia.Tests
             return moduleCatalog;
         }
 
-        protected override Window CreateShell()
+        protected override Window? CreateShell()
         {
             CreateShellWasCalled = true;
             return null;

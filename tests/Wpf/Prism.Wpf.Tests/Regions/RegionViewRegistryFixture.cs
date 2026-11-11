@@ -179,7 +179,7 @@ namespace Prism.Wpf.Tests.Regions
             throw new InvalidOperationException("Dont do this");
         }
 
-        private class MockContentObject
+        internal class MockContentObject
         {
         }
 

@@ -1,3 +1,5 @@
+#nullable enable
+
 using Prism.Dialogs;
 
 namespace Prism.DryIoc.Maui.Tests.Mocks.Views;

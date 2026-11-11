@@ -10,6 +10,10 @@
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net11.0'))">
+    <MauiXaml Update="Mocks/Views/MockXamlView.xaml" Inflator="XamlC" />
+  </ItemGroup>
+
   <!-- Control fixtures run on portable targets; Windows service tests require no native UI. -->
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
     <Compile Remove="Fixtures/**/*.cs;Mocks/**/*.cs" />

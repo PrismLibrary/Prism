@@ -128,7 +128,7 @@ public class PendingDeviceModalPopTests : TestBase
             Assert.Equal(1, page.Confirmations);
             Assert.Empty(requests);
             Assert.Empty(modalNavigation.GetPops());
-            Assert.Equal(0, page.NavigatedFrom);
+            Assert.Equal(0, page.NavigatedFromCount);
             Assert.Equal(0, page.Destroyed);
             Assert.Equal(rootTo, rootVm.Actions.Count(a => a == nameof(rootVm.OnNavigatedTo)));
 
@@ -163,7 +163,7 @@ public class PendingDeviceModalPopTests : TestBase
             if (outcome != "allow")
             {
                 Assert.Same(modal, Assert.Single(window.Navigation.ModalStack));
-                Assert.Equal(0, page.NavigatedFrom);
+                Assert.Equal(0, page.NavigatedFromCount);
                 Assert.Equal(0, page.Destroyed);
                 Assert.Empty(modalNavigation.GetPops());
                 Assert.Equal(rootTo, rootVm.Actions.Count(a => a == nameof(rootVm.OnNavigatedTo)));
@@ -182,7 +182,7 @@ public class PendingDeviceModalPopTests : TestBase
             }
             Assert.Empty(window.Navigation.ModalStack);
             Assert.Single(modalNavigation.GetPops());
-            Assert.Equal(1, page.NavigatedFrom);
+            Assert.Equal(1, page.NavigatedFromCount);
             Assert.Equal(1, page.Destroyed);
             Assert.Equal(rootTo + 1, rootVm.Actions.Count(a => a == nameof(rootVm.OnNavigatedTo)));
 
@@ -234,7 +234,7 @@ public class PendingDeviceModalPopTests : TestBase
         page.Decision.SetResult(false);
         Assert.False((await request.WaitAsync(TimeSpan.FromSeconds(5))).Success);
         Assert.Null(secondWindow.PendingModalConfirmation);
-        Assert.Equal(0, page.NavigatedFrom);
+        Assert.Equal(0, page.NavigatedFromCount);
         Assert.Equal(0, page.Destroyed);
         Assert.Empty(modalNavigation.GetPops());
     }

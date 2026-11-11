@@ -32,7 +32,7 @@ public class ApiContractInventoryFixture
                 .GetMembers(memberFlags)
                 .Where(m => m.MemberType is MemberTypes.Method or MemberTypes.Property or MemberTypes.Field or MemberTypes.Event)
                 .OrderBy(m => m.Name, StringComparer.Ordinal)
-                .Select(m => new object[] { t.FullName!, m.Name, m.MemberType.ToString() }))
+                .Select(m => new object[] { t.FullName!, m.Name, m.MemberType.ToString(), m.MetadataToken }))
             .Take(450);
     }
 
@@ -45,7 +45,7 @@ public class ApiContractInventoryFixture
 
     [Theory]
     [MemberData(nameof(PublicMemberCases))]
-    public void PublicContractMemberIsDiscoverable(string fullTypeName, string memberName, string memberKind)
+    public void PublicContractMemberIsDiscoverable(string fullTypeName, string memberName, string memberKind, int metadataToken)
     {
         var type = PrismAssembly.GetType(fullTypeName);
         Assert.NotNull(type);
@@ -56,6 +56,8 @@ public class ApiContractInventoryFixture
             BindingFlags.Static;
 
         var members = type!.GetMember(memberName, lookupFlags);
-        Assert.Contains(members, m => string.Equals(m.MemberType.ToString(), memberKind, StringComparison.Ordinal));
+        // The token distinguishes overloads so each inventory row is discovered and checked.
+        Assert.Contains(members, m => m.MetadataToken == metadataToken &&
+            string.Equals(m.MemberType.ToString(), memberKind, StringComparison.Ordinal));
     }
 }

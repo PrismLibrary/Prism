@@ -5,7 +5,7 @@ namespace Prism.Avalonia.Tests.Mocks
 {
     class MockDelegateReference : IDelegateReference
     {
-        public Delegate Target { get; set; }
+        public Delegate? Target { get; set; }
 
         public MockDelegateReference()
         {

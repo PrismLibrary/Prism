@@ -7,9 +7,9 @@ namespace Prism.Avalonia.Tests.Mocks
 {
     internal class MockRegion : IRegion
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public Func<string, object> GetViewStringDelegate { get; set; }
+        public Func<string, object> GetViewStringDelegate { get; set; } = _ => throw new InvalidOperationException("Configure GetViewStringDelegate before querying a view.");
 
         private MockViewsCollection views = new MockViewsCollection();
 
@@ -35,22 +35,22 @@ namespace Prism.Avalonia.Tests.Mocks
             set { throw new System.NotImplementedException(); }
         }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public IRegionManager Add(string viewName) => throw new NotImplementedException();
+        public IRegionManager? Add(string viewName) => throw new NotImplementedException();
 
-        public IRegionManager Add(object view)
+        public IRegionManager? Add(object view)
         {
             views.Add(view);
             return null;
         }
 
-        public IRegionManager Add(object view, string viewName)
+        public IRegionManager? Add(object view, string viewName)
         {
             return Add(view);
         }
 
-        public IRegionManager Add(object view, string viewName, bool createRegionManagerScope)
+        public IRegionManager? Add(object view, string viewName, bool createRegionManagerScope)
         {
             throw new System.NotImplementedException();
         }
@@ -75,7 +75,7 @@ namespace Prism.Avalonia.Tests.Mocks
             return GetViewStringDelegate(viewName);
         }
 
-        public IRegionManager RegionManager { get; set; }
+        public IRegionManager? RegionManager { get; set; }
 
         public IRegionBehaviorCollection Behaviors
         {

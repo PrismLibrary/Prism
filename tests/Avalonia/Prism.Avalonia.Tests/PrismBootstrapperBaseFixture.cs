@@ -39,7 +39,7 @@ namespace Prism
     /// <remarks>This passes when running by itself; fails when ran as a whole.</remarks>
     public class PrismBootstapperBaseFixture : IClassFixture<PrismBootstapperSetup>
     {
-        PrismBootstrapper bootstrapper = null;
+        readonly PrismBootstrapper bootstrapper;
 
         public PrismBootstapperBaseFixture(PrismBootstapperSetup setup)
         {
@@ -218,7 +218,7 @@ namespace Prism
 
     public class PrismBootstrapper : PrismBootstrapperBase
     {
-        public Mock<IContainerExtension> MockContainer { get; private set; }
+        public Mock<IContainerExtension> MockContainer { get; private set; } = new();
 
         public IModuleCatalog DefaultModuleCatalog => Container.Resolve<IModuleCatalog>();
 
@@ -274,7 +274,7 @@ namespace Prism
             return moduleCatalog;
         }
 
-        protected override AvaloniaObject CreateShell()
+        protected override AvaloniaObject? CreateShell()
         {
             CreateShellWasCalled = true;
             return null;

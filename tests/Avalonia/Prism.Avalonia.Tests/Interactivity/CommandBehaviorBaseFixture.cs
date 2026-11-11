@@ -135,7 +135,7 @@ namespace Prism.Avalonia.Tests.Interactivity
             : base(targetObject)
         { }
 
-        public new void ExecuteCommand(object parameter)
+        public new void ExecuteCommand(object? parameter)
         {
             base.ExecuteCommand(parameter);
         }
@@ -150,18 +150,18 @@ namespace Prism.Avalonia.Tests.Interactivity
             set { _canExecte = value; }
         }
 
-        public object CanExecuteCalledWithParameter { get; set; }
+        public object? CanExecuteCalledWithParameter { get; set; }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             CanExecuteCalledWithParameter = parameter;
             return CanExecuteResult;
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
-        public object ExecuteCalledWithParameter { get; set; }
-        public void Execute(object parameter)
+        public object? ExecuteCalledWithParameter { get; set; }
+        public void Execute(object? parameter)
         {
             ExecuteCalledWithParameter = parameter;
         }

@@ -306,27 +306,27 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
         class ActiveAwareObject : IActiveAware
         {
             public bool IsActive { get; set; }
-            public event EventHandler IsActiveChanged;
+            public event EventHandler? IsActiveChanged;
         }
 
         class ActiveAwareFrameworkElement : Control, IActiveAware
         {
             public bool IsActive { get; set; }
-            public event EventHandler IsActiveChanged;
+            public event EventHandler? IsActiveChanged;
         }
 
         [SyncActiveState]
         class SyncedActiveAwareObject : IActiveAware
         {
             public bool IsActive { get; set; }
-            public event EventHandler IsActiveChanged;
+            public event EventHandler? IsActiveChanged;
         }
 
         [SyncActiveState]
         class SyncedActiveAwareObjectViewModel : IActiveAware
         {
             public bool IsActive { get; set; }
-            public event EventHandler IsActiveChanged;
+            public event EventHandler? IsActiveChanged;
         }
     }
 }

@@ -6,17 +6,17 @@ namespace Prism.Avalonia.Tests.Mocks
 {
     internal class MockRegionManagerAccessor : IRegionManagerAccessor
     {
-        public Func<AvaloniaObject, string> GetRegionName;
-        public Func<AvaloniaObject, IRegionManager> GetRegionManager;
+        public Func<AvaloniaObject, string> GetRegionName = _ => throw new InvalidOperationException("Configure GetRegionName before querying a region.");
+        public Func<AvaloniaObject, IRegionManager?>? GetRegionManager;
 
-        public event EventHandler UpdatingRegions;
+        public event EventHandler? UpdatingRegions;
 
         string IRegionManagerAccessor.GetRegionName(AvaloniaObject element)
         {
             return GetRegionName(element);
         }
 
-        IRegionManager IRegionManagerAccessor.GetRegionManager(AvaloniaObject element)
+        IRegionManager? IRegionManagerAccessor.GetRegionManager(AvaloniaObject element)
         {
             if (GetRegionManager != null)
                 return GetRegionManager(element);

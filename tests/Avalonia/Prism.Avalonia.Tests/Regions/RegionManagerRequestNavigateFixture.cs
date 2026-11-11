@@ -16,8 +16,8 @@ namespace Prism.Avalonia.Tests.Regions
         private static NavigationParameters parameters = new NavigationParameters();
         private static Action<NavigationResult> callback = (_) => { };
 
-        private static Mock<IRegion> mockRegion;
-        private static RegionManager regionManager;
+        private readonly Mock<IRegion> mockRegion;
+        private readonly RegionManager regionManager;
 
         public RegionManagerRequestNavigateFixture()
         {
@@ -51,22 +51,26 @@ namespace Prism.Avalonia.Tests.Regions
         [Fact]
         public void WhenNonExistentRegion_ReturnNavigationResultFalse()
         {
-            NavigationResult result;
+            NavigationResult? result;
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, source, (r) => result = r, parameters);
+            Assert.NotNull(result);
             Assert.False(result.Success);
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, source, (r) => result = r);
+            Assert.NotNull(result);
             Assert.False(result.Success);
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, sourceUri, (r) => result = r, parameters);
+            Assert.NotNull(result);
             Assert.False(result.Success);
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, sourceUri, (r) => result = r);
+            Assert.NotNull(result);
             Assert.False(result.Success);
         }
 

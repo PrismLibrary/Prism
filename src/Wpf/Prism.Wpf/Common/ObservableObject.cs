@@ -32,7 +32,11 @@ namespace Prism.Common
         /// <summary>
         /// Event that gets invoked when the Value property changes.
         /// </summary>
+#if AVALONIA
+        public new event PropertyChangedEventHandler PropertyChanged;
+#else
         public event PropertyChangedEventHandler PropertyChanged;
+#endif
 
         /// <summary>
         /// The value that's wrapped inside the ObservableObject.

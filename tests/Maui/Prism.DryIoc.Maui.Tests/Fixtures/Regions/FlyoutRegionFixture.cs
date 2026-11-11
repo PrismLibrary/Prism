@@ -157,7 +157,9 @@ public class FlyoutRegionFixture : TestBase
                 .RegisterViewWithRegion<TrackingView>("RegionA"))
             .CreateWindow($"{flyoutPage}/NavigationPage/{detailPage}"))
 #if NET10_0
+#pragma warning disable CS0618 // Required to exercise the legacy adapter regression on .NET 10.
             .UseMauiCompatibility()
+#pragma warning restore CS0618
 #endif
             .Build();
 
@@ -168,7 +170,9 @@ public class FlyoutRegionFixture : TestBase
         {
             Layout layout => layout.Children.Cast<View>(),
 #if NET10_0
+#pragma warning disable CS0618 // Inspect the compatibility layout used by the legacy regression cases.
             LegacyStackLayout layout => layout.Children,
+#pragma warning restore CS0618
 #endif
             _ => throw new NotSupportedException()
         };
@@ -205,7 +209,9 @@ public class FlyoutRegionFixture : TestBase
     public sealed class LegacyRegionFlyoutPage : RegionFlyoutPage
     {
         public LegacyRegionFlyoutPage()
+#pragma warning disable CS0618 // Deliberately retain the original compatibility-layout reproduction.
             : base(new LegacyStackLayout())
+#pragma warning restore CS0618
         {
         }
     }

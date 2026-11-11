@@ -8,7 +8,7 @@ namespace Prism.Avalonia.Tests.Mocks
     {
         public Dictionary<Type, object> ResolvedInstances = new Dictionary<Type, object>();
 
-        public IScopedProvider CurrentScope { get; }
+        public IScopedProvider? CurrentScope { get; }
 
         public void CreateScope()
         {
@@ -110,7 +110,7 @@ namespace Prism.Avalonia.Tests.Mocks
             object resolvedInstance;
             if (!ResolvedInstances.ContainsKey(type))
             {
-                resolvedInstance = Activator.CreateInstance(type);
+                resolvedInstance = Activator.CreateInstance(type) ?? throw new InvalidOperationException($"Could not create an instance of {type}.");
                 ResolvedInstances.Add(type, resolvedInstance);
             }
             else

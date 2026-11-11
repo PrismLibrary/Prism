@@ -72,7 +72,7 @@ namespace Prism.Avalonia.Tests.Regions
             region.Add(view1);
             region.Add(view2);
 
-            var navigationContext = new NavigationContext(null, new Uri(view2.GetType().FullName, UriKind.Relative));
+            var navigationContext = new NavigationContext(null, new Uri(view2.GetType().FullName!, UriKind.Relative));
 
             var navigationTargetHandler = new TestRegionNavigationContentLoader(containerMock.Object);
 

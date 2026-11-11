@@ -1,3 +1,5 @@
+#nullable enable
+
 using System.Collections.Specialized;
 using Moq;
 using Prism.Ioc;

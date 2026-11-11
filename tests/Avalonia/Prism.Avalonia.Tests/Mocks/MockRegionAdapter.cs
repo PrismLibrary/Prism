@@ -7,7 +7,7 @@ namespace Prism.Avalonia.Tests.Mocks
     internal class MockRegionAdapter : IRegionAdapter
     {
         public List<string> CreatedRegions = new List<string>();
-        public MockRegionManagerAccessor Accessor;
+        public MockRegionManagerAccessor? Accessor;
 
         public IRegion Initialize(object regionTarget, string regionName)
         {

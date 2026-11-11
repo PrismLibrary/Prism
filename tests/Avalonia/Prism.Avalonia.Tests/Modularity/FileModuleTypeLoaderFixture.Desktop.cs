@@ -18,7 +18,7 @@ namespace Prism.Avalonia.Tests.Modularity
             var fileModuleInfo = CreateModuleInfo(assemblyRef, "TestModules.FileModuleAClass", "ModuleA", true, null);
 
             bool loadCompleted = false;
-            retriever.LoadModuleCompleted += delegate (object sender, LoadModuleCompletedEventArgs e)
+            retriever.LoadModuleCompleted += delegate (object? sender, LoadModuleCompletedEventArgs e)
             {
                 loadCompleted = true;
             };
@@ -37,10 +37,10 @@ namespace Prism.Avalonia.Tests.Modularity
             var fileModuleInfo = CreateModuleInfo("NonExistentFile.dll", "NonExistentModule", "NonExistent", true, null);
 
             assemblyResolver.ThrowOnLoadAssemblyFrom = true;
-            Exception resultException = null;
+            Exception? resultException = null;
 
             bool loadCompleted = false;
-            retriever.LoadModuleCompleted += delegate (object sender, LoadModuleCompletedEventArgs e)
+            retriever.LoadModuleCompleted += delegate (object? sender, LoadModuleCompletedEventArgs e)
             {
                 loadCompleted = true;
                 resultException = e.Error;
@@ -108,7 +108,7 @@ namespace Prism.Avalonia.Tests.Modularity
             }
         }
 
-        private static ModuleInfo CreateModuleInfo(string assemblyFile, string moduleType, string moduleName, bool startupLoaded, params string[] dependsOn)
+        private static ModuleInfo CreateModuleInfo(string assemblyFile, string moduleType, string moduleName, bool startupLoaded, params string[]? dependsOn)
         {
             ModuleInfo moduleInfo = new ModuleInfo(moduleName, moduleType)
             {
@@ -126,7 +126,7 @@ namespace Prism.Avalonia.Tests.Modularity
 
     internal class MockAssemblyResolver : IAssemblyResolver
     {
-        public string LoadAssemblyFromArgument;
+        public string? LoadAssemblyFromArgument;
         public bool ThrowOnLoadAssemblyFrom;
 
         public void LoadAssemblyFrom(string assemblyFilePath)

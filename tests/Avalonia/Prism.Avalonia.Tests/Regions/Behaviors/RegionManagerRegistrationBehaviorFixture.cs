@@ -320,7 +320,7 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
     {
         public bool RemoveCalled;
         public bool AddCalled;
-        public IRegion AddArgument;
+        public IRegion? AddArgument;
 
         IEnumerator<IRegion> IEnumerable<IRegion>.GetEnumerator()
         {
@@ -359,6 +359,6 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
             throw new NotImplementedException();
         }
 
-        public event System.Collections.Specialized.NotifyCollectionChangedEventHandler CollectionChanged;
+        public event System.Collections.Specialized.NotifyCollectionChangedEventHandler? CollectionChanged;
     }
 }

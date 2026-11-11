@@ -94,6 +94,7 @@ public class RegionViewRegistryFixture
         {
             Assert.Contains("Dont do this", ex.Message);
             Assert.Contains("R1", ex.Message);
+            Assert.NotNull(ex.InnerException);
             Assert.Equal("Dont do this", ex.InnerException.Message);
         }
         catch (Exception)
@@ -160,7 +161,7 @@ public class RegionViewRegistryFixture
         Assert.Null(view.DataContext);
     }
 
-    private void FailWithFrameworkException(object sender, ViewRegisteredEventArgs e)
+    private void FailWithFrameworkException(object? sender, ViewRegisteredEventArgs e)
     {
         try
         {
@@ -172,19 +173,19 @@ public class RegionViewRegistryFixture
         }
     }
 
-    private void FailWithInvalidOperationException(object sender, ViewRegisteredEventArgs e)
+    private void FailWithInvalidOperationException(object? sender, ViewRegisteredEventArgs e)
     {
         throw new InvalidOperationException("Dont do this");
     }
 
-    private class MockContentObject
+    internal class MockContentObject
     {
     }
 
     private class MySubscriberClass
     {
-        public ViewRegisteredEventArgs onViewRegisteredArguments;
-        public void OnContentRegistered(object sender, ViewRegisteredEventArgs e)
+        public ViewRegisteredEventArgs? onViewRegisteredArguments;
+        public void OnContentRegistered(object? sender, ViewRegisteredEventArgs e)
         {
             onViewRegisteredArguments = e;
         }

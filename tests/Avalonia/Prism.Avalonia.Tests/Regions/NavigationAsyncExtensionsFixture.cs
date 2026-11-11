@@ -11,7 +11,7 @@ namespace Prism.Avalonia.Tests.Regions
         [Fact]
         public void WhenNavigatingWithANullThis_ThenThrows()
         {
-            INavigateAsync navigate = null;
+            INavigateAsync? navigate = null;
             string target = "";
 
             ExceptionAssert.Throws<ArgumentNullException>(
@@ -25,7 +25,7 @@ namespace Prism.Avalonia.Tests.Regions
         public void WhenNavigatingWithANullStringTarget_ThenThrows()
         {
             INavigateAsync navigate = new Mock<INavigateAsync>().Object;
-            string target = null;
+            string? target = null;
 
             ExceptionAssert.Throws<ArgumentNullException>(
                 () =>
@@ -75,7 +75,7 @@ namespace Prism.Avalonia.Tests.Regions
         [Fact]
         public void WhenNavigatingWithANullThisAndAUri_ThenThrows()
         {
-            INavigateAsync navigate = null;
+            INavigateAsync? navigate = null;
             Uri target = new Uri("test", UriKind.Relative);
 
             ExceptionAssert.Throws<ArgumentNullException>(

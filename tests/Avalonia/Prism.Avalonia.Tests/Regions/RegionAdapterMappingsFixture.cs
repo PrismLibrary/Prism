@@ -143,6 +143,6 @@ namespace Prism.Avalonia.Tests.Regions
 
         }
 
-        class ItemsControlDescendant : ItemsControl { }
+        internal class ItemsControlDescendant : ItemsControl { }
     }
 }

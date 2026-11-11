@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+#nullable enable annotations
+
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Graphics;
-using Microsoft.Maui.Layouts;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Navigation.Regions;
@@ -318,14 +319,14 @@ public class RegionFixture : TestBase
 
         const double w = 400;
         const double h = 800;
-        page.OuterRegion.Measure(w, h, MeasureFlags.IncludeMargins);
+        page.OuterRegion.Measure(w, h);
         page.OuterRegion.Arrange(new Rect(0, 0, w, h));
-        outerGuest.InnerRegionHost.Measure(w, h, MeasureFlags.IncludeMargins);
+        outerGuest.InnerRegionHost.Measure(w, h);
         outerGuest.InnerRegionHost.Arrange(new Rect(0, 0, w, h));
 
         Assert.Contains(regionManager.Regions, r => r.Name == "InnerRegion");
 
-        outerGuest.InnerRegionHost.Measure(w, h, MeasureFlags.IncludeMargins);
+        outerGuest.InnerRegionHost.Measure(w, h);
         outerGuest.InnerRegionHost.Arrange(new Rect(0, 0, w, h));
 
         Assert.NotNull(outerGuest.InnerRegionHost.Content);

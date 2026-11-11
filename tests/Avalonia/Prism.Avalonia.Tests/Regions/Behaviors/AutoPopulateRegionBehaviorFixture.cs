@@ -92,10 +92,10 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
         private class MockRegionContentRegistry : IRegionViewRegistry
         {
             public readonly List<object> GetContentsReturnValue = new List<object>();
-            public string GetContentsArgumentRegionName;
+            public string? GetContentsArgumentRegionName;
             public bool GetContentsCalled;
 
-            public event EventHandler<ViewRegisteredEventArgs> ContentRegistered;
+            public event EventHandler<ViewRegisteredEventArgs>? ContentRegistered;
 
             public IEnumerable<object> GetContents(string regionName, IContainerProvider container)
             {
@@ -106,7 +106,9 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
 
             public void RaiseContentRegistered(string regionName, object view)
             {
-                ContentRegistered(this, new ViewRegisteredEventArgs(regionName, _ => view));
+                var handler = ContentRegistered;
+                Assert.NotNull(handler);
+                handler(this, new ViewRegisteredEventArgs(regionName, _ => view));
             }
 
             public void RegisterViewWithRegion(string regionName, Type viewType)

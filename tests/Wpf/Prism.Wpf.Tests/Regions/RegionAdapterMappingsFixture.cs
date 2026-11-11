@@ -144,7 +144,7 @@ namespace Prism.Wpf.Tests.Regions
 
         }
 
-        class ItemsControlDescendant : ItemsControl { }
+        internal class ItemsControlDescendant : ItemsControl { }
 
     }
 }

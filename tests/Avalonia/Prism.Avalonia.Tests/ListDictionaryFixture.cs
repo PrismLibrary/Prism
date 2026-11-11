@@ -7,7 +7,7 @@ namespace Prism.Avalonia.Tests
 {
     public class ListDictionaryFixture
     {
-        static ListDictionary<string, object> list;
+        readonly ListDictionary<string, object> list;
 
         public ListDictionaryFixture()
         {
@@ -19,7 +19,7 @@ namespace Prism.Avalonia.Tests
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                list.Add(null, new object());
+                list.Add(null!, new object()); // Deliberately test a null key.
             });
 
         }
@@ -29,7 +29,7 @@ namespace Prism.Avalonia.Tests
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                list.Add("", null);
+                list.Add("", null!); // Deliberately test a null value.
             });
 
         }
@@ -62,7 +62,7 @@ namespace Prism.Avalonia.Tests
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                list.RemoveValue(null, new object());
+                list.RemoveValue(null!, new object()); // Deliberately test a null key.
             });
 
         }
@@ -109,7 +109,7 @@ namespace Prism.Avalonia.Tests
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                list.Remove(null);
+                list.Remove(null!); // Deliberately test a null key.
             });
         }
 
@@ -183,7 +183,7 @@ namespace Prism.Avalonia.Tests
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                list.ContainsKey(null);
+                list.ContainsKey(null!); // Deliberately test a null key.
             });
         }
 

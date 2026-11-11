@@ -9,12 +9,12 @@ namespace Prism.Avalonia.Tests.Mocks
 {
     internal class MockRegionManager : IRegionManager
     {
-        private IRegionCollection regions = new MockRegionCollection();
+        private MockRegionCollection regions = new MockRegionCollection();
         internal MockRegionCollection MockRegionCollection
         {
             get
             {
-                return regions as MockRegionCollection;
+                return regions;
             }
         }
 
@@ -136,6 +136,6 @@ namespace Prism.Avalonia.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public event System.Collections.Specialized.NotifyCollectionChangedEventHandler CollectionChanged;
+        public event System.Collections.Specialized.NotifyCollectionChangedEventHandler? CollectionChanged;
     }
 }

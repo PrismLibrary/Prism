@@ -30,7 +30,7 @@ namespace Prism.Avalonia.Tests.Mocks
             return GetEnumerator();
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged
+        public event NotifyCollectionChangedEventHandler? CollectionChanged
         {
             add { Items.CollectionChanged += value; }
             remove { Items.CollectionChanged -= value; }
