@@ -16,6 +16,13 @@ namespace Prism.Navigation
     {
         private bool _deviceModalPopInProgress;
         internal Page PendingModalConfirmation { get; set; }
+        internal IReadOnlyCollection<Page> PendingRootModalConfirmations { get; set; }
+
+        internal bool IsModalConfirmationPending(Page page) =>
+            (PendingModalConfirmation is Page pending &&
+                (page == pending || PageNavigationHistory.IsDescendantOf(page, pending))) ||
+            (PendingRootModalConfirmations?.Any(modal =>
+                page == modal || PageNavigationHistory.IsDescendantOf(page, modal)) ?? false);
 
         /// <summary>
         /// The default name for the Prism window.
@@ -84,7 +91,7 @@ namespace Prism.Navigation
 
             if (PageNavigationService.NavigationSource is PageNavigationSource.Device or PageNavigationSource.DialogService)
             {
-                if (e.Modal == PendingModalConfirmation)
+                if (IsModalConfirmationPending(e.Modal))
                 {
                     e.Cancel = true;
                     return;

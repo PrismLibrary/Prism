@@ -303,6 +303,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <inheritdoc cref="INavigationService.GoBackToRootAsync" path="/remarks" />
     public virtual async Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters)
     {
+        PrismWindow pendingRootWindow = null;
         try
         {
             await WaitForPendingNavigationRequests();
@@ -322,7 +323,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
             var prismWindow = window as PrismWindow;
             bool canNavigate;
             if (confirmationModal is not null && prismWindow is not null)
+            {
                 prismWindow.PendingModalConfirmation = confirmationModal;
+                prismWindow.PendingRootModalConfirmations = modals;
+                pendingRootWindow = prismWindow;
+            }
             try
             {
                 canNavigate = await MvvmHelpers.CanNavigateAsync(page, parameters);
@@ -374,6 +379,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         finally
         {
+            if (pendingRootWindow is not null)
+                pendingRootWindow.PendingRootModalConfirmations = null;
             _lastNavigateTimestamp = Stopwatch.GetTimestamp();
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();

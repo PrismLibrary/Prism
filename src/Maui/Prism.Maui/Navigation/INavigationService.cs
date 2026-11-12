@@ -44,6 +44,7 @@ public interface INavigationService
     /// the stacks unchanged. A stack change during confirmation rejects the request without
     /// removing the newly presented pages. Native pop failures restore owned stack changes
     /// before any removal callbacks or destruction; unrelated navigation is not overwritten.
+    /// Device back requests targeting the captured modals are suppressed while the root request is pending.
     /// In a modal context, open dialogs must first be closed through their dialog API, including its close veto,
     /// lifecycle, and result callback. A modal root request with an open dialog fails without changing the stack.
     /// Removed pages, including inactive container children, receive OnNavigatedFrom and are destroyed; the
