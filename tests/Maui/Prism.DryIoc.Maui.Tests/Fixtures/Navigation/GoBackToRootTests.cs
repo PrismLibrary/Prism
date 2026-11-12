@@ -1041,10 +1041,101 @@ public class GoBackToRootTests : TestBase
         }
     }
 
+    [Theory]
+    [InlineData(GoBackToRootBehavior.Default, "success")]
+    [InlineData(GoBackToRootBehavior.WindowContent, "success")]
+    [InlineData(GoBackToRootBehavior.WindowNavigationRoot, "success")]
+    [InlineData(GoBackToRootBehavior.Default, "veto")]
+    [InlineData(GoBackToRootBehavior.Default, "cancel")]
+    [InlineData(GoBackToRootBehavior.Default, "native-before")]
+    [InlineData(GoBackToRootBehavior.Default, "native-after")]
+    [InlineData(GoBackToRootBehavior.Default, "destroy")]
+    public async Task PlainModalAboveFourPageNavigation_DestroysEachViewModelExactlyOnce(
+        GoBackToRootBehavior behavior, string outcome)
+    {
+        var window = CreateWindow("Source");
+        var home = Assert.IsType<MockNavigateFromPage>(window.Page);
+        Assert.True((await GetService(home).NavigateAsync("NavigationPage/Source/Middle/Current/Destination")).Success);
+        var navigation = Assert.IsAssignableFrom<NavigationPage>(Assert.Single(window.Navigation.ModalStack));
+        var stack = navigation.Navigation.NavigationStack.Cast<MockNavigateFromPage>().ToArray();
+        Assert.Equal(4, stack.Length);
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync("Modal?useModalNavigation=true")).Success);
+        var modal = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var originalModals = window.Navigation.ModalStack.ToArray();
+        var homeViewModel = new DestructionRecorder();
+        var containerViewModel = new DestructionRecorder();
+        home.BindingContext = homeViewModel;
+        navigation.BindingContext = containerViewModel;
+        var removedPages = stack.Append(modal).ToArray();
+        var viewModels = removedPages.Select(page =>
+        {
+            var viewModel = new DestructionRecorder();
+            page.BindingContext = viewModel;
+            return viewModel;
+        }).ToArray();
+        if (outcome == "veto")
+            modal.AllowNavigation = false;
+        if (outcome == "cancel")
+        {
+            modal.Decision = new(TaskCreationOptions.RunContinuationsAsynchronously);
+            modal.Decision.SetCanceled();
+        }
+        if (outcome == "native-before")
+            TestPageNavigationService.AfterNextPop = () =>
+            {
+                TestPageNavigationService.ForceNextDoPopToReturnNull = true;
+                return Task.CompletedTask;
+            };
+        if (outcome == "native-after")
+            TestPageNavigationService.AfterNextPop = () =>
+            {
+                TestPageNavigationService.AfterNextPop = () => throw new InvalidOperationException("Container pop failed.");
+                return Task.CompletedTask;
+            };
+        if (outcome == "destroy")
+            viewModels[2].ThrowOnDestroy = true;
+        try
+        {
+            var result = await GetService(modal).GoBackToRootAsync(RootParameters(behavior));
+
+            Assert.Equal(outcome == "success", result.Success);
+            Assert.Equal(0, home.Destroyed);
+            Assert.Equal(0, homeViewModel.Destroyed);
+            var removed = outcome is "success" or "destroy";
+            Assert.All(removedPages, page => Assert.Equal(removed ? 1 : 0, page.Destroyed));
+            Assert.All(viewModels, viewModel => Assert.Equal(removed ? 1 : 0, viewModel.Destroyed));
+            Assert.Equal(removed ? 1 : 0, containerViewModel.Destroyed);
+            if (removed)
+            {
+                Assert.Empty(window.Navigation.ModalStack);
+                Assert.Same(home, window.CurrentPage);
+                if (outcome == "destroy")
+                    Assert.Contains("View model destruction failed.", result.Exception.ToString());
+            }
+            else
+            {
+                Assert.Equal(originalModals, window.Navigation.ModalStack);
+                Assert.Equal(stack, navigation.Navigation.NavigationStack);
+                Assert.Same(modal, window.CurrentPage);
+            }
+        }
+        finally
+        {
+            TestPageNavigationService.AfterNextPop = null;
+            TestPageNavigationService.ForceNextDoPopToReturnNull = false;
+        }
+    }
+
     private sealed class DestructionRecorder : IDestructible
     {
         public int Destroyed { get; private set; }
-        public void Destroy() => Destroyed++;
+        public bool ThrowOnDestroy { get; set; }
+        public void Destroy()
+        {
+            Destroyed++;
+            if (ThrowOnDestroy)
+                throw new InvalidOperationException("View model destruction failed.");
+        }
     }
     private PrismWindow CreateWindow(string route) => GetWindow(CreateBuilder(prism =>
         prism.RegisterTypes(container => container.RegisterForNavigation<MockPendingPage>("Pending").RegisterDialog<MockRootNavigationDialog>("RootDialog").RegisterForNavigation<MockRootNavigationFlyout>("RootFlyout").RegisterForNavigation<MockNavigateFromPage>("Source")
