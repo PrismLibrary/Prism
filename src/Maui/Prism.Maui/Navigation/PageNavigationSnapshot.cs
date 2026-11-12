@@ -64,6 +64,14 @@ internal sealed class PageNavigationSnapshot
         _modals.RemoveAt(_modals.Count - 1);
     }
 
+    internal void ExpectNavigationPop(NavigationPage navigation, Page page)
+    {
+        var stack = _navigation[navigation];
+        if (stack.Count <= 1 || stack.Last() != page)
+            throw new InvalidOperationException("The expected page is not at the top of the navigation stack.");
+        stack.RemoveAt(stack.Count - 1);
+    }
+
     internal bool CanRestore(IReadOnlyCollection<Page> createdPages) =>
         (_window.Page == _root || createdPages.Contains(_window.Page))
         && _window.Navigation.ModalStack.All(page => _modals.Contains(page) || createdPages.Contains(page))

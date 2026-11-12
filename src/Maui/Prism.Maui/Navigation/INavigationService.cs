@@ -32,14 +32,18 @@ public interface INavigationService
     Task<INavigationResult> GoBackToAsync(string viewName, INavigationParameters parameters);
 
     /// <summary>
-    /// Returns to the navigation root, or dismisses all modals when called from a modal context.
+    /// Returns to the selected navigation root or window content.
     /// </summary>
     /// <param name="parameters">The navigation parameters</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
     /// <remarks>
-    /// From a modal page or a child of a modal container, dismisses the entire modal stack in the
-    /// owning window and returns to the active child of Window.Page. The underlying navigation
-    /// stack is retained. Otherwise, pops to the root of the current NavigationPage.
+    /// The KnownNavigationParameters.GoBackToRootBehavior parameter accepts a GoBackToRootBehavior value.
+    /// Default preserves local pop-to-root behavior when the caller is inside a NavigationPage,
+    /// including a modal NavigationPage. From a plain modal it dismisses all modals and reveals
+    /// the active window content without clearing its navigation history. WindowContent explicitly
+    /// dismisses all modals and preserves that history. WindowNavigationRoot additionally pops
+    /// the window's active NavigationPage to its root. Flyout detail and the selected tab are
+    /// followed; inactive tabs, menu content, and tab selection are retained.
     /// Only the calling page confirms navigation. A rejected or canceled confirmation leaves
     /// the stacks unchanged. A stack change during confirmation rejects the request without
     /// removing the newly presented pages. Native pop failures restore owned stack changes

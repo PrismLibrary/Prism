@@ -44,6 +44,9 @@ public static class KnownNavigationParameters
     /// <remarks>Navigation is animated by default. Set this parameter to <see langword="false"/> to disable animation.</remarks>
     public const string Animated = "animated";
 
+    /// <summary>Identifies the <see cref="Prism.Navigation.GoBackToRootBehavior"/> used by GoBackToRootAsync.</summary>
+    public const string GoBackToRootBehavior = "goBackToRootBehavior";
+
     /// <summary>
     /// Identifies the command parameter supplied to a XAML navigation command.
     /// </summary>

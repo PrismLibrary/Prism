@@ -39,7 +39,8 @@ public class GoBackToRootTests : TestBase
 
         var result = await service.GoBackToRootAsync(new NavigationParameters
         {
-            { "value", value }, { KnownNavigationParameters.Animated, false }
+            { "value", value }, { KnownNavigationParameters.Animated, false },
+            { KnownNavigationParameters.GoBackToRootBehavior, GoBackToRootBehavior.WindowContent }
         });
 
         Assert.True(result.Success, result.Exception?.ToString());
@@ -76,7 +77,7 @@ public class GoBackToRootTests : TestBase
         var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
         var modals = window.Navigation.ModalStack.ToArray();
         current.Decision = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        var operation = GetService(current).GoBackToRootAsync();
+        var operation = GetService(current).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
         await current.ConfirmationStarted.Task;
         Assert.Same(modals.Last(), window.PendingModalConfirmation);
         Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
@@ -91,7 +92,7 @@ public class GoBackToRootTests : TestBase
         Assert.Equal(0, current.Destroyed);
         Assert.Null(window.PendingModalConfirmation);
         current.Decision = null;
-        Assert.True((await GetService(current).GoBackToRootAsync()).Success);
+        Assert.True((await GetService(current).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
     }
 
     [Theory]
@@ -123,10 +124,10 @@ public class GoBackToRootTests : TestBase
         var viewModel = Assert.IsType<Prism.DryIoc.Maui.Tests.Mocks.ViewModels.MockViewBViewModel>(current.BindingContext);
         viewModel.StopNavigation = true;
 
-        Assert.False((await GetService(current).GoBackToRootAsync()).Success);
+        Assert.False((await GetService(current).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
         Assert.Same(current, Assert.Single(window.Navigation.ModalStack));
         viewModel.StopNavigation = false;
-        Assert.True((await GetService(current).GoBackToRootAsync()).Success);
+        Assert.True((await GetService(current).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
     }
 
     [Fact]
@@ -137,11 +138,11 @@ public class GoBackToRootTests : TestBase
         var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
         TestPageNavigationService.ForceNextDoPopToReturnNull = true;
 
-        Assert.False((await GetService(current).GoBackToRootAsync()).Success);
+        Assert.False((await GetService(current).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
         Assert.Same(current, Assert.Single(window.Navigation.ModalStack));
         Assert.Equal(0, current.Destroyed);
         Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
-        Assert.True((await GetService(current).GoBackToRootAsync()).Success);
+        Assert.True((await GetService(current).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
     }
     [Fact]
     public async Task DialogAboveModal_IsPreservedUntilItsNormalCloseLifecycle()
@@ -159,7 +160,7 @@ public class GoBackToRootTests : TestBase
         try
         {
             view.AllowClose = false;
-            Assert.False((await service.GoBackToRootAsync()).Success);
+            Assert.False((await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
             Assert.Equal(original, window.Navigation.ModalStack);
             Assert.Contains(dialog, IDialogContainer.DialogStack);
             Assert.Equal(0, view.Closed);
@@ -171,7 +172,7 @@ public class GoBackToRootTests : TestBase
             Assert.Equal(ButtonResult.OK, (await resultReceived.Task.WaitAsync(TimeSpan.FromSeconds(5))).Result);
             Assert.Equal(1, view.Closed);
             Assert.DoesNotContain(dialog, IDialogContainer.DialogStack);
-            Assert.True((await service.GoBackToRootAsync()).Success);
+            Assert.True((await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
             Assert.Empty(window.Navigation.ModalStack);
         }
         finally
@@ -188,7 +189,7 @@ public class GoBackToRootTests : TestBase
         var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
         current.Decision = new(TaskCreationOptions.RunContinuationsAsynchronously);
         var service = GetService(current);
-        var operation = service.GoBackToRootAsync();
+        var operation = service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
         await current.ConfirmationStarted.Task;
         var unrelated = new ContentPage();
         await window.Navigation.PushModalAsync(unrelated, false);
@@ -202,7 +203,7 @@ public class GoBackToRootTests : TestBase
         Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
         await window.Navigation.PopModalAsync(false);
         current.Decision = null;
-        Assert.True((await service.GoBackToRootAsync()).Success);
+        Assert.True((await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
     }
 
     [Theory]
@@ -228,7 +229,7 @@ public class GoBackToRootTests : TestBase
             return Task.CompletedTask;
         };
 
-        Assert.False((await service.GoBackToRootAsync()).Success);
+        Assert.False((await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
         Assert.Equal(original, window.Navigation.ModalStack);
         for (var i = 0; i < pages.Length; i++)
         {
@@ -238,7 +239,7 @@ public class GoBackToRootTests : TestBase
         }
         Assert.Same(current, window.CurrentPage);
         Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
-        Assert.True((await service.GoBackToRootAsync()).Success);
+        Assert.True((await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
     }
 
     [Fact]
@@ -251,7 +252,7 @@ public class GoBackToRootTests : TestBase
         var pages = modal.Children.Cast<MockNavigateFromPage>().ToArray();
         var fromCounts = pages.Select(p => p.NavigatedFromCount).ToArray();
 
-        Assert.True((await GetService(window.CurrentPage).GoBackToRootAsync()).Success);
+        Assert.True((await GetService(window.CurrentPage).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
         Assert.Empty(window.Navigation.ModalStack);
         for (var i = 0; i < pages.Length; i++)
         {
@@ -269,7 +270,7 @@ public class GoBackToRootTests : TestBase
         var pages = PageNavigationHistory.GetPages(modal, true).OfType<MockNavigateFromPage>().ToArray();
         var fromCounts = pages.Select(p => p.NavigatedFromCount).ToArray();
 
-        Assert.True((await GetService(window.CurrentPage).GoBackToRootAsync()).Success);
+        Assert.True((await GetService(window.CurrentPage).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
         Assert.Empty(window.Navigation.ModalStack);
         for (var i = 0; i < pages.Length; i++)
         {
@@ -320,7 +321,7 @@ public class GoBackToRootTests : TestBase
         };
         TestPageNavigationService.AfterNextPop = afterPop;
 
-        var result = await GetService(removed.Last()).GoBackToRootAsync();
+        var result = await GetService(removed.Last()).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
 
         Assert.False(result.Success);
         Assert.Collection(window.Navigation.ModalStack,
@@ -345,7 +346,7 @@ public class GoBackToRootTests : TestBase
         Assert.Null(window.PendingRootModalConfirmations);
         Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
         await window.Navigation.PopModalAsync(false);
-        Assert.True((await GetService(retained).GoBackToRootAsync()).Success);
+        Assert.True((await GetService(retained).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
     }
 
     [Theory]
@@ -369,7 +370,7 @@ public class GoBackToRootTests : TestBase
             externallyChangedStack = window.Navigation.ModalStack.ToArray();
         };
 
-        Assert.False((await GetService(current).GoBackToRootAsync()).Success);
+        Assert.False((await GetService(current).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
 
         Assert.Equal(fromCount, current.NavigatedFromCount);
         Assert.Equal(0, current.Destroyed);
@@ -419,7 +420,7 @@ public class GoBackToRootTests : TestBase
             Assert.Same(secondWindow, current.GetParentWindow());
         };
 
-        var result = await service.GoBackToRootAsync();
+        var result = await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
 
         Assert.False(result.Success);
         if (changeOriginStack)
@@ -473,7 +474,7 @@ public class GoBackToRootTests : TestBase
             return Task.CompletedTask;
         };
 
-        var result = await service.GoBackToRootAsync();
+        var result = await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
 
         Assert.False(result.Success);
         Assert.Empty(window.Navigation.ModalStack);
@@ -508,7 +509,7 @@ public class GoBackToRootTests : TestBase
         var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
         current.Decision = new(TaskCreationOptions.RunContinuationsAsynchronously);
         var service = GetService(current);
-        var operation = service.GoBackToRootAsync();
+        var operation = service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
         await current.ConfirmationStarted.Task;
         var unrelated = new MockNavigateFromPage { Title = "External menu" };
         if (replaceMenu)
@@ -533,7 +534,7 @@ public class GoBackToRootTests : TestBase
         if (!replaceMenu)
             await menu.Navigation.PopAsync(false);
         current.Decision = null;
-        Assert.True((await service.GoBackToRootAsync()).Success);
+        Assert.True((await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
     }
 
     [Theory]
@@ -552,7 +553,7 @@ public class GoBackToRootTests : TestBase
         })).Success);
         var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
 
-        var result = await GetService(current).GoBackToRootAsync();
+        var result = await GetService(current).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
 
         Assert.False(result.Success);
         Assert.Empty(window.Navigation.ModalStack);
@@ -585,7 +586,7 @@ public class GoBackToRootTests : TestBase
         var unrelated = new MockNavigateFromPage { Title = "External tab" };
         current.Decision = new(TaskCreationOptions.RunContinuationsAsynchronously);
         var service = GetService(current);
-        var operation = service.GoBackToRootAsync();
+        var operation = service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
         await current.ConfirmationStarted.Task;
         if (mutation == "remove")
             modal.Children.Remove(inactive);
@@ -620,7 +621,7 @@ public class GoBackToRootTests : TestBase
             modal.Children.Add(inactive);
         }
         current.Decision = null;
-        Assert.True((await service.GoBackToRootAsync()).Success);
+        Assert.True((await service.GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent))).Success);
     }
     [Theory]
     [InlineData("NavigationPage?useModalNavigation=true/Middle/Current")]
@@ -638,7 +639,7 @@ public class GoBackToRootTests : TestBase
         var containerModel = new DestructionRecorder();
         modal.BindingContext = containerModel;
 
-        var result = await GetService(window.CurrentPage).GoBackToRootAsync();
+        var result = await GetService(window.CurrentPage).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
 
         Assert.False(result.Success);
         Assert.Empty(window.Navigation.ModalStack);
@@ -679,7 +680,7 @@ public class GoBackToRootTests : TestBase
         var token = aggregator.Subscribe(events.Add);
         try
         {
-            var operation = GetService(lower).GoBackToRootAsync();
+            var operation = GetService(lower).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowContent));
             await lower.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
             var deviceRequests = new List<Task>();
             if (wrapped)
@@ -730,6 +731,316 @@ public class GoBackToRootTests : TestBase
         }
     }
 
+    private static NavigationParameters RootParameters(GoBackToRootBehavior behavior) => new()
+    {
+        { KnownNavigationParameters.GoBackToRootBehavior, behavior }
+    };
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task ModalNavigation_DefaultRetainsModalAndPopsItsOwnStack(bool explicitDefault)
+    {
+        var window = CreateWindow("Source");
+        var home = window.Page;
+        Assert.True((await GetService(home).NavigateAsync("NavigationPage/Middle/Current/Destination")).Success);
+        var navigation = Assert.IsAssignableFrom<NavigationPage>(Assert.Single(window.Navigation.ModalStack));
+        var root = Assert.IsType<MockNavigateFromPage>(navigation.RootPage);
+        var caller = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var removed = navigation.Navigation.NavigationStack.Skip(1).Cast<MockNavigateFromPage>().ToArray();
+        var confirmations = caller.Confirmations;
+        var arrivals = root.NavigatedToCount;
+        var parameters = explicitDefault ? RootParameters(GoBackToRootBehavior.Default) : new NavigationParameters();
+        var value = new object();
+        parameters.Add("value", value);
+
+        var result = await GetService(caller).GoBackToRootAsync(parameters);
+
+        Assert.True(result.Success, result.Exception?.ToString());
+        Assert.Same(home, window.Page);
+        Assert.Same(navigation, Assert.Single(window.Navigation.ModalStack));
+        Assert.Same(root, Assert.Single(navigation.Navigation.NavigationStack));
+        Assert.Same(root, window.CurrentPage);
+        Assert.Equal(confirmations + 1, caller.Confirmations);
+        Assert.Equal(arrivals + 1, root.NavigatedToCount);
+        Assert.Same(value, root.ReceivedParameters.GetValue<object>("value"));
+        Assert.Equal(Prism.Navigation.NavigationMode.Back, root.ReceivedParameters.GetNavigationMode());
+        Assert.Equal(0, root.Destroyed);
+        Assert.All(removed, page => Assert.Equal(1, page.Destroyed));
+    }
+
+    [Theory]
+    [InlineData(GoBackToRootBehavior.Default)]
+    [InlineData(GoBackToRootBehavior.WindowContent)]
+    [InlineData(GoBackToRootBehavior.WindowNavigationRoot)]
+    public async Task PlainModalAboveModalNavigation_AllBehaviorsReturnToHome(GoBackToRootBehavior behavior)
+    {
+        var window = CreateWindow("Source");
+        var home = Assert.IsType<MockNavigateFromPage>(window.Page);
+        Assert.True((await GetService(home).NavigateAsync("NavigationPage/Middle/Current/Destination")).Success);
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync("Modal?useModalNavigation=true")).Success);
+        var departing = window.Navigation.ModalStack.SelectMany(p => PageNavigationHistory.GetPages(p, true))
+            .OfType<MockNavigateFromPage>().ToArray();
+        var caller = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var confirmations = caller.Confirmations;
+        var arrivals = home.NavigatedToCount;
+
+        var result = await GetService(caller).GoBackToRootAsync(RootParameters(behavior));
+
+        Assert.True(result.Success, result.Exception?.ToString());
+        Assert.Empty(window.Navigation.ModalStack);
+        Assert.Same(home, window.CurrentPage);
+        Assert.Equal(arrivals + 1, home.NavigatedToCount);
+        Assert.Equal(confirmations + 1, caller.Confirmations);
+        Assert.Equal(0, home.Destroyed);
+        Assert.All(departing, page => Assert.Equal(1, page.Destroyed));
+    }
+
+    public static IEnumerable<object[]> WindowNavigationCases()
+    {
+        foreach (var root in new[] { "navigation", "flyout", "tabbed" })
+        foreach (var behavior in new[] { GoBackToRootBehavior.Default, GoBackToRootBehavior.WindowContent, GoBackToRootBehavior.WindowNavigationRoot })
+            yield return new object[] { root, behavior };
+    }
+
+    [Theory]
+    [MemberData(nameof(WindowNavigationCases))]
+    public async Task PlainModal_RespectsWindowScopeAndPreservesInactiveBranches(string rootKind, GoBackToRootBehavior behavior)
+    {
+        var route = rootKind switch
+        {
+            "flyout" => "RootFlyout/NavigationPage/Source/Middle/Current/Destination",
+            "tabbed" => "TabbedPage?createTab=NavigationPage|Middle|Current&createTab=NavigationPage|Source|Middle|Current|Destination",
+            _ => "NavigationPage/Source/Middle/Current/Destination"
+        };
+        var window = CreateWindow(route);
+        var tabs = window.Page as Microsoft.Maui.Controls.TabbedPage;
+        if (tabs is not null)
+            tabs.CurrentPage = tabs.Children[1];
+        var activeNavigation = window.Page switch
+        {
+            Microsoft.Maui.Controls.TabbedPage tabbed => (NavigationPage)tabbed.CurrentPage,
+            FlyoutPage flyout => (NavigationPage)flyout.Detail,
+            _ => (NavigationPage)window.Page
+        };
+        var original = activeNavigation.Navigation.NavigationStack.Cast<MockNavigateFromPage>().ToArray();
+        var inactive = tabs is null ? Array.Empty<Page>() : ((NavigationPage)tabs.Children[0]).Navigation.NavigationStack.ToArray();
+        var selected = tabs?.CurrentPage;
+        var menu = (window.Page as FlyoutPage)?.Flyout;
+        var priorCurrent = original.Last();
+        Assert.True((await GetService(priorCurrent).NavigateAsync("Modal?useModalNavigation=true")).Success);
+        var caller = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var callerConfirmations = caller.Confirmations;
+        var priorArrivals = original.Select(p => p.NavigatedToCount).ToArray();
+        var priorConfirmations = original.Select(p => p.Confirmations).ToArray();
+        var value = new object();
+        var parameters = RootParameters(behavior);
+        parameters.Add("value", value);
+        parameters.Add(KnownNavigationParameters.Animated, false);
+
+        var result = await GetService(caller).GoBackToRootAsync(parameters);
+
+        Assert.True(result.Success, result.Exception?.ToString());
+        Assert.Empty(window.Navigation.ModalStack);
+        var popToRoot = behavior == GoBackToRootBehavior.WindowNavigationRoot;
+        var destination = popToRoot ? original[0] : priorCurrent;
+        Assert.Same(destination, window.CurrentPage);
+        Assert.Equal(popToRoot ? original.Take(1) : original, activeNavigation.Navigation.NavigationStack);
+        Assert.Equal(callerConfirmations + 1, caller.Confirmations);
+        Assert.Equal(1, caller.Destroyed);
+        Assert.Equal(0, destination.Destroyed);
+        Assert.Same(value, destination.ReceivedParameters.GetValue<object>("value"));
+        Assert.Equal(Prism.Navigation.NavigationMode.Back, destination.ReceivedParameters.GetNavigationMode());
+        for (var i = 0; i < original.Length; i++)
+        {
+            Assert.Equal(priorConfirmations[i], original[i].Confirmations);
+            Assert.Equal(priorArrivals[i] + (original[i] == destination ? 1 : 0), original[i].NavigatedToCount);
+            Assert.Equal(popToRoot && i > 0 ? 1 : 0, original[i].Destroyed);
+        }
+        if (tabs is not null)
+        {
+            Assert.Same(selected, tabs.CurrentPage);
+            Assert.Equal(inactive, ((NavigationPage)tabs.Children[0]).Navigation.NavigationStack);
+            Assert.All(inactive.Cast<MockNavigateFromPage>(), page => Assert.Equal(0, page.Destroyed));
+        }
+        if (menu is not null)
+        {
+            Assert.Same(menu, ((FlyoutPage)window.Page).Flyout);
+            Assert.Equal(0, ((MockNavigateFromPage)menu).Destroyed);
+        }
+    }
+
+    [Theory]
+    [InlineData(GoBackToRootBehavior.Default)]
+    [InlineData(GoBackToRootBehavior.WindowContent)]
+    [InlineData(GoBackToRootBehavior.WindowNavigationRoot)]
+    public async Task WindowScope_ConfirmationVetoLeavesBothStacksUntouched(GoBackToRootBehavior behavior)
+    {
+        var window = CreateWindow("NavigationPage/Source/Middle/Current/Destination");
+        var navigation = (NavigationPage)window.Page;
+        var stack = navigation.Navigation.NavigationStack.ToArray();
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync("Modal?useModalNavigation=true")).Success);
+        var modal = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        modal.AllowNavigation = false;
+
+        var result = await GetService(modal).GoBackToRootAsync(RootParameters(behavior));
+
+        Assert.False(result.Success);
+        Assert.Equal(stack, navigation.Navigation.NavigationStack);
+        Assert.Same(modal, Assert.Single(window.Navigation.ModalStack));
+        Assert.Equal(0, modal.Destroyed);
+        Assert.All(stack.Cast<MockNavigateFromPage>(), page => Assert.Equal(0, page.Destroyed));
+    }
+
+    [Theory]
+    [InlineData(GoBackToRootBehavior.Default)]
+    [InlineData(GoBackToRootBehavior.WindowContent)]
+    [InlineData(GoBackToRootBehavior.WindowNavigationRoot)]
+    public async Task NonmodalWindowNavigation_ExplicitBehaviorSelectsExpectedDestination(GoBackToRootBehavior behavior)
+    {
+        var window = CreateWindow("NavigationPage/Source/Middle/Current/Destination");
+        var navigation = (NavigationPage)window.Page;
+        var stack = navigation.Navigation.NavigationStack.Cast<MockNavigateFromPage>().ToArray();
+
+        var result = await GetService(window.CurrentPage).GoBackToRootAsync(RootParameters(behavior));
+
+        Assert.True(result.Success, result.Exception?.ToString());
+        var retain = behavior == GoBackToRootBehavior.WindowContent;
+        Assert.Same(retain ? stack.Last() : stack[0], window.CurrentPage);
+        Assert.Equal(retain ? stack : stack.Take(1), navigation.Navigation.NavigationStack);
+        Assert.All(stack.Skip(1), page => Assert.Equal(retain ? 0 : 1, page.Destroyed));
+    }
+
+    [Fact]
+    public async Task InvalidRootBehavior_DoesNotMutateStacksOrDestroyPages()
+    {
+        var window = CreateWindow("NavigationPage/Source/Middle");
+        var stack = window.Page.Navigation.NavigationStack.ToArray();
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync("Modal?useModalNavigation=true")).Success);
+        var modal = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+
+        var result = await GetService(modal).GoBackToRootAsync(RootParameters((GoBackToRootBehavior)999));
+
+        Assert.False(result.Success);
+        Assert.Equal(stack, window.Page.Navigation.NavigationStack);
+        Assert.Same(modal, Assert.Single(window.Navigation.ModalStack));
+        Assert.Equal(0, modal.Destroyed);
+    }
+
+    [Theory]
+    [InlineData(GoBackToRootBehavior.WindowContent)]
+    [InlineData(GoBackToRootBehavior.WindowNavigationRoot)]
+    public async Task ModalNavigation_ExplicitWindowScopeEscapesLocalNavigation(GoBackToRootBehavior behavior)
+    {
+        var window = CreateWindow("NavigationPage/Source/Middle/Current/Destination");
+        var underlying = (NavigationPage)window.Page;
+        var stack = underlying.Navigation.NavigationStack.ToArray();
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync(
+            "NavigationPage?useModalNavigation=true/Middle/Current")).Success);
+        var modal = Assert.IsAssignableFrom<NavigationPage>(Assert.Single(window.Navigation.ModalStack));
+        var removed = modal.Navigation.NavigationStack.Cast<MockNavigateFromPage>().ToArray();
+
+        var result = await GetService(window.CurrentPage).GoBackToRootAsync(RootParameters(behavior));
+
+        Assert.True(result.Success, result.Exception?.ToString());
+        Assert.Empty(window.Navigation.ModalStack);
+        var popToRoot = behavior == GoBackToRootBehavior.WindowNavigationRoot;
+        Assert.Same(popToRoot ? stack[0] : stack.Last(), window.CurrentPage);
+        Assert.Equal(popToRoot ? stack.Take(1) : stack, underlying.Navigation.NavigationStack);
+        Assert.All(removed, page => Assert.Equal(1, page.Destroyed));
+    }
+
+    [Theory]
+    [InlineData(GoBackToRootBehavior.Default)]
+    [InlineData(GoBackToRootBehavior.WindowContent)]
+    [InlineData(GoBackToRootBehavior.WindowNavigationRoot)]
+    public async Task PlainActiveTab_AllBehaviorsKeepSelectedTab(GoBackToRootBehavior behavior)
+    {
+        var window = CreateWindow("TabbedPage?createTab=Source&createTab=Destination");
+        var tabs = Assert.IsAssignableFrom<Microsoft.Maui.Controls.TabbedPage>(window.Page);
+        tabs.CurrentPage = tabs.Children[1];
+        var selected = Assert.IsType<MockNavigateFromPage>(tabs.CurrentPage);
+        var other = Assert.IsType<MockNavigateFromPage>(tabs.Children[0]);
+        Assert.True((await GetService(selected).NavigateAsync("Modal?useModalNavigation=true")).Success);
+
+        var result = await GetService(window.CurrentPage).GoBackToRootAsync(RootParameters(behavior));
+
+        Assert.True(result.Success, result.Exception?.ToString());
+        Assert.Empty(window.Navigation.ModalStack);
+        Assert.Same(selected, tabs.CurrentPage);
+        Assert.Same(selected, window.CurrentPage);
+        Assert.Equal(0, selected.Destroyed);
+        Assert.Equal(0, other.Destroyed);
+    }
+
+    [Fact]
+    public async Task NestedModalNavigation_DefaultLeavesOuterModalHistoryUntouched()
+    {
+        var window = CreateWindow("Source");
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync("NavigationPage/Middle/Current")).Success);
+        var outer = Assert.IsAssignableFrom<NavigationPage>(Assert.Single(window.Navigation.ModalStack));
+        var outerStack = outer.Navigation.NavigationStack.ToArray();
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync(
+            "NavigationPage?useModalNavigation=true/Source/Middle/Current")).Success);
+        var inner = Assert.IsAssignableFrom<NavigationPage>(window.Navigation.ModalStack.Last());
+        var root = inner.RootPage;
+
+        var result = await GetService(window.CurrentPage).GoBackToRootAsync();
+
+        Assert.True(result.Success, result.Exception?.ToString());
+        Assert.Equal(new Page[] { outer, inner }, window.Navigation.ModalStack);
+        Assert.Equal(outerStack, outer.Navigation.NavigationStack);
+        Assert.Same(root, Assert.Single(inner.Navigation.NavigationStack));
+        Assert.Same(root, window.CurrentPage);
+        Assert.All(outerStack.Cast<MockNavigateFromPage>(), page => Assert.Equal(0, page.Destroyed));
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task WindowNavigationRoot_FailedUnderlyingPopRestoresBothStacks(bool failAfterMutation)
+    {
+        var window = CreateWindow("NavigationPage/Source/Middle/Current/Destination");
+        var navigation = (NavigationPage)window.Page;
+        var stack = navigation.Navigation.NavigationStack.Cast<MockNavigateFromPage>().ToArray();
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync("Modal?useModalNavigation=true")).Success);
+        var modal = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var pages = stack.Append(modal).ToArray();
+        var fromCounts = pages.Select(p => p.NavigatedFromCount).ToArray();
+        var toCounts = pages.Select(p => p.NavigatedToCount).ToArray();
+        TestPageNavigationService.AfterNextPop = () =>
+        {
+            if (failAfterMutation)
+                TestPageNavigationService.AfterNextPop = () => throw new InvalidOperationException("Underlying pop failed after mutation.");
+            else
+                TestPageNavigationService.ForceNextDoPopToReturnNull = true;
+            return Task.CompletedTask;
+        };
+        try
+        {
+            var result = await GetService(modal).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowNavigationRoot));
+
+            Assert.False(result.Success);
+            Assert.Equal(stack, navigation.Navigation.NavigationStack);
+            Assert.Same(modal, Assert.Single(window.Navigation.ModalStack));
+            Assert.Same(modal, window.CurrentPage);
+            for (var index = 0; index < pages.Length; index++)
+            {
+                Assert.Equal(0, pages[index].Destroyed);
+                Assert.Equal(fromCounts[index], pages[index].NavigatedFromCount);
+                Assert.Equal(toCounts[index], pages[index].NavigatedToCount);
+            }
+            Assert.True((await GetService(modal).GoBackToRootAsync(RootParameters(GoBackToRootBehavior.WindowNavigationRoot))).Success);
+            Assert.Empty(window.Navigation.ModalStack);
+            Assert.Same(stack[0], Assert.Single(navigation.Navigation.NavigationStack));
+        }
+        finally
+        {
+            TestPageNavigationService.AfterNextPop = null;
+            TestPageNavigationService.ForceNextDoPopToReturnNull = false;
+        }
+    }
+
     private sealed class DestructionRecorder : IDestructible
     {
         public int Destroyed { get; private set; }
@@ -739,7 +1050,8 @@ public class GoBackToRootTests : TestBase
         prism.RegisterTypes(container => container.RegisterForNavigation<MockPendingPage>("Pending").RegisterDialog<MockRootNavigationDialog>("RootDialog").RegisterForNavigation<MockRootNavigationFlyout>("RootFlyout").RegisterForNavigation<MockNavigateFromPage>("Source")
             .RegisterForNavigation<MockNavigateFromPage>("Middle")
             .RegisterForNavigation<MockNavigateFromPage>("Current")
-            .RegisterForNavigation<MockNavigateFromPage>("Destination"))
+            .RegisterForNavigation<MockNavigateFromPage>("Destination")
+            .RegisterForNavigation<MockNavigateFromPage>("Modal"))
         .CreateWindow(route)).Build());
 
     private static INavigationService GetService(Page page) =>
