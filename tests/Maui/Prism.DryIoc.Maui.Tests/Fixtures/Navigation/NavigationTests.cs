@@ -659,8 +659,9 @@ public class NavigationTests : TestBase
         var result = await navigationService.GoBackToRootAsync();
 
         Assert.True(result.Success);
-        Assert.IsType<MockViewA>(window.CurrentPage);
-        Assert.Empty(window.Navigation.ModalStack);
+        Assert.IsType<MockViewB>(window.CurrentPage);
+        var modal = Assert.IsAssignableFrom<NavigationPage>(Assert.Single(window.Navigation.ModalStack));
+        Assert.Same(window.CurrentPage, Assert.Single(modal.Navigation.NavigationStack));
     }
 
     [Fact]
