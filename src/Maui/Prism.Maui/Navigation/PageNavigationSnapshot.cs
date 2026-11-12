@@ -47,6 +47,14 @@ internal sealed class PageNavigationSnapshot
         && _flyouts.All(pair => pair.Key.Detail == pair.Value.Detail)
         && _tabs.All(pair => pair.Key.CurrentPage == pair.Value);
 
+    internal void ExpectModalPop(Page modal)
+    {
+        if (_modals.LastOrDefault() != modal)
+            throw new InvalidOperationException("The expected modal is not at the top of the stack.");
+
+        _modals.RemoveAt(_modals.Count - 1);
+    }
+
     internal bool CanRestore(IReadOnlyCollection<Page> createdPages) =>
         (_window.Page == _root || createdPages.Contains(_window.Page))
         && _window.Navigation.ModalStack.All(page => _modals.Contains(page) || createdPages.Contains(page))

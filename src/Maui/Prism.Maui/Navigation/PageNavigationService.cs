@@ -314,6 +314,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
             var window = page?.GetParentWindow() ?? Window;
             var confirmationModal = window?.Navigation.ModalStack.LastOrDefault(modal =>
                 modal == page || PageNavigationHistory.IsDescendantOf(page, modal));
+            var snapshot = confirmationModal is null ? null : new PageNavigationSnapshot(window);
+            var modals = confirmationModal is null ? Array.Empty<Page>() : window.Navigation.ModalStack.Reverse().ToArray();
+            if (confirmationModal is not null && HasOpenDialog(window, modals))
+                throw new NavigationException("Close the dialog before returning to the window root.", page);
+
             var prismWindow = window as PrismWindow;
             bool canNavigate;
             if (confirmationModal is not null && prismWindow is not null)
@@ -334,26 +339,15 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
             if (confirmationModal is not null)
             {
-                var destination = MvvmHelpers.GetOnNavigatedToTargetFromChild(window.Page);
-                var modals = window.Navigation.ModalStack.Reverse().ToArray();
-                bool animate = !parameters.ContainsKey(KnownNavigationParameters.Animated) ||
-                    parameters.GetValue<bool>(KnownNavigationParameters.Animated);
-                NavigationSource = PageNavigationSource.NavigationService;
-                foreach (var modal in modals)
-                {
-                    var departingPages = PageNavigationHistory.GetPages(modal).Reverse().ToArray();
-                    var popped = await DoPop(window.Navigation, true, animate);
-                    if (popped != modal)
-                        throw new NavigationException(NavigationException.UnsupportedMauiNavigation, page);
+                if (!snapshot.IsCurrent)
+                    throw new NavigationException("The navigation stack changed while confirmation was pending.", page);
+                if (HasOpenDialog(window, modals))
+                    throw new NavigationException("Close the dialog before returning to the window root.", page);
 
-                    foreach (var departingPage in departingPages)
-                        MvvmHelpers.OnNavigatedFrom(departingPage, parameters);
-                    MvvmHelpers.DestroyPage(modal);
-                }
-
-                MvvmHelpers.OnNavigatedTo(destination, parameters);
+                await PopModalsToWindowRootAsync(window, page, modals, snapshot, parameters);
                 return Notify(NavigationRequestType.GoToRoot, parameters);
             }
+
             var pagesToDestroy = page.Navigation.NavigationStack.ToList(); // get all pages to destroy
             pagesToDestroy.Reverse(); // destroy them in reverse order
             var root = pagesToDestroy.Last();
@@ -386,6 +380,81 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    private static bool HasOpenDialog(Window window, IReadOnlyCollection<Page> modals) =>
+        modals.Any(modal => modal is IDialogContainer) ||
+        IDialogContainer.DialogStack.Any(dialog =>
+            DialogServiceBase.GetDialogPage(dialog)?.GetParentWindow() == window);
+
+    private async Task PopModalsToWindowRootAsync(Window window, Page page, IReadOnlyList<Page> modals,
+        PageNavigationSnapshot snapshot, INavigationParameters parameters)
+    {
+        var destination = MvvmHelpers.GetOnNavigatedToTargetFromChild(window.Page);
+        var departingPages = modals.SelectMany(modal => PageNavigationHistory.GetPages(modal, true).Reverse())
+            .Distinct().ToArray();
+        bool animated = !parameters.ContainsKey(KnownNavigationParameters.Animated) ||
+            parameters.GetValue<bool>(KnownNavigationParameters.Animated);
+        var expected = new PageNavigationSnapshot(window);
+        var externalChange = false;
+        NavigationSource = PageNavigationSource.NavigationService;
+        try
+        {
+            foreach (var modal in modals)
+            {
+                if (!expected.IsCurrent || HasOpenDialog(window, window.Navigation.ModalStack.ToArray()))
+                {
+                    externalChange = true;
+                    throw new NavigationException("Another navigation changed the stack during the root request.", page);
+                }
+
+                var beforePop = new PageNavigationSnapshot(window);
+                expected.ExpectModalPop(modal);
+                Page popped;
+                try
+                {
+                    popped = await DoPop(window.Navigation, true, animated);
+                }
+                catch
+                {
+                    // A native pop can fail before or after mutating the stack. Restore only
+                    // those two owned states; an unrelated push or root change must survive.
+                    externalChange = !beforePop.IsCurrent && !expected.IsCurrent;
+                    throw;
+                }
+
+                if (!expected.IsCurrent)
+                {
+                    externalChange = !beforePop.IsCurrent;
+                    throw new NavigationException(NavigationException.UnsupportedMauiNavigation, page);
+                }
+                if (popped != modal)
+                    throw new NavigationException(NavigationException.UnsupportedMauiNavigation, page);
+            }
+        }
+        catch (Exception navigationException)
+        {
+            if (!externalChange)
+            {
+                try
+                {
+                    await snapshot.RestoreAsync(DoPop, Array.Empty<Page>());
+                }
+                catch (Exception restoreException)
+                {
+                    throw new NavigationException("Unable to restore the modal stack after failed root navigation.", page,
+                        new AggregateException(navigationException, restoreException));
+                }
+            }
+            throw;
+        }
+
+        // Commit lifecycle changes only after every native pop has succeeded.
+        NavigationSource = PageNavigationSource.Device;
+        foreach (var departingPage in departingPages)
+            MvvmHelpers.OnNavigatedFrom(departingPage, parameters);
+        foreach (var modal in modals)
+            MvvmHelpers.DestroyPage(modal);
+        MvvmHelpers.OnNavigatedTo(destination, parameters);
+    }
     /// <summary>
     /// Initiates navigation to the target specified by the <paramref name="uri"/>.
     /// </summary>
