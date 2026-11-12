@@ -29,7 +29,9 @@ jobs:
       test-projects: |
         tests/Avalonia/Prism.Avalonia.Tests/Prism.Avalonia.Tests.csproj
         tests/Avalonia/Prism.DryIoc.Avalonia.Tests/Prism.DryIoc.Avalonia.Tests.csproj
-      dotnet-version: 10.0.100
+      dotnet-version: |
+        10.0.100
+        11.0.100
     secrets:
       nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
       nugetUserName: ${{ secrets.IN_HOUSE_USER }}

@@ -30,7 +30,9 @@ jobs:
         tests/Wpf/Prism.Wpf.Modularity.Tests/Prism.Wpf.Modularity.Tests.csproj
         tests/Wpf/Prism.DryIoc.Wpf.Tests/Prism.DryIoc.Wpf.Tests.csproj
         tests/Wpf/Prism.Unity.Wpf.Tests/Prism.Unity.Wpf.Tests.csproj
-      dotnet-version: 10.0.100
+      dotnet-version: |
+        10.0.100
+        11.0.100
     secrets:
       nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
       nugetUserName: ${{ secrets.IN_HOUSE_USER }}

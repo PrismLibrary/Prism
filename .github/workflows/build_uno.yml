@@ -27,10 +27,14 @@ jobs:
     uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@61adf86e5d3b2836b2b76fdb67cb71076521a9d7 # v2 with private feed URL secret support
     with:
       name: Build Prism.Uno
+      runs-on: windows-2025-vs2026
+      vs-version: '[18.7,19.0)'
       solution-path: PrismLibrary_Uno.slnf
       windows-sdk-version: 18362
-      dotnet-version: 10.0.100
-      install-workload: ios android macos maccatalyst wasm-tools tvos
+      dotnet-version: |
+        10.0.100
+        11.0.100
+      install-workload: ios android wasm-tools wasm-tools-net10 tvos --version 11.0.100
       uno-check: false
       uno-check-version: 1.33.1
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip androidemulator --skip androidsdk --skip vsmac --skip dotnetnewunotemplates'

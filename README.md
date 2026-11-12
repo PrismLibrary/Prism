@@ -86,8 +86,8 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 #### Uno Platform
 
-This release targets Uno 7 with `Uno.Sdk` pinned to `7.0.0-dev.81` and .NET 10.
-This is a specific exception to our N-1 support policy: Uno 7 is expected to ship
+This release targets stable Uno 7 with `Uno.Sdk` pinned to `7.0.5` and .NET 10.
+This is a specific exception to our N-1 support policy: Uno 7 ships
 alongside this Prism release, and its removal of the native rendering backend
 changes how Prism.Plugins must be packaged. The general N-1 policy is unchanged.
 Uno companion packages must match the versions in the pinned SDK's package manifest.
