@@ -296,11 +296,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
     }
 
     /// <summary>
-    /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
+    /// Returns to the navigation root, or dismisses all modals when called from a modal context.
     /// </summary>
     /// <param name="parameters">The navigation parameters</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
-    /// <remarks>Only works when called from a View within a NavigationPage</remarks>
+    /// <inheritdoc cref="INavigationService.GoBackToRootAsync" path="/remarks" />
     public virtual async Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters)
     {
         try
@@ -311,12 +311,49 @@ public class PageNavigationService : INavigationService, IRegistryAware
             parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
             var page = GetCurrentPage();
-            var canNavigate = await MvvmHelpers.CanNavigateAsync(page, parameters);
+            var window = page?.GetParentWindow() ?? Window;
+            var confirmationModal = window?.Navigation.ModalStack.LastOrDefault(modal =>
+                modal == page || PageNavigationHistory.IsDescendantOf(page, modal));
+            var prismWindow = window as PrismWindow;
+            bool canNavigate;
+            if (confirmationModal is not null && prismWindow is not null)
+                prismWindow.PendingModalConfirmation = confirmationModal;
+            try
+            {
+                canNavigate = await MvvmHelpers.CanNavigateAsync(page, parameters);
+            }
+            finally
+            {
+                if (confirmationModal is not null && prismWindow is not null)
+                    prismWindow.PendingModalConfirmation = null;
+            }
             if (!canNavigate)
             {
                 throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
             }
 
+            if (confirmationModal is not null)
+            {
+                var destination = MvvmHelpers.GetOnNavigatedToTargetFromChild(window.Page);
+                var modals = window.Navigation.ModalStack.Reverse().ToArray();
+                bool animate = !parameters.ContainsKey(KnownNavigationParameters.Animated) ||
+                    parameters.GetValue<bool>(KnownNavigationParameters.Animated);
+                NavigationSource = PageNavigationSource.NavigationService;
+                foreach (var modal in modals)
+                {
+                    var departingPages = PageNavigationHistory.GetPages(modal).Reverse().ToArray();
+                    var popped = await DoPop(window.Navigation, true, animate);
+                    if (popped != modal)
+                        throw new NavigationException(NavigationException.UnsupportedMauiNavigation, page);
+
+                    foreach (var departingPage in departingPages)
+                        MvvmHelpers.OnNavigatedFrom(departingPage, parameters);
+                    MvvmHelpers.DestroyPage(modal);
+                }
+
+                MvvmHelpers.OnNavigatedTo(destination, parameters);
+                return Notify(NavigationRequestType.GoToRoot, parameters);
+            }
             var pagesToDestroy = page.Navigation.NavigationStack.ToList(); // get all pages to destroy
             pagesToDestroy.Reverse(); // destroy them in reverse order
             var root = pagesToDestroy.Last();

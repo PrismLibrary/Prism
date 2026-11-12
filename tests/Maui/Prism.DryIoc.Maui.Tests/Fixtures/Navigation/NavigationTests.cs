@@ -659,7 +659,8 @@ public class NavigationTests : TestBase
         var result = await navigationService.GoBackToRootAsync();
 
         Assert.True(result.Success);
-        Assert.IsType<MockViewB>(window.CurrentPage);
+        Assert.IsType<MockViewA>(window.CurrentPage);
+        Assert.Empty(window.Navigation.ModalStack);
     }
 
     [Fact]
