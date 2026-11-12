@@ -48,6 +48,8 @@ public interface INavigationService
     /// lifecycle, and result callback. A modal root request with an open dialog fails without changing the stack.
     /// Removed pages, including inactive container children, receive OnNavigatedFrom and are destroyed; the
     /// retained destination receives OnNavigatedTo with the supplied parameters and Back mode.
+    /// Lifecycle errors are reported after native removal, with cleanup still attempted for every
+    /// removed modal container. They do not roll back the completed native navigation.
     /// No cancellation token is accepted. At a NavigationPage root, existing confirmation and
     /// destination notification behavior is retained.
     /// </remarks>

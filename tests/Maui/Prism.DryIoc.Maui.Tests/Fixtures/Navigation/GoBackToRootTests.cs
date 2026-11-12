@@ -299,6 +299,80 @@ public class GoBackToRootTests : TestBase
         Assert.Equal(0, current.Destroyed);
         Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
     }
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task InactiveFlyoutBranchChangedDuringConfirmation_IsPreserved(bool replaceMenu)
+    {
+        var window = CreateWindow("Source");
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync(
+            "RootFlyout?useModalNavigation=true/NavigationPage/Middle/Current")).Success);
+        var modal = Assert.IsType<MockRootNavigationFlyout>(window.Navigation.ModalStack.Last());
+        var menuRoot = new MockNavigateFromPage { Title = "Menu" };
+        var menu = new NavigationPage(menuRoot) { Title = "Menu" };
+        modal.Flyout = menu;
+        var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        current.Decision = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        var service = GetService(current);
+        var operation = service.GoBackToRootAsync();
+        await current.ConfirmationStarted.Task;
+        var unrelated = new MockNavigateFromPage { Title = "External menu" };
+        if (replaceMenu)
+            modal.Flyout = unrelated;
+        else
+            await menu.Navigation.PushAsync(unrelated, false);
+        current.Decision.SetResult(true);
+
+        Assert.False((await operation).Success);
+        Assert.Same(modal, Assert.Single(window.Navigation.ModalStack));
+        Assert.Equal(0, unrelated.Destroyed);
+        Assert.Equal(0, menuRoot.Destroyed);
+        Assert.Equal(0, current.Destroyed);
+        if (replaceMenu)
+            Assert.Same(unrelated, modal.Flyout);
+        else
+            Assert.Same(unrelated, menu.CurrentPage);
+        Assert.Null(window.PendingModalConfirmation);
+        Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
+
+        modal.Flyout = menu;
+        if (!replaceMenu)
+            await menu.Navigation.PopAsync(false);
+        current.Decision = null;
+        Assert.True((await service.GoBackToRootAsync()).Success);
+    }
+
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(true, true)]
+    public async Task LifecycleFailure_StillDestroysEveryRemovedModal(bool failDeparture, bool failDestroy)
+    {
+        var window = CreateWindow("Source");
+        var root = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        Assert.True((await GetService(root).NavigateAsync("Middle?useModalNavigation=true")).Success);
+        var middle = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        Assert.True((await GetService(middle).NavigateAsync("Current?useModalNavigation=true", new NavigationParameters
+        {
+            { "failDeparture", failDeparture }, { "failDestroy", failDestroy }
+        })).Success);
+        var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+
+        var result = await GetService(current).GoBackToRootAsync();
+
+        Assert.False(result.Success);
+        Assert.Empty(window.Navigation.ModalStack);
+        Assert.Same(root, window.CurrentPage);
+        Assert.Equal(1, current.Destroyed);
+        Assert.Equal(1, middle.Destroyed);
+        Assert.Equal(0, root.Destroyed);
+        if (failDeparture)
+            Assert.Contains("Departure failed.", result.Exception.ToString());
+        if (failDestroy)
+            Assert.Contains("Destroy failed.", result.Exception.ToString());
+        Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
+        Assert.True((await GetService(root).NavigateAsync("Destination?useModalNavigation=true")).Success);
+    }
     private PrismWindow CreateWindow(string route) => GetWindow(CreateBuilder(prism =>
         prism.RegisterTypes(container => container.RegisterDialog<MockRootNavigationDialog>("RootDialog").RegisterForNavigation<MockRootNavigationFlyout>("RootFlyout").RegisterForNavigation<MockNavigateFromPage>("Source")
             .RegisterForNavigation<MockNavigateFromPage>("Middle")
