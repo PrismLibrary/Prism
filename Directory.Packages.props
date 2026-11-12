@@ -34,7 +34,7 @@
     <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="8.0.1" />
     <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="7.0.1" />
     <PackageVersion Include="Uno.WinUI.Markup" Version="7.0.1" />
-    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" Version="4.0.0-dev.8" />
+    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" Version="4.0.1" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
   </ItemGroup>
