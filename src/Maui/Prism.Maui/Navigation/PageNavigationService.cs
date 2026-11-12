@@ -392,6 +392,10 @@ public class PageNavigationService : INavigationService, IRegistryAware
         IDialogContainer.DialogStack.Any(dialog =>
             DialogServiceBase.GetDialogPage(dialog)?.GetParentWindow() == window);
 
+    private static bool IsOwnedByAnotherWindow(Page page, Window window) =>
+        PageNavigationHistory.GetPages(page, true).Any(candidate =>
+            candidate.GetParentWindow() is Window owner && owner != window);
+
     private async Task PopModalsToWindowRootAsync(Window window, Page page, IReadOnlyList<Page> modals,
         PageNavigationSnapshot snapshot, INavigationParameters parameters)
     {
@@ -430,10 +434,13 @@ public class PageNavigationService : INavigationService, IRegistryAware
                     throw;
                 }
 
-                if (!expected.IsCurrent)
+                var transferred = attemptedModals.Any(attempted => IsOwnedByAnotherWindow(attempted, window));
+                if (!expected.IsCurrent || transferred)
                 {
-                    externalChange = !beforePop.IsCurrent;
-                    throw new NavigationException(NavigationException.UnsupportedMauiNavigation, page);
+                    externalChange = !beforePop.IsCurrent || transferred;
+                    throw new NavigationException(transferred
+                        ? "Another window took ownership of a modal during root navigation."
+                        : NavigationException.UnsupportedMauiNavigation, page);
                 }
                 if (popped != modal)
                     throw new NavigationException(NavigationException.UnsupportedMauiNavigation, page);
@@ -441,6 +448,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         catch (Exception navigationException)
         {
+            // A transfer can leave this window's stack exactly as expected. Never
+            // restore a captured page now owned by another window, even after a native exception.
+            externalChange |= attemptedModals.Any(modal => IsOwnedByAnotherWindow(modal, window));
             Exception failure = navigationException;
             if (!externalChange)
             {
@@ -457,10 +467,13 @@ public class PageNavigationService : INavigationService, IRegistryAware
             // An external change (or failed restoration) can leave owned pops committed.
             // Finalize only attempted modals whose entire subtree is still detached; an
             // external push, reparenting, or new window root must remain untouched.
+            // Parent ownership also protects transfers into another window, including
+            // windows that have not been registered with the window manager.
             var attachedPages = PageNavigationHistory.GetPages(window.Page, true)
                 .Concat(window.Navigation.ModalStack.SelectMany(modal => PageNavigationHistory.GetPages(modal, true)))
                 .ToHashSet();
             var detachedModals = attemptedModals.Where(modal =>
+                !IsOwnedByAnotherWindow(modal, window) &&
                 !PageNavigationHistory.GetPages(modal, true).Any(attachedPages.Contains)).ToArray();
             NavigationSource = PageNavigationSource.Device;
             var cleanupFailures = CompleteModalRemoval(detachedModals,
