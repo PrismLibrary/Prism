@@ -402,6 +402,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             parameters.GetValue<bool>(KnownNavigationParameters.Animated);
         var expected = new PageNavigationSnapshot(window);
         var externalChange = false;
+        var attemptedModals = new List<Page>();
         NavigationSource = PageNavigationSource.NavigationService;
         try
         {
@@ -415,6 +416,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
                 var beforePop = new PageNavigationSnapshot(window);
                 expected.ExpectModalPop(modal);
+                attemptedModals.Add(modal);
                 Page popped;
                 try
                 {
@@ -439,6 +441,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         catch (Exception navigationException)
         {
+            Exception failure = navigationException;
             if (!externalChange)
             {
                 try
@@ -447,15 +450,41 @@ public class PageNavigationService : INavigationService, IRegistryAware
                 }
                 catch (Exception restoreException)
                 {
-                    throw new NavigationException("Unable to restore the modal stack after failed root navigation.", page,
+                    failure = new NavigationException("Unable to restore the modal stack after failed root navigation.", page,
                         new AggregateException(navigationException, restoreException));
                 }
             }
+            // An external change (or failed restoration) can leave owned pops committed.
+            // Finalize only attempted modals whose entire subtree is still detached; an
+            // external push, reparenting, or new window root must remain untouched.
+            var attachedPages = PageNavigationHistory.GetPages(window.Page, true)
+                .Concat(window.Navigation.ModalStack.SelectMany(modal => PageNavigationHistory.GetPages(modal, true)))
+                .ToHashSet();
+            var detachedModals = attemptedModals.Where(modal =>
+                !PageNavigationHistory.GetPages(modal, true).Any(attachedPages.Contains)).ToArray();
+            NavigationSource = PageNavigationSource.Device;
+            var cleanupFailures = CompleteModalRemoval(detachedModals,
+                detachedModals.SelectMany(modal => PageNavigationHistory.GetPages(modal, true).Reverse()).Distinct().ToArray(),
+                null, parameters);
+            if (cleanupFailures.Count > 0)
+                throw new NavigationException("Unable to complete failed modal root navigation cleanup.", page,
+                    new AggregateException(new[] { failure }.Concat(cleanupFailures)));
+            if (failure != navigationException)
+                throw failure;
             throw;
         }
 
         // Commit lifecycle changes only after every native pop has succeeded.
         NavigationSource = PageNavigationSource.Device;
+        var lifecycleFailures = CompleteModalRemoval(modals, departingPages, destination, parameters);
+        if (lifecycleFailures.Count > 0)
+            throw new NavigationException("Unable to complete modal root navigation lifecycle callbacks.", page,
+                new AggregateException(lifecycleFailures));
+    }
+
+    private static List<Exception> CompleteModalRemoval(IReadOnlyList<Page> modals,
+        IEnumerable<Page> departingPages, Page destination, INavigationParameters parameters)
+    {
         var lifecycleFailures = new List<Exception>();
         try
         {
@@ -472,7 +501,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
             }
             try
             {
-                MvvmHelpers.OnNavigatedTo(destination, parameters);
+                if (destination is not null)
+                    MvvmHelpers.OnNavigatedTo(destination, parameters);
             }
             catch (Exception ex)
             {
@@ -490,9 +520,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
                 lifecycleFailures.Add(ex);
             }
         }
-        if (lifecycleFailures.Count > 0)
-            throw new NavigationException("Unable to complete modal root navigation lifecycle callbacks.", page,
-                new AggregateException(lifecycleFailures));
+        return lifecycleFailures;
     }
     /// <summary>
     /// Initiates navigation to the target specified by the <paramref name="uri"/>.
