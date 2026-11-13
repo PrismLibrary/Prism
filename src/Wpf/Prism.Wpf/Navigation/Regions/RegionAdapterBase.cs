@@ -36,9 +36,6 @@ namespace Prism.Navigation.Regions
                 throw new ArgumentNullException(nameof(regionName));
 
             IRegion region = CreateRegion();
-#if WINUI && !UNO_WINUI
-            NativeRegionScope.SetProvider(region, NativeRegionScope.RequireProvider(regionTarget as DependencyObject));
-#endif
             region.Name = regionName;
 
             SetObservableRegionOnHostingControl(region, regionTarget);
@@ -86,14 +83,7 @@ namespace Prism.Navigation.Regions
                 {
                     if (!region.Behaviors.ContainsKey(behaviorKey))
                     {
-#if WINUI && !UNO_WINUI
-                        var provider = NativeRegionScope.RequireProvider(region);
-                        IRegionBehavior behavior = behaviorFactory is RegionBehaviorFactory scopedFactory
-                            ? scopedFactory.CreateFromKey(behaviorKey, provider)
-                            : provider.Resolve<IRegionBehaviorFactory>().CreateFromKey(behaviorKey);
-#else
                         IRegionBehavior behavior = behaviorFactory.CreateFromKey(behaviorKey);
-#endif
 
                         if (dependencyObjectRegionTarget != null)
                         {

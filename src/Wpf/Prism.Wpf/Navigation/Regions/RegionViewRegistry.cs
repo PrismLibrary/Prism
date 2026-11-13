@@ -19,11 +19,7 @@ namespace Prism.Navigation.Regions
         /// Creates a new instance of the <see cref="RegionViewRegistry"/> class.
         /// </summary>
         /// <param name="container"><see cref="IContainerExtension"/> used to create the instance of the views from its <see cref="Type"/>.</param>
-#if WINUI && !UNO_WINUI
-        public RegionViewRegistry(IContainerProvider container)
-#else
         public RegionViewRegistry(IContainerExtension container)
-#endif
         {
             _container = container;
         }
@@ -61,11 +57,7 @@ namespace Prism.Navigation.Regions
         /// <param name="viewType">Content type to be registered for the <paramref name="regionName"/>.</param>
         public void RegisterViewWithRegion(string regionName, Type viewType)
         {
-#if WINUI && !UNO_WINUI
-            RegisterViewWithRegion(regionName, provider => CreateInstance(viewType, provider));
-#else
             RegisterViewWithRegion(regionName, _ => CreateInstance(viewType));
-#endif
         }
 
         /// <summary>
@@ -90,14 +82,10 @@ namespace Prism.Navigation.Regions
         public void RegisterViewWithRegion(string regionName, string targetName) =>
             RegisterViewWithRegion(regionName, c =>
             {
-#if WINUI && !UNO_WINUI
-                return c.Resolve<IRegionNavigationRegistry>().CreateView(c, targetName);
-#else
                 if (_container is IContainerRegistry container && container.IsRegistered<IRegionNavigationRegistry>())
                     return _container.Resolve<IRegionNavigationRegistry>().CreateView(c, targetName);
 
                 return c.Resolve<object>(targetName);
-#endif
             });
 
         /// <summary>
@@ -107,9 +95,6 @@ namespace Prism.Navigation.Regions
         /// <returns>Instance of the registered view.</returns>
         protected virtual object CreateInstance(Type type)
         {
-#if WINUI && !UNO_WINUI
-            return CreateInstance(type, _container);
-#else
             if (_container is IContainerRegistry container && container.IsRegistered<IRegionNavigationRegistry>())
             {
                 var registry = _container.Resolve<IRegionNavigationRegistry>();
@@ -120,23 +105,7 @@ namespace Prism.Navigation.Regions
             var view = _container.Resolve(type);
             MvvmHelpers.AutowireViewModel(view);
             return view;
-#endif
         }
-
-#if WINUI && !UNO_WINUI
-        internal static object CreateInstance(Type type, IContainerProvider provider)
-        {
-            var registry = provider.Resolve<IRegionNavigationRegistry>();
-            var registration = registry.Registrations.LastOrDefault(x => x.View == type);
-            if (registration is not null)
-                return registry.CreateView(provider, registration.Name);
-
-            var view = provider.Resolve(type);
-            NativeRegionScope.ConfigureView(view, provider);
-            Mvvm.ViewModelLocator.Autowire(view);
-            return view;
-        }
-#endif
 
         private void OnContentRegistered(ViewRegisteredEventArgs e)
         {

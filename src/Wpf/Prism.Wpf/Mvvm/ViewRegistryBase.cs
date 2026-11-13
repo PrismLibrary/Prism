@@ -26,12 +26,8 @@ public abstract class ViewRegistryBase : ViewRegistryBase<object>
     /// <inheritdoc />
     protected override void SetContainerProvider(object view, IContainerProvider container)
     {
-#if WINUI && !UNO_WINUI
-        Navigation.Regions.NativeRegionScope.ConfigureView(view, container);
-#else
         if (view is FrameworkElement element)
             element.SetValue(ViewModelLocator.ContainerProviderProperty, container);
-#endif
     }
 
     /// <inheritdoc />

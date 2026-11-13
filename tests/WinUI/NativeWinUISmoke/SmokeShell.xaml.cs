@@ -7,12 +7,11 @@ using Prism.Navigation.Regions;
 
 namespace NativeWinUISmoke;
 
-public sealed class SmokeShell : Grid, ILoadableShell
+public sealed partial class SmokeShell : Grid, ILoadableShell
 {
     public const string RegionName = "SmokeContent";
     public const string NestedRegionName = "NestedSmokeContent";
     private readonly SmokeState _state;
-    private readonly Button _dialogButton;
 
     public SmokeShell(SmokeState state, IDialogService dialogService,
         WindowLifetime lifetime, IContainerProvider container)
@@ -21,45 +20,28 @@ public sealed class SmokeShell : Grid, ILoadableShell
         DialogService = dialogService;
         Lifetime = lifetime;
         Container = container;
-        Padding = new Thickness(24);
-        RowSpacing = 16;
-        RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        RowDefinitions.Add(new RowDefinition());
-        Children.Add(new TextBlock { Text = "Prism native WinUI smoke", FontSize = 28 });
-
-        RegionHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
-        RegionManager.SetRegionName(RegionHost, RegionName);
-        SetRow(RegionHost, 1);
-        Children.Add(RegionHost);
-
-        _dialogButton = new Button { Content = "Open Prism dialog", IsEnabled = false };
-        _dialogButton.Click += (_, _) =>
+        InitializeComponent();
+        Log.ItemsSource = state.Messages;
+        DialogButton.Click += (_, _) =>
         {
-            _dialogButton.IsEnabled = false;
+            DialogButton.IsEnabled = false;
             var callback = new DialogCallback()
                 .OnClose(result =>
                 {
                     state.Write($"Manual dialog closed: {result.Result}.");
-                    _dialogButton.IsEnabled = true;
+                    DialogButton.IsEnabled = true;
                 })
                 .OnError((Exception exception) =>
                 {
                     state.Check(false, exception.ToString());
-                    _dialogButton.IsEnabled = true;
+                    DialogButton.IsEnabled = true;
                 });
             dialogService.ShowDialog(nameof(SmokeDialog), new DialogParameters(), callback);
         };
-        SetRow(_dialogButton, 2);
-        Children.Add(_dialogButton);
 
-        var log = new ListView { ItemsSource = state.Messages, SelectionMode = ListViewSelectionMode.None };
-        SetRow(log, 3);
-        Children.Add(log);
     }
 
-    public ContentControl RegionHost { get; }
+    public ContentControl RegionHost => RegionControl;
     public IDialogService DialogService { get; }
     public WindowLifetime Lifetime { get; }
     public IContainerProvider Container { get; }
@@ -72,5 +54,5 @@ public sealed class SmokeShell : Grid, ILoadableShell
         _state.Check(OnInitializedCompleted, "FinishLoading runs after the owning window initialization callback returns.");
     }
 
-    public void EnableManualChecks() => _dialogButton.IsEnabled = true;
+    public void EnableManualChecks() => DialogButton.IsEnabled = true;
 }

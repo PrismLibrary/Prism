@@ -36,15 +36,6 @@ public sealed class NavigationViewRegionAdapter : RegionAdapterBase<NavigationVi
         regionTarget.BackRequested += OnBackRequested;
         regionTarget.SelectionChanged += OnSelectionChanged;
         region.ActiveViews.CollectionChanged += OnActiveViewsChanged;
-#if WINUI && !UNO_WINUI
-        NativeRegionScope.RegisterCleanup(region, () =>
-        {
-            regionTarget.BackRequested -= OnBackRequested;
-            regionTarget.SelectionChanged -= OnSelectionChanged;
-            region.ActiveViews.CollectionChanged -= OnActiveViewsChanged;
-            regionTarget.Content = null;
-        });
-#endif
     }
 
     /// <inheritdoc/>

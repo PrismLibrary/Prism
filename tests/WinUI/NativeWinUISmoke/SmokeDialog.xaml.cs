@@ -6,7 +6,7 @@ using Prism.Dialogs;
 
 namespace NativeWinUISmoke;
 
-public sealed class SmokeDialog : UserControl
+public sealed partial class SmokeDialog : UserControl
 {
     private readonly SmokeState _state;
     private readonly WindowLifetime _lifetime;
@@ -16,16 +16,13 @@ public sealed class SmokeDialog : UserControl
     {
         _state = state;
         _lifetime = lifetime;
-        var content = new StackPanel { Spacing = 16, MinWidth = 320 };
-        content.Children.Add(new TextBlock { Text = "Native Prism ContentDialog", FontSize = 24 });
-        content.Children.Add(new TextBlock { Text = "The automatic checks close their dialogs without input." });
-        var close = new Button { Content = "Close with OK" };
-        close.Click += (_, _) => ((SmokeDialogViewModel)DataContext).RequestClose.Invoke(ButtonResult.OK);
-        content.Children.Add(close);
-        Content = content;
+        InitializeComponent();
         Loaded += OnLoaded;
         Unloaded += (_, _) => _closeTimer?.Stop();
     }
+
+    private void CloseDialog(object sender, RoutedEventArgs args) =>
+        ((SmokeDialogViewModel)DataContext).RequestClose.Invoke(ButtonResult.OK);
 
     private void OnLoaded(object sender, RoutedEventArgs args)
     {

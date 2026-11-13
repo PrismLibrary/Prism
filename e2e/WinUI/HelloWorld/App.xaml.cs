@@ -10,16 +10,16 @@ public partial class App : PrismApplication
         InitializeComponent();
     }
 
-    protected override UIElement CreateShell(IContainerProvider container)
+    protected override UIElement CreateShell()
     {
-        return container.Resolve<Shell>();
+        return Container.Resolve<Shell>();
     }
 
-    protected override void OnInitialized(Prism.Windows.IWindowContext window)
-    {
-        window.Window.Title = "Prism native WinUI playground";
-        window.RegionManager.RequestNavigate("ContentRegion", "HomeView");
-    }
+    protected override void ConfigureWindow(Window window) =>
+        window.Title = "Prism native WinUI playground";
+
+    protected override void OnInitialized() =>
+        RegionManager.RequestNavigate("ContentRegion", "HomeView");
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {

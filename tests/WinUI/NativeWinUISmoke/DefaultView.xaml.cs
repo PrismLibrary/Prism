@@ -4,13 +4,13 @@ using Prism.Ioc;
 
 namespace NativeWinUISmoke;
 
-public sealed class DefaultView : UserControl
+public sealed partial class DefaultView : UserControl
 {
     public DefaultView(WindowLifetime lifetime, IContainerProvider container)
     {
         Lifetime = lifetime;
         Container = container;
-        Content = new TextBlock { Text = "Default view discovered in the owning window scope." };
+        InitializeComponent();
         ViewModelLocator.SetAutowireViewModel(this, true);
     }
 

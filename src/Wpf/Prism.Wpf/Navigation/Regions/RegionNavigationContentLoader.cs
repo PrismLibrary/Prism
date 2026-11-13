@@ -11,27 +11,15 @@ namespace Prism.Navigation.Regions
     /// </summary>
     public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     {
-#if WINUI && !UNO_WINUI
-        private readonly IContainerProvider _container;
-#else
         private readonly IContainerExtension _container;
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationContentLoader"/> class with a service locator.
         /// </summary>
         /// <param name="container">The <see cref="IContainerExtension" />.</param>
-#if WINUI && !UNO_WINUI
-        public RegionNavigationContentLoader(IContainerProvider container)
-#else
         public RegionNavigationContentLoader(IContainerExtension container)
-#endif
         {
-#if WINUI && !UNO_WINUI
-            _container = container ?? throw new ArgumentNullException(nameof(container));
-#else
             _container = container;
-#endif
         }
 
         /// <summary>
@@ -55,10 +43,6 @@ namespace Prism.Navigation.Regions
             if (navigationContext == null)
                 throw new ArgumentNullException(nameof(navigationContext));
 
-#if WINUI && !UNO_WINUI
-            if (!ReferenceEquals(_container, NativeRegionScope.RequireProvider(region)))
-                throw new InvalidOperationException(NativeResources.NavigationContentLoaderRequiresRegionProvider);
-#endif
             string candidateTargetContract = GetContractFromNavigationContext(navigationContext);
 
             var candidates = GetCandidatesFromRegion(region, candidateTargetContract);
@@ -114,16 +98,12 @@ namespace Prism.Navigation.Regions
         {
             try
             {
-#if WINUI && !UNO_WINUI
-                return _container.Resolve<IRegionNavigationRegistry>().CreateView(_container, candidateTargetContract);
-#else
                 if (((IContainerRegistry)_container).IsRegistered<IRegionNavigationRegistry>())
                     return _container.Resolve<IRegionNavigationRegistry>().CreateView(_container, candidateTargetContract);
 
                 var newRegionItem = _container.Resolve<object>(candidateTargetContract);
                 MvvmHelpers.AutowireViewModel(newRegionItem);
                 return newRegionItem;
-#endif
             }
             catch (ContainerResolutionException)
             {

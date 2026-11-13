@@ -34,7 +34,7 @@
   <ItemGroup>
     <!-- Source sharing only: no reference to an Uno project or package. -->
     <Compile Include="../../Uno/Prism.Uno/Common/*.cs" LinkBase="Common" />
-    <Compile Include="../../Uno/Prism.Uno/Dialogs/*.cs" Exclude="../../Uno/Prism.Uno/Dialogs/DialogService.cs" LinkBase="Dialogs" />
+    <Compile Include="../../Uno/Prism.Uno/Dialogs/*.cs" LinkBase="Dialogs" />
     <Compile Include="../../Uno/Prism.Uno/Extensions/*.cs" LinkBase="Extensions" />
     <Compile Include="../../Uno/Prism.Uno/Interactivity/*.cs" LinkBase="Interactivity" />
     <Compile Include="../../Uno/Prism.Uno/Mvvm/*.cs" LinkBase="Mvvm" />

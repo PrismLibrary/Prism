@@ -4,22 +4,18 @@ using Microsoft.UI.Dispatching;
 using Prism.Events;
 using Prism.Modularity;
 using Prism.Navigation.Regions;
-using Prism.Windows;
+using Prism.Common;
+using Prism.Mvvm;
 using Application = Microsoft.UI.Xaml.Application;
 
 namespace Prism;
 
-/// <summary>Initializes a native WinUI application with shared services and independently scoped windows.</summary>
-/// <remarks>
-/// All managed windows use the original WinUI UI thread. The application container,
-/// module catalog, module initialization and event aggregator are shared. Resolve views,
-/// dialog services and region managers through a window context, never the root container.
-/// </remarks>
+/// <summary>Initializes a native WinUI application with Prism services, regions and modules.</summary>
 public abstract class PrismApplicationBase : Application
 {
     private readonly IContainerExtension _containerExtension;
     private bool _initializationStarted;
-    private bool _modulesInitialized;
+
 
     /// <summary>Creates the shared application container.</summary>
     protected PrismApplicationBase()
@@ -28,11 +24,11 @@ public abstract class PrismApplicationBase : Application
         ContainerLocator.SetContainerExtension(_containerExtension);
     }
 
-    /// <summary>Gets the application container for shared services, not window-owned services.</summary>
+    /// <summary>Gets the application container.</summary>
     public IContainerProvider Container => _containerExtension;
 
-    /// <summary>Gets the manager used to open or explicitly target independently scoped windows.</summary>
-    public IWindowManager Windows => Container.Resolve<IWindowManager>();
+    /// <summary>Gets the region manager used to navigate the shell.</summary>
+    protected IRegionManager RegionManager => field ??= Container.Resolve<IRegionManager>();
 
     /// <inheritdoc/>
     protected sealed override void OnLaunched(LaunchActivatedEventArgs args)
@@ -45,7 +41,7 @@ public abstract class PrismApplicationBase : Application
         Initialize();
     }
 
-    /// <summary>Configures view-model creation using each view's window-owned container.</summary>
+    /// <summary>Configures view-model creation using the application's container.</summary>
     protected virtual void ConfigureViewModelLocator() => PrismInitializationExtensions.ConfigureViewModelLocator();
 
     /// <summary>Creates the initial native window on the application's UI thread.</summary>
@@ -56,7 +52,7 @@ public abstract class PrismApplicationBase : Application
     /// <param name="window">The initial window.</param>
     protected virtual void ConfigureWindow(Window window) { }
 
-    /// <summary>Registers shared services and opens the initial, independently scoped window.</summary>
+    /// <summary>Registers services and initializes the application window and shell.</summary>
     protected virtual void Initialize()
     {
         var dispatcher = DispatcherQueue.GetForCurrentThread() ??
@@ -64,35 +60,78 @@ public abstract class PrismApplicationBase : Application
         if (SynchronizationContext.Current is null)
             SynchronizationContext.SetSynchronizationContext(new DispatcherQueueSynchronizationContext(dispatcher));
 
+        var window = CreateWindow() ?? throw new InvalidOperationException(NativeResources.CreateWindowMustReturnWindow);
+        ConfigureWindow(window);
+        _containerExtension.RegisterInstance(window);
         RegisterRequiredTypes(_containerExtension);
         RegisterTypes(_containerExtension);
         // Construct these on the startup UI thread, before modules or background work.
         _ = Container.Resolve<IEventAggregator>();
-        var windows = Windows;
         ConfigureModuleCatalog(Container.Resolve<IModuleCatalog>());
         ConfigureRegionAdapterMappings(Container.Resolve<RegionAdapterMappings>());
         ConfigureDefaultRegionBehaviors(Container.Resolve<IRegionBehaviorFactory>());
         RegisterFrameworkExceptionTypes();
 
-        var window = CreateWindow() ?? throw new InvalidOperationException(NativeResources.CreateWindowMustReturnWindow);
-        ConfigureWindow(window);
-        windows.OpenWindow(window, CreateShell, context =>
+        var shell = CreateShell();
+        if (shell is null)
+            return;
+
+        MvvmHelpers.AutowireViewModel(shell);
+        var initialized = false;
+        var closed = false;
+        var element = shell as FrameworkElement;
+
+        void OnClosed(object sender, WindowEventArgs args)
         {
-            if (!_modulesInitialized)
-            {
-                // ModuleInfo state is application-wide: never initialize it once per window.
-                _modulesInitialized = true;
-                InitializeModules();
-            }
-            OnInitialized(context);
-        });
+            closed = true;
+            window.Closed -= OnClosed;
+            if (element is not null)
+                element.Loaded -= OnLoaded;
+            MvvmHelpers.ViewAndViewModelAction<IActiveAware>(shell, aware => aware.IsActive = false);
+        }
+
+        void CompleteInitialization()
+        {
+            if (initialized || closed)
+                return;
+            initialized = true;
+            Navigation.Regions.RegionManager.SetRegionManager(shell, RegionManager);
+            Navigation.Regions.RegionManager.UpdateRegions();
+            InitializeModules();
+            OnInitialized();
+            if (closed)
+                return;
+            if (shell is ILoadableShell loadableShell)
+                loadableShell.FinishLoading();
+            MvvmHelpers.ViewAndViewModelAction<IActiveAware>(shell, aware => aware.IsActive = true);
+        }
+
+        void QueueInitialization()
+        {
+            if (!dispatcher.TryEnqueue(CompleteInitialization))
+                throw new InvalidOperationException(NativeResources.CannotQueueWindowInitialization);
+        }
+
+        void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            element!.Loaded -= OnLoaded;
+            QueueInitialization();
+        }
+
+        window.Closed += OnClosed;
+        if (element is not null && !element.IsLoaded)
+            element.Loaded += OnLoaded;
+        window.Content = shell;
+        window.Activate();
+        if (element is null || element.IsLoaded)
+            QueueInitialization();
     }
 
     /// <summary>Creates the shared container used by this application.</summary>
     /// <returns>The container extension.</returns>
     protected abstract IContainerExtension CreateContainerExtension();
 
-    /// <summary>Registers shared services and window-scoped Prism services.</summary>
+    /// <summary>Registers the services required by Prism.</summary>
     /// <param name="containerRegistry">The application container registry.</param>
     protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry) => containerRegistry.RegisterRequiredTypes();
 
@@ -111,14 +150,12 @@ public abstract class PrismApplicationBase : Application
     /// <summary>Registers container-specific exception types for exception unwrapping.</summary>
     protected virtual void RegisterFrameworkExceptionTypes() { }
 
-    /// <summary>Creates the initial shell using its window-owned container.</summary>
-    /// <param name="container">The initial window's scoped provider. Resolve the shell from this provider.</param>
-    /// <returns>The shell to attach to the initial window.</returns>
-    protected abstract UIElement CreateShell(IContainerProvider container);
+    /// <summary>Creates the application shell.</summary>
+    /// <returns>The shell to attach to the application window.</returns>
+    protected abstract UIElement CreateShell();
 
-    /// <summary>Runs after the initial shell loads and shared modules initialize, before loading completes.</summary>
-    /// <param name="window">The initial window's context for navigation and dialogs.</param>
-    protected virtual void OnInitialized(IWindowContext window) { }
+    /// <summary>Runs after the shell loads and modules initialize.</summary>
+    protected virtual void OnInitialized() { }
 
     /// <summary>Configures the application's shared module catalog.</summary>
     /// <param name="moduleCatalog">The module catalog.</param>
