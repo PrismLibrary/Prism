@@ -53,6 +53,10 @@ public sealed class PrismAppBuilder
         // This is primarily to help with Unit Tests
         IDialogContainer.DialogStack.Clear();
         MauiBuilder = builder;
+#if IOS
+        MauiBuilder.ConfigureMauiHandlers(handlers =>
+            handlers.TryAddHandler<PrismNavigationPage, Platforms.PrismNavigationRenderer>());
+#endif
 #if WINDOWS
         // Unparented image sources fall back to application services. Prevent auto-resolution
         // of a native Window there; MAUI's window contexts supply their own actual windows.

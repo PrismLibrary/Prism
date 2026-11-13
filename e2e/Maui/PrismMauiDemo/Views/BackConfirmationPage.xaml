@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PrismMauiDemo.ViewModels"
+             x:Class="PrismMauiDemo.Views.BackConfirmationPage"
+             x:DataType="vm:BackConfirmationViewModel"
+             Title="Back confirmation">
+    <VerticalStackLayout Padding="24" Spacing="16">
+        <Label Text="Use the native back button. With Allow back off, this page must remain visible. Async confirmation waits two seconds; repeated taps must produce only one request." />
+        <Label Text="Allow back" />
+        <Switch AutomationId="AllowBack" IsToggled="{Binding AllowBack}" />
+        <Label AutomationId="BackStatus" Text="{Binding Status}" />
+        <Button Text="GoBackAsync" AutomationId="ManagedBack" Command="{Binding BackCommand}" />
+        <Button Text="GoBackToRootAsync" AutomationId="ManagedRoot" Command="{Binding RootCommand}" />
+        <Button Text="Push another confirmation page" AutomationId="PushConfirmation" Command="{Binding PushCommand}" />
+    </VerticalStackLayout>
+</ContentPage>
