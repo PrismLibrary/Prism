@@ -4,8 +4,6 @@ namespace PrismMauiDemo.ViewModels;
 
 public abstract class BackConfirmationViewModel : BindableBase, INavigationAware, IDestructible
 {
-    private bool _allowBack;
-    private string _status = "No back requests";
     private int _requests;
     private int _navigatedFrom;
     private int _destroyed;
@@ -17,8 +15,8 @@ public abstract class BackConfirmationViewModel : BindableBase, INavigationAware
         PushCommand = new DelegateCommand(async () => await navigationService.NavigateAsync("AsyncBackConfirmation"));
     }
 
-    public bool AllowBack { get => _allowBack; set => SetProperty(ref _allowBack, value); }
-    public string Status { get => _status; set => SetProperty(ref _status, value); }
+    public bool AllowBack { get; set => SetProperty(ref field, value); }
+    public string Status { get; set => SetProperty(ref field, value); } = "No back requests";
     public DelegateCommand BackCommand { get; }
     public DelegateCommand RootCommand { get; }
     public DelegateCommand PushCommand { get; }
