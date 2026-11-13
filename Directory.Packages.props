@@ -18,8 +18,8 @@
     <PackageVersion Update="Prism.Container.Abstractions" Version="$(PrismNativeAotContainerVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.10" Condition="$(TargetFramework.StartsWith('net10.0'))" />
-    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.10" Condition="$(TargetFramework.StartsWith('net10.0'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.70" Condition="$(TargetFramework.StartsWith('net10.0'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.70" Condition="$(TargetFramework.StartsWith('net10.0'))" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="11.0.0" Condition="$(TargetFramework.StartsWith('net11.0'))" />
   </ItemGroup>
   <!-- Uno

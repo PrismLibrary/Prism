@@ -22,6 +22,9 @@
       <Button Text="NativeAOT binding lab"
               Command="{Binding NavigateCommand}"
               CommandParameter="/NavigationPage/BindingLab" />
+      <Button Text="Back confirmation lab"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="/NavigationPage/BackConfirmationLab" />
       <Button Text="Regions"
             Command="{Binding NavigateCommand}"
             CommandParameter="/RegionHome/NavigationPage/ContentRegionPage" />

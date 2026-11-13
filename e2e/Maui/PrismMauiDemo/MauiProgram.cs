@@ -25,6 +25,9 @@ public static class MauiProgram
                 .RegisterTypes(containerRegistry =>
                 {
                     containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+                    containerRegistry.RegisterForNavigation<BackConfirmationMenuPage, MainPageViewModel>("BackConfirmationLab");
+                    containerRegistry.RegisterForNavigation<BackConfirmationPage, SyncBackConfirmationViewModel>("SyncBackConfirmation");
+                    containerRegistry.RegisterForNavigation<BackConfirmationPage, AsyncBackConfirmationViewModel>("AsyncBackConfirmation");
                     containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLab");
                     containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLabDetail");
                     containerRegistry.RegisterForNavigation<RootPage, RootPageViewModel>();
