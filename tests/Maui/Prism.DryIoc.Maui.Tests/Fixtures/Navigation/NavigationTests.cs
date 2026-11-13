@@ -660,6 +660,8 @@ public class NavigationTests : TestBase
 
         Assert.True(result.Success);
         Assert.IsType<MockViewB>(window.CurrentPage);
+        var modal = Assert.IsAssignableFrom<NavigationPage>(Assert.Single(window.Navigation.ModalStack));
+        Assert.Same(window.CurrentPage, Assert.Single(modal.Navigation.NavigationStack));
     }
 
     [Fact]

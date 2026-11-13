@@ -10,7 +10,8 @@ public sealed class MockNavigateFromPage : ContentPage, IInitialize, IInitialize
     public int NavigatedFromCount { get; private set; }
     public int NavigatedToCount { get; private set; }
     public int Destroyed { get; private set; }
-    public bool ThrowOnDestroy { get; private set; }
+    public bool ThrowOnDestroy { get; set; }
+    public bool ThrowOnDeparture { get; private set; }
     public INavigationParameters ReceivedParameters { get; private set; }
 
     public void Initialize(INavigationParameters parameters) => Initialized++;
@@ -20,6 +21,7 @@ public sealed class MockNavigateFromPage : ContentPage, IInitialize, IInitialize
         if (parameters.TryGetValue<List<MockNavigateFromPage>>("createdPages", out var pages))
             pages.Add(this);
         ThrowOnDestroy = parameters.TryGetValue<bool>("failDestroy", out var failDestroy) && failDestroy;
+        ThrowOnDeparture = parameters.TryGetValue<bool>("failDeparture", out var failDeparture) && failDeparture;
         if (parameters.TryGetValue<Func<Task>>("duringInitialize", out var initialize))
             await initialize();
         if (parameters.TryGetValue<bool>("failInitialize", out var fail) && fail)
@@ -33,7 +35,12 @@ public sealed class MockNavigateFromPage : ContentPage, IInitialize, IInitialize
         return Decision is null ? AllowNavigation : await Decision.Task;
     }
 
-    public void OnNavigatedFrom(INavigationParameters parameters) => NavigatedFromCount++;
+    public void OnNavigatedFrom(INavigationParameters parameters)
+    {
+        NavigatedFromCount++;
+        if (ThrowOnDeparture)
+            throw new InvalidOperationException("Departure failed.");
+    }
 
     public void OnNavigatedTo(INavigationParameters parameters)
     {

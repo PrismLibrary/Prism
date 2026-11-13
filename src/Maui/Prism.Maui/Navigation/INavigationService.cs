@@ -32,11 +32,35 @@ public interface INavigationService
     Task<INavigationResult> GoBackToAsync(string viewName, INavigationParameters parameters);
 
     /// <summary>
-    /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
+    /// Returns to the selected navigation root or window content.
     /// </summary>
     /// <param name="parameters">The navigation parameters</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
-    /// <remarks>Only works when called from a View within a NavigationPage</remarks>
+    /// <remarks>
+    /// The KnownNavigationParameters.GoBackToRootBehavior parameter accepts a GoBackToRootBehavior value.
+    /// Default preserves local pop-to-root behavior when the caller is inside a NavigationPage,
+    /// including a modal NavigationPage. From a plain modal it dismisses all modals and reveals
+    /// the active window content without clearing its navigation history. WindowContent explicitly
+    /// dismisses all modals and preserves that history. WindowNavigationRoot additionally pops
+    /// the window's active NavigationPage to its root. Flyout detail and the selected tab are
+    /// followed; inactive tabs, menu content, and tab selection are retained.
+    /// Only the calling page confirms navigation. A rejected or canceled confirmation leaves
+    /// the stacks unchanged. A stack change during confirmation rejects the request without
+    /// removing the newly presented pages. Native pop failures restore owned stack changes
+    /// before any removal callbacks or destruction; unrelated navigation is not overwritten.
+    /// If an unrelated change prevents restoration, already detached modals still receive removal
+    /// callbacks and cleanup, while pages attached to any window are preserved and no destination arrival is sent.
+    /// A transfer to another window during a native pop rejects the root request without restoring transferred pages.
+    /// Device back requests targeting the captured modals are suppressed while the root request is pending.
+    /// In a modal context, open dialogs must first be closed through their dialog API, including its close veto,
+    /// lifecycle, and result callback. A modal root request with an open dialog fails without changing the stack.
+    /// Removed pages, including inactive container children, receive OnNavigatedFrom and are destroyed; the
+    /// retained destination receives OnNavigatedTo with the supplied parameters and Back mode.
+    /// Lifecycle errors are reported after native removal, with cleanup still attempted for every
+    /// removed modal container. They do not roll back the completed native navigation.
+    /// No cancellation token is accepted. At a NavigationPage root, existing confirmation and
+    /// destination notification behavior is retained.
+    /// </remarks>
     Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters);
 
     /// <summary>
