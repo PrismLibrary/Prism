@@ -1,0 +1,52 @@
+<Page
+    x:Class="Playground.Module.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:prism="using:Prism.Interactivity"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <ScrollViewer Padding="28" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Spacing="20" MaxWidth="900" HorizontalAlignment="Left">
+      <StackPanel Spacing="8">
+        <TextBlock Text="Home" FontSize="28" FontWeight="SemiBold" TextWrapping="Wrap" />
+        <TextBlock Text="Try Prism regions, navigation, dialogs, and modules."
+                   TextWrapping="Wrap" FontSize="16" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+      </StackPanel>
+      <Border Padding="20" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Regions &amp; navigation" FontSize="20" FontWeight="SemiBold" />
+          <TextBlock Text="Open Alpha and Beta, then use Back in detail region to return to Alpha."
+                     TextWrapping="Wrap" />
+          <Button Content="Explore regions" Style="{StaticResource AccentButtonStyle}">
+            <i:Interaction.Behaviors>
+              <i:EventTriggerBehavior EventName="Click">
+                <prism:InvokeCommandAction Command="{Binding GoToRegionLabCommand}" />
+              </i:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+          </Button>
+          <TextBlock Text="Uses EventTriggerBehavior with Prism InvokeCommandAction."
+                     FontSize="12" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+      </Border>
+      <Border Padding="20" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Dialogs" FontSize="20" FontWeight="SemiBold" />
+          <TextBlock Text="Pass parameters to a dialog and display its result."
+                     TextWrapping="Wrap" />
+          <Button Content="Explore dialogs" Command="{Binding GoToDialogLabCommand}" />
+        </StackPanel>
+      </Border>
+      <Border Padding="20" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Modules" FontSize="20" FontWeight="SemiBold" />
+          <TextBlock Text="PlaygroundModule registers the views and dialogs."
+                     TextWrapping="Wrap" />
+          <Button Content="Explore modules" Command="{Binding GoToModuleCommand}" />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</Page>

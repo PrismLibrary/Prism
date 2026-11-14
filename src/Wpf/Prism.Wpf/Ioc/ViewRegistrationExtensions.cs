@@ -10,7 +10,7 @@ public static partial class IContainerRegistryExtensions
     {
         if (viewType is null)
             throw new ArgumentNullException(nameof(viewType));
-#if UNO_WINUI
+#if UNO_WINUI || WINUI
         var requiresControl = true;
 #else
         // Desktop regions also support ViewModels rendered through data templates.

@@ -155,7 +155,7 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
 
-#if (!UNO_WINUI && !AVALONIA)
+#if (!UNO_WINUI && !WINUI && !AVALONIA)
             FrameworkContentElement fcElement = TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {
@@ -191,7 +191,7 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
 
-#if (!UNO_WINUI && !AVALONIA)
+#if (!UNO_WINUI && !WINUI && !AVALONIA)
             FrameworkContentElement fcElement = TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {

@@ -36,6 +36,10 @@
   </Folder>
   <Folder Name="/src/Uno/Prism.DryIoc.Uno/" />
   <Folder Name="/src/Uno/Prism.Uno/" />
+  <Folder Name="/src/WinUI/">
+    <Project Path="src/WinUI/Prism.WinUI/Prism.WinUI.csproj" />
+    <Project Path="src/WinUI/Prism.DryIoc.WinUI/Prism.DryIoc.WinUI.csproj" />
+  </Folder>
   <Folder Name="/src/Wpf/">
     <Project Path="src/Wpf/Prism.DryIoc.Wpf/Prism.DryIoc.Wpf.csproj" />
     <Project Path="src/Wpf/Prism.Unity.Wpf/Prism.Unity.Wpf.csproj" />

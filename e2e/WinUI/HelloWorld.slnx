@@ -1,0 +1,24 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/sample/">
+    <Project Path="HelloWorld/HelloWorld.csproj" />
+  </Folder>
+  <Folder Name="/sample/modules/">
+    <Project Path="Playground.Module/Playground.Module.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="../../Directory.Packages.props" />
+    <File Path="../../global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="../../src/Prism.Core/Prism.Core.csproj" />
+    <Project Path="../../src/Prism.Events/Prism.Events.csproj" />
+    <Project Path="../../src/WinUI/Prism.DryIoc.WinUI/Prism.DryIoc.WinUI.csproj" />
+    <Project Path="../../src/WinUI/Prism.WinUI/Prism.WinUI.csproj" />
+  </Folder>
+</Solution>

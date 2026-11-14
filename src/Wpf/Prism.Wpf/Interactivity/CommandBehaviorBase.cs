@@ -110,7 +110,7 @@ namespace Prism.Interactivity
             }
             else if (Command != null)
             {
-#if UNO_WINUI
+#if UNO_WINUI || WINUI
                 if (AutoEnable && TargetObject is Control control)
                     control.IsEnabled = Command.CanExecute(CommandParameter);
 #else

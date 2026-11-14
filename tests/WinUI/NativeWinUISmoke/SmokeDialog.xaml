@@ -1,0 +1,7 @@
+<UserControl x:Class="NativeWinUISmoke.SmokeDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <StackPanel Spacing="16" MinWidth="320">
+    <TextBlock Text="Native Prism ContentDialog" FontSize="24" />
+    <TextBlock Text="Automatic checks close their dialogs without input." />
+    <Button Content="Close with OK" Click="CloseDialog" />
+  </StackPanel>
+</UserControl>

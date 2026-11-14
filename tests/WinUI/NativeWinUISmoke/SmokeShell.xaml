@@ -1,0 +1,10 @@
+<Grid x:Class="NativeWinUISmoke.SmokeShell" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:regions="using:Prism.Navigation.Regions" Padding="24" RowSpacing="16">
+  <Grid.RowDefinitions>
+    <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+    <RowDefinition Height="Auto" /><RowDefinition Height="*" />
+  </Grid.RowDefinitions>
+  <TextBlock Text="Prism native WinUI smoke" FontSize="28" />
+  <ContentControl x:Name="RegionControl" Grid.Row="1" regions:RegionManager.RegionName="SmokeContent" HorizontalContentAlignment="Stretch" />
+  <Button x:Name="DialogButton" Grid.Row="2" Content="Open Prism dialog" IsEnabled="False" />
+  <ListView x:Name="Log" Grid.Row="3" SelectionMode="None" />
+</Grid>

@@ -137,7 +137,7 @@ namespace Prism.Navigation.Regions.Behaviors
             }
 
             DependencyObject parent = null;
-#if UNO_WINUI
+#if UNO_WINUI || WINUI
             parent = VisualTreeHelper.GetParent(dependencyObject);
 #elif AVALONIA
             parent = ((dependencyObject as Avalonia.Visual)?.GetVisualParent() ?? null) as Avalonia.AvaloniaObject;
