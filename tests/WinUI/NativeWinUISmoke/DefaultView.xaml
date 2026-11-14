@@ -1,0 +1,3 @@
+<UserControl x:Class="NativeWinUISmoke.DefaultView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextBlock Text="Default view discovered through the application container." FontSize="18" />
+</UserControl>

@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "path": "PrismLibrary.slnx",
+    "projects": [
+      "src\\Prism.Core\\Prism.Core.csproj",
+      "src\\Prism.Events\\Prism.Events.csproj",
+      "src\\WinUI\\Prism.WinUI\\Prism.WinUI.csproj",
+      "src\\WinUI\\Prism.DryIoc.WinUI\\Prism.DryIoc.WinUI.csproj"
+    ]
+  }
+}

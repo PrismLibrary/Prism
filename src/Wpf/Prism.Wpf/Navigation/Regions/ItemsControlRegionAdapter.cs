@@ -51,7 +51,33 @@ namespace Prism.Navigation.Regions
                 regionTarget.Items.Clear();
             }
 
+#if WINUI && !UNO_WINUI
+            // WinUI's native ItemsSource projection does not observe ViewsCollection changes.
+            var items = new System.Collections.ObjectModel.ObservableCollection<object>(region.Views);
+            regionTarget.ItemsSource = items;
+            region.Views.CollectionChanged += (_, args) =>
+            {
+                if (args.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                {
+                    var index = args.NewStartingIndex < 0 ? items.Count : args.NewStartingIndex;
+                    foreach (var item in args.NewItems)
+                        items.Insert(index++, item);
+                }
+                else if (args.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+                {
+                    foreach (var item in args.OldItems)
+                        items.Remove(item);
+                }
+                else
+                {
+                    items.Clear();
+                    foreach (var item in region.Views)
+                        items.Add(item);
+                }
+            };
+#else
             regionTarget.ItemsSource = region.Views;
+#endif
 #else
             // If control has child items, move them to the region and then bind control to region. Can't set ItemsSource if child items exist.
             if (regionTarget.ItemCount > 0)

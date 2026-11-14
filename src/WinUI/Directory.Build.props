@@ -1,0 +1,27 @@
+<Project>
+  <Import Project="../Directory.Build.props" />
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+    <OutputType>Library</OutputType>
+    <UseWinUI>true</UseWinUI>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
+    <CsWinRTGenerateProjection>false</CsWinRTGenerateProjection>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RootNamespace>Prism</RootNamespace>
+    <DefineConstants>$(DefineConstants);WINUI</DefineConstants>
+    <PackageTags>prism;winui;windows;mvvm;xaml;regions;dependency injection</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Microsoft.UI.Xaml" />
+    <Using Include="Microsoft.UI.Xaml.Controls" />
+    <Using Include="Microsoft.UI.Xaml.Controls.Primitives" />
+    <Using Include="Microsoft.UI.Xaml.Data" />
+    <Using Include="Microsoft.UI.Xaml.Media" />
+    <Using Include="Prism.Ioc" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" />
+  </ItemGroup>
+</Project>
