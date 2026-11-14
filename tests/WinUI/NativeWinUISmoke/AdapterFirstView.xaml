@@ -1,0 +1,1 @@
+<UserControl x:Class="NativeWinUISmoke.AdapterFirstView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"><TextBlock Text="AdapterFirstView" Margin="16"/></UserControl>

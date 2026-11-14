@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>../../Wpf/HelloWorld/prism-sandbox.ico</ApplicationIcon>
+    <Description>Prism Sandbox for native WinUI regions, navigation, dialogs, and modularity.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="../../../images/prism-logo.png" Link="Assets/prism-logo.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../Wpf/HelloWorld/prism-sandbox.ico" Link="Assets/prism-sandbox.ico" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <ProjectReference Include="../../../src/Prism.Core/Prism.Core.csproj" />
+    <ProjectReference Include="../../../src/WinUI/Prism.DryIoc.WinUI/Prism.DryIoc.WinUI.csproj" />
+    <ProjectReference Include="../Playground.Module/Playground.Module.csproj" />
+  </ItemGroup>
+</Project>

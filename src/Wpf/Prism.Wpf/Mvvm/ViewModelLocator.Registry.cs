@@ -51,7 +51,7 @@ public static partial class ViewModelLocator
         if (view is not FrameworkElement element)
             return;
 
-#if UNO_WINUI
+#if UNO_WINUI || WINUI
         if (GetAutowireViewModel(element) == false)
 #else
         if (GetAutoWireViewModel(element) == false)

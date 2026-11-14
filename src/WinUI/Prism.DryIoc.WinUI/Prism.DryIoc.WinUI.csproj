@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Prism.DryIoc.WinUI</AssemblyName>
+    <PackageId>Prism.DryIoc.WinUI</PackageId>
+    <Description>Prism application startup with the DryIoc container for native Windows App SDK / WinUI 3 applications.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Container.DryIoc" />
+    <ProjectReference Include="../Prism.WinUI/Prism.WinUI.csproj" />
+    <Compile Include="../../Wpf/Prism.DryIoc.Wpf/PrismApplication.cs" Link="PrismApplication.cs" />
+  </ItemGroup>
+</Project>
