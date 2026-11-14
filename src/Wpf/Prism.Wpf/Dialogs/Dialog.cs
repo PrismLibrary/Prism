@@ -34,7 +34,7 @@ namespace Prism.Dialogs
             obj.SetValue(WindowStyleProperty, value);
         }
 
-#if !UNO_WINUI
+#if !UNO_WINUI && !WINUI
         /// <summary>
         /// Identifies the WindowStartupLocation attached property.
         /// </summary>

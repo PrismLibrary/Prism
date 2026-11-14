@@ -5,7 +5,7 @@ namespace Prism.Dialogs
     /// </summary>
     public static class IDialogServiceCompatExtensions
     {
-#if !UNO_WINUI
+#if !UNO_WINUI && !WINUI
         /// <summary>
         /// Shows a non-modal dialog.
         /// </summary>

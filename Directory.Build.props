@@ -38,6 +38,8 @@
     <IsCoreProject Condition=" $(MSBuildProjectName.Equals('Prism.Core')) OR $(MSBuildProjectName.Equals('Prism.Events'))">true</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
+    <IsNativeWinUIProject>false</IsNativeWinUIProject>
+    <IsNativeWinUIProject Condition="$(MSBuildProjectName.EndsWith('WinUI')) AND !$(MSBuildProjectName.Contains('Uno'))">true</IsNativeWinUIProject>
     <IsUnoProject>$(MSBuildProjectName.Contains('Uno'))</IsUnoProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
     <IsMauiProject>$(MSBuildProjectName.Contains('Maui'))</IsMauiProject>

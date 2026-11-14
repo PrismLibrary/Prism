@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
+    <ProjectReference Include="../../../src/Prism.Core/Prism.Core.csproj" />
+    <ProjectReference Include="../../../src/WinUI/Prism.WinUI/Prism.WinUI.csproj" />
+  </ItemGroup>
+</Project>

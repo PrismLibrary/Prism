@@ -137,7 +137,12 @@ namespace Prism.Navigation.Regions.Behaviors
                 updatingActiveViewsInHostControlSelectionChanged = true;
 
                 object source;
+#if WINUI && !UNO_WINUI
+                // Native WinUI raises SelectionChanged with the control as sender and no OriginalSource.
+                source = sender;
+#else
                 source = e.OriginalSource;
+#endif
 
                 if (source == sender)
                 {

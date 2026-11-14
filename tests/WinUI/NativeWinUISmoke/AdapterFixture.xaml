@@ -1,0 +1,11 @@
+<Grid x:Class="NativeWinUISmoke.AdapterFixture" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:regions="using:Prism.Navigation.Regions" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="12">
+  <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <NavigationView x:Name="NavigationHost" regions:RegionManager.RegionName="AdapterNavigation" IsSettingsVisible="False" IsBackButtonVisible="Visible" IsBackEnabled="True" PaneDisplayMode="Left">
+    <NavigationView.MenuItems>
+      <NavigationViewItem x:Name="FirstDestination" Content="First adapter destination" Tag="AdapterFirstView"/>
+      <NavigationViewItem x:Name="SecondDestination" Content="Second adapter destination" Tag="AdapterSecondView"/>
+    </NavigationView.MenuItems>
+  </NavigationView>
+  <ItemsControl x:Name="ItemsHost" Grid.Row="1" regions:RegionManager.RegionName="AdapterItems"><TextBlock x:Name="InitialItem" Text="Existing XAML item"/></ItemsControl>
+  <ListView x:Name="SelectionHost" Grid.Row="2" regions:RegionManager.RegionName="AdapterSelection" SelectionMode="Single" MaxHeight="140"/>
+</Grid>
